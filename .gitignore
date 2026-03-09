@@ -1,0 +1,45 @@
+﻿# Basico
+.git/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Temporales y residuos
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*~
+*.log
+
+# Build/cache comun
+.cache/
+dist/
+build/
+out/
+coverage/
+
+# Entornos locales
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+
+# Java/Gradle
+.gradle/
+
+# IDE
+.vscode/
+.idea/
+
+# Artefactos locales del agente (no versionar)
+.agent/local/
