@@ -184,6 +184,7 @@ foreach ($doc in $allFiles) {
 
 if ($issues.Count -gt 0) {
   Write-Host 'check-cleanliness: FALLA' -ForegroundColor Yellow
+  Write-Host 'AGENT INSTRUCTION: No ignores este error. Lee los detalles abajo y limpia o consolida los archivos detectados ANTES de continuar. NO reintentes sin hacer cambios.' -ForegroundColor Red
   $issues | Sort-Object -Unique | ForEach-Object { Write-Host " - $_" }
   exit 1
 }

@@ -104,6 +104,7 @@ if ($projectOverviewRaw -notmatch '<!-- QUICK-PROJECT:START -->' -or $projectOve
 
 if ($errors.Count -gt 0) {
   Write-Host 'check-structure: FALLA' -ForegroundColor Red
+  Write-Host 'AGENT INSTRUCTION: La estructura del repositorio es incorrecta o faltan archivos. Arregla los problemas listados ANTES de continuar.' -ForegroundColor Red
   $errors | Sort-Object -Unique | ForEach-Object { Write-Host " - $_" }
   exit 1
 }

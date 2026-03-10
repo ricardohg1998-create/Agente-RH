@@ -68,9 +68,9 @@ function Get-Paragraphs {
     }
 
     $result.Add([pscustomobject]@{
-      Normalized = $norm
-      Preview = $preview
-    })
+        Normalized = $norm
+        Preview    = $preview
+      })
   }
 
   return $result
@@ -120,11 +120,11 @@ foreach ($scanPath in $config.scanPaths) {
     $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }
     $chars = $raw.Length
     $files.Add([pscustomobject]@{
-      RelativePath = $relative
-      Raw = $raw
-      Lines = $lines
-      Chars = $chars
-    })
+        RelativePath = $relative
+        Raw          = $raw
+        Lines        = $lines
+        Chars        = $chars
+      })
     continue
   }
 
@@ -141,11 +141,11 @@ foreach ($scanPath in $config.scanPaths) {
     $chars = $raw.Length
 
     $files.Add([pscustomobject]@{
-      RelativePath = $relative
-      Raw = $raw
-      Lines = $lines
-      Chars = $chars
-    })
+        RelativePath = $relative
+        Raw          = $raw
+        Lines        = $lines
+        Chars        = $chars
+      })
   }
 }
 
@@ -204,6 +204,7 @@ if ($warnings.Count -gt 0) {
 
 if ($criticals.Count -gt 0) {
   Write-Host 'check-context-budget: CRITICALS' -ForegroundColor Red
+  Write-Host 'AGENT INSTRUCTION: El Context Budget ha sido superado. Resume, consolida o archiva contenido para reducir el tamano ANTES de continuar.' -ForegroundColor Red
   $criticals | Sort-Object -Unique | ForEach-Object { Write-Host " - $_" }
   exit 1
 }

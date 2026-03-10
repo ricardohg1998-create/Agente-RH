@@ -129,6 +129,9 @@ Guia de higiene: `docs/repo-hygiene.md`.
 
 ## Flujo diario en Antigravity (Win11)
 
+> [!NOTE]
+> Este repositorio depende fuertemente de PowerShell y esta disenado primariamente para Windows y Antigravity. Si se desea usar en entornos Linux o Docker, los scripts de `scripts/` deberan ser migrados a Bash o Node.js. PowerShell 7 es multiplataforma, pero se recomienda revision en rutas al usar otros OS.
+
 - Flujo operativo: `docs/operating-flow-win11.md`
 - Prompts eficientes y anti-deriva: `docs/prompt-efficiency.md`
 - Troubleshooting de hooks/commit: `docs/hooks-troubleshooting.md`

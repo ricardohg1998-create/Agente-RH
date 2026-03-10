@@ -24,7 +24,7 @@ Mantener `brain/` como memoria operativa viva, util y sin duplicidades.
 
 - Resumir, no copiar y pegar conversaciones.
 - Enlazar documentos relacionados en vez de duplicar texto.
-- Mover contenido obsoleto a `brain/archive/`.
+- Mover contenido obsoleto a `brain/archive/`. ANTE LA DUDA COMO AGENTE, ARCHIVAR, NO BORRAR, para preservar la trazabilidad.
 
 ## Trigger examples
 

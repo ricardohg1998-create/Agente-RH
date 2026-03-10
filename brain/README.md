@@ -4,8 +4,8 @@
 
 ## Capa rapida (leer siempre primero)
 
-- `now.md`: que pasa ahora, que sigue y que bloquea.
-- `current-state.md`: estado operativo resumido.
+- `now.md`: contexto EFIMERO de la sesion (que hago ahora, que sigue y que bloquea en esta tarea).
+- `current-state.md`: estado FUNCIONAL del proyecto a lo largo del tiempo (estado operativo, arquitectura actual).
 - `stack.md`: stack elegido, versiones y razon de la eleccion.
 - `deep-summary.md`: resumen ultra-conciso de la memoria profunda.
 
@@ -37,5 +37,5 @@
 - **Cuando archivar**: documento superado por otro, decision revertida, milestone cerrado, o contenido que ya no refleja el estado actual.
 - **Formato del nombre**: `YYYY-MM-DD_nombre-original.md` (ejemplo: `2026-03-08_stack-v1.md`).
 - **Destino**: mover a `brain/archive/`.
-- **Eliminacion vs archivo**: borrar solo residuos tecnicos sin valor historico (logs, temporales). Si tiene valor de trazabilidad, archivar.
+- **Eliminacion vs archivo**: borrar solo residuos tecnicos sin valor historico (logs, temporales). ANTE LA DUDA COMO AGENTE, ARCHIVAR, NO BORRAR (preservar trazabilidad).
 - **Responsable**: el agente o el usuario al detectar obsolescencia durante el flujo normal de trabajo.
