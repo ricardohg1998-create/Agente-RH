@@ -1,13 +1,13 @@
-# Now
+﻿# Now
 
 <!-- QUICK-NOW:START -->
 ## Estado actual
 
-- Base limpia lista para iniciar proyecto nuevo.
+- Refactorizacion agnostica v1 completada. Sistema de deploy para crear template virgen iniciado.
 
 ## Siguiente accion recomendada
 
-- Definir alcance inicial y primer entregable del proyecto.
+- Ninguna, base estable.
 
 ## Bloqueos activos
 
@@ -15,5 +15,6 @@
 
 ## Cambios recientes
 
-- (sin registros)
+- [2026-03-10 13:46] Actualizacion rapida por agent.
 <!-- QUICK-NOW:END -->
+
