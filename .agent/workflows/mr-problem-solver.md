@@ -26,7 +26,9 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Por criticidad de incidente, ampliar pronto a capa profunda relevante.
 - Priorizar `brain/pitfalls-and-errors.md`, `brain/technical-debt.md` y `brain/changelog.md`.
 

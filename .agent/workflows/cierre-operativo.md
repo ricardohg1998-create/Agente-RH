@@ -25,7 +25,9 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Expandir a capa profunda solo si hay dudas de trazabilidad, riesgos residuales o dependencias abiertas.
 - Limitar lectura profunda a backlog/changelog/milestones segun necesidad.
 

@@ -94,14 +94,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/add-instruction.ps1 
 
 ## Workflows disponibles
 
-- `Desarrollador de profundidad` (`id: desarrollador-profundidad`) -> `.agent/workflows/desarrollador-profundidad.md`
-- `Autista cafeinado` (`id: autista-cafeinado`) -> `.agent/workflows/autista-cafeinado.md`
-- `Buscar skills` (`id: buscar-skills`) -> `.agent/workflows/buscar-skills.md`
-- `Implementacion quirurgica` (`id: implementacion-quirurgica`) -> `.agent/workflows/implementacion-quirurgica.md`
-- `Mr Problem Solver` (`id: mr-problem-solver`) -> `.agent/workflows/mr-problem-solver.md`
-- `Higiene de contexto` (`id: higiene-contexto`) -> `.agent/workflows/higiene-contexto.md`
-- `Cierre operativo` (`id: cierre-operativo`) -> `.agent/workflows/cierre-operativo.md`
-- `Inicio de proyecto` (`id: inicio-proyecto`) -> `.agent/workflows/inicio-proyecto.md`
+<!-- GENERATED:README-WORKFLOWS:START -->
+- `Autista cafeinado` (id: autista-cafeinado) -> `.agent/workflows/autista-cafeinado.md`
+- `Buscar skills` (id: buscar-skills) -> `.agent/workflows/buscar-skills.md`
+- `Cierre operativo` (id: cierre-operativo) -> `.agent/workflows/cierre-operativo.md`
+- `Desarrollador de profundidad` (id: desarrollador-profundidad) -> `.agent/workflows/desarrollador-profundidad.md`
+- `Higiene de contexto` (id: higiene-contexto) -> `.agent/workflows/higiene-contexto.md`
+- `Implementacion quirurgica` (id: implementacion-quirurgica) -> `.agent/workflows/implementacion-quirurgica.md`
+- `Inicio de proyecto` (id: inicio-proyecto) -> `.agent/workflows/inicio-proyecto.md`
+- `Mr Problem Solver` (id: mr-problem-solver) -> `.agent/workflows/mr-problem-solver.md`
+<!-- GENERATED:README-WORKFLOWS:END -->
 
 Regla de dispatch clave: incidentes (errores/caidas/regresiones) priorizan `mr-problem-solver`.
 
@@ -148,3 +150,4 @@ Guia de higiene: `docs/repo-hygiene.md`.
 ## Checklist de handoff
 
 Ver `docs/handoff-checklist.md`.
+

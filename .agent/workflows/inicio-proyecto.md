@@ -26,7 +26,9 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Expandir a `brain/project-overview.md` y `brain/stack.md` para verificar estado previo.
 - Si hay decisiones anteriores relevantes, leer `brain/decisions.md`.
 
@@ -37,7 +39,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 3. Seleccionar stack -> rellenar `brain/stack.md` con eleccion, razon y versiones.
 4. Registrar decision de stack en `brain/decisions.md`.
 5. Ejecutar workflow `buscar-skills` para el stack elegido.
-6. Scaffoldear proyecto en `src/` segun stack.
+6. Scaffoldear proyecto de forma reproducible segun stack, listo para instalar dependencias y arrancar.
 7. Actualizar `brain/architecture.md` con estructura real del proyecto.
 8. Actualizar capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 9. Ejecutar `scripts/run-checks.ps1` -> todo en verde.
@@ -45,7 +47,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 
 ## Output obligatorio
 
-1. Estructura scaffoldeada y funcional en `src/`.
+1. Estructura scaffoldeada y reproducible, lista para instalar dependencias y arrancar.
 2. `brain/project-overview.md` con vision y alcance definidos.
 3. `brain/stack.md` completo con eleccion razonada.
 4. Decision registrada en `brain/decisions.md`.

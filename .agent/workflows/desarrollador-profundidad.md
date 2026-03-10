@@ -26,7 +26,9 @@ Detectar falta de profundidad real en UX, flujos, rutas, contenido funcional y p
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Expandir a capa profunda cuando falte contexto de arquitectura/producto o haya contradicciones.
 - Si el alcance es pequeno y claro, mantener lectura profunda selectiva.
 

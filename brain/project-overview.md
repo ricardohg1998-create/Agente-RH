@@ -1,5 +1,6 @@
-﻿# Vision y alcance
+# Vision y alcance
 
+<!-- QUICK-PROJECT:START -->
 ## Vision
 
 Disponer de un esqueleto de repo operativo, stack-agnostico, listo para clonar y usar con agente en Antigravity.
@@ -22,3 +23,4 @@ Disponer de un esqueleto de repo operativo, stack-agnostico, listo para clonar y
 
 - Implementacion de stack aplicacion (Node/Python/Go/PHP).
 - Automatizaciones externas no declaradas en scripts.
+<!-- QUICK-PROJECT:END -->

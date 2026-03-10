@@ -25,7 +25,9 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Expandir a capa profunda solo si hay duda de stack real, overlap no resuelto o conflicto con decisiones previas.
 - Si no hay gatillos, mantener lectura minima para evitar ruido.
 

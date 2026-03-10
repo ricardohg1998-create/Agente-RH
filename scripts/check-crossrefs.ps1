@@ -3,7 +3,25 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
+. $resolvePsBinPath
+$psBin = Resolve-PowerShellBinary
 $issues = New-Object System.Collections.Generic.List[string]
+
+function Get-RelativeRepoPath {
+  param([string]$FullPath)
+
+  $prefix = $repoRoot
+  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+    $prefix += [System.IO.Path]::DirectorySeparatorChar
+  }
+
+  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
+  }
+
+  return ($FullPath -replace '\\', '/')
+}
 
 function Get-WorkflowMetadata {
   param([System.IO.FileInfo]$File)
@@ -19,7 +37,7 @@ function Get-WorkflowMetadata {
   return [pscustomobject]@{
     Id = $idMatch.Groups[1].Value.Trim()
     Name = $nameMatch.Groups[1].Value.Trim()
-    RelativePath = ('.agent/workflows/' + $File.Name)
+    RelativePath = Get-RelativeRepoPath -FullPath $File.FullName
   }
 }
 
@@ -31,17 +49,29 @@ function Add-MissingAndExtraIssues {
   )
 
   foreach ($missing in ($Expected | Where-Object { $_ -notin $Actual })) {
-    $issues.Add("$ContextLabel no referencia workflow esperado: $missing")
+    $issues.Add("$ContextLabel no referencia ruta esperada: $missing")
   }
 
   foreach ($extra in ($Actual | Where-Object { $_ -notin $Expected })) {
-    $issues.Add("$ContextLabel referencia workflow inexistente: $extra")
+    $issues.Add("$ContextLabel referencia ruta inexistente o sobrante: $extra")
+  }
+}
+
+function Invoke-CheckOnlyGenerator {
+  param(
+    [string]$ScriptName,
+    [string]$Label
+  )
+
+  $scriptPath = Join-Path $PSScriptRoot $ScriptName
+  & $psBin -NoProfile -ExecutionPolicy Bypass -File $scriptPath -CheckOnly
+  if ($LASTEXITCODE -ne 0) {
+    $issues.Add("$Label desincronizado: ejecuta $ScriptName")
   }
 }
 
 $workflowFiles = Get-ChildItem -Path (Join-Path $repoRoot '.agent/workflows') -Filter *.md -File | Sort-Object Name
 $workflows = @($workflowFiles | ForEach-Object { Get-WorkflowMetadata -File $_ })
-
 $workflowIds = @($workflows | ForEach-Object { $_.Id })
 $workflowPaths = @($workflows | ForEach-Object { $_.RelativePath })
 
@@ -50,8 +80,29 @@ if (($workflowIds | Select-Object -Unique).Count -ne $workflowIds.Count) {
 }
 
 $repoStructure = Get-Content -Path (Join-Path $repoRoot '.agent/config/repo-structure.json') -Raw | ConvertFrom-Json
-$requiredWorkflowPaths = @($repoStructure.requiredFiles | Where-Object { $_ -like '.agent/workflows/*.md' })
-Add-MissingAndExtraIssues -Expected $workflowPaths -Actual $requiredWorkflowPaths -ContextLabel 'repo-structure.json'
+$requiredFiles = @($repoStructure.requiredFiles)
+$requiredWorkflowPaths = @($requiredFiles | Where-Object { $_ -like '.agent/workflows/*.md' })
+Add-MissingAndExtraIssues -Expected $workflowPaths -Actual $requiredWorkflowPaths -ContextLabel 'repo-structure.json (workflows)'
+
+$managedFiles = @(
+  '.agent/templates/workflow-quick-layer-snippet.md',
+  'scripts/sync-brain.ps1',
+  'scripts/generate-workflows-docs.ps1',
+  'scripts/generate-catalog.ps1',
+  'scripts/check-links.ps1'
+)
+
+$actualStackFiles = @()
+$stacksRoot = Join-Path $repoRoot 'tools/stacks'
+if (Test-Path -LiteralPath $stacksRoot -PathType Container) {
+  $actualStackFiles = @(Get-ChildItem -Path $stacksRoot -Recurse -File | ForEach-Object { Get-RelativeRepoPath -FullPath $_.FullName })
+}
+
+$expectedManagedFiles = @($managedFiles + $actualStackFiles | Sort-Object -Unique)
+$actualManagedFiles = @($requiredFiles | Where-Object {
+  $_ -in $managedFiles -or $_ -like 'tools/stacks/*'
+})
+Add-MissingAndExtraIssues -Expected $expectedManagedFiles -Actual $actualManagedFiles -ContextLabel 'repo-structure.json (managed files)'
 
 $readmeRaw = Get-Content -Path (Join-Path $repoRoot 'README.md') -Raw
 $indexRaw = Get-Content -Path (Join-Path $repoRoot 'brain/workflows-index.md') -Raw
@@ -105,6 +156,9 @@ foreach ($dispatchId in $dispatchIds) {
     $issues.Add("workflow-dispatch.md referencia un id inexistente: $dispatchId")
   }
 }
+
+Invoke-CheckOnlyGenerator -ScriptName 'generate-workflows-docs.ps1' -Label 'Bloques generados de workflows'
+Invoke-CheckOnlyGenerator -ScriptName 'generate-catalog.ps1' -Label 'CATALOG.md'
 
 if ($issues.Count -gt 0) {
   Write-Host 'check-crossrefs: FALLA' -ForegroundColor Red

@@ -25,7 +25,9 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Por naturaleza del workflow, expandir desde inicio a capa profunda del alcance definido.
 - Limitar lectura a documentos del alcance para no introducir ruido adicional.
 

@@ -26,7 +26,9 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Expandir a capa profunda por gatillo: dependencia no clara, impacto arquitectonico o evidencia insuficiente.
 - Mantener enfoque en archivos profundos directamente implicados en el objetivo.
 

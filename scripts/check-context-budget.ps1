@@ -108,6 +108,26 @@ foreach ($ext in $textExtensions) {
 $files = New-Object System.Collections.Generic.List[object]
 foreach ($scanPath in $config.scanPaths) {
   $scanFullPath = Resolve-RepoPath -Path $scanPath
+  if (Test-Path -LiteralPath $scanFullPath -PathType Leaf) {
+    $item = Get-Item -LiteralPath $scanFullPath
+    if (-not $extensionSet.Contains($item.Extension)) {
+      continue
+    }
+
+    $raw = Get-Content -Path $item.FullName -Raw
+    $relative = Get-RelativePath -Root $repoRoot -FullPath $item.FullName
+    $relative = $relative -replace '\\', '/'
+    $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }
+    $chars = $raw.Length
+    $files.Add([pscustomobject]@{
+      RelativePath = $relative
+      Raw = $raw
+      Lines = $lines
+      Chars = $chars
+    })
+    continue
+  }
+
   if (-not (Test-Path -LiteralPath $scanFullPath -PathType Container)) { continue }
 
   Get-ChildItem -Path $scanFullPath -Recurse -File | Where-Object {

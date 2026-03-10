@@ -78,11 +78,13 @@ $nowPath = Resolve-RepoPath -Path 'brain/now.md'
 $statePath = Resolve-RepoPath -Path 'brain/current-state.md'
 $stackPath = Resolve-RepoPath -Path 'brain/stack.md'
 $deepPath = Resolve-RepoPath -Path 'brain/deep-summary.md'
+$projectOverviewPath = Resolve-RepoPath -Path 'brain/project-overview.md'
 
 $nowRaw = if (Test-Path -LiteralPath $nowPath -PathType Leaf) { Get-Content -Path $nowPath -Raw } else { '' }
 $stateRaw = if (Test-Path -LiteralPath $statePath -PathType Leaf) { Get-Content -Path $statePath -Raw } else { '' }
 $stackRaw = if (Test-Path -LiteralPath $stackPath -PathType Leaf) { Get-Content -Path $stackPath -Raw } else { '' }
 $deepRaw = if (Test-Path -LiteralPath $deepPath -PathType Leaf) { Get-Content -Path $deepPath -Raw } else { '' }
+$projectOverviewRaw = if (Test-Path -LiteralPath $projectOverviewPath -PathType Leaf) { Get-Content -Path $projectOverviewPath -Raw } else { '' }
 
 if ($nowRaw -notmatch '<!-- QUICK-NOW:START -->' -or $nowRaw -notmatch '<!-- QUICK-NOW:END -->') {
   $errors.Add('brain/now.md no contiene marcadores QUICK-NOW.')
@@ -95,6 +97,9 @@ if ($stackRaw -notmatch '<!-- QUICK-STACK:START -->' -or $stackRaw -notmatch '<!
 }
 if ($deepRaw -notmatch '<!-- QUICK-DEEP:START -->' -or $deepRaw -notmatch '<!-- QUICK-DEEP:END -->') {
   $errors.Add('brain/deep-summary.md no contiene marcadores QUICK-DEEP.')
+}
+if ($projectOverviewRaw -notmatch '<!-- QUICK-PROJECT:START -->' -or $projectOverviewRaw -notmatch '<!-- QUICK-PROJECT:END -->') {
+  $errors.Add('brain/project-overview.md no contiene marcadores QUICK-PROJECT.')
 }
 
 if ($errors.Count -gt 0) {

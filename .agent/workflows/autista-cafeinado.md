@@ -25,7 +25,9 @@ Ejecutar una revision extrema, hipercritica y util del proyecto o modulo, con fo
 
 ## Politica de lectura de memoria
 
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
 - Por ser auditoria amplia, expandir desde inicio a capa profunda relevante.
 - Priorizar `brain/architecture.md`, `brain/technical-debt.md` y `brain/pitfalls-and-errors.md`.
 

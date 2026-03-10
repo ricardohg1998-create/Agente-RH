@@ -1,16 +1,16 @@
-# CATALOG
+﻿# CATALOG
 
-Catalogo local minimo del workspace.
+Catalogo local generado automaticamente desde .agent/skills/.
 
 ## Estado
 
-- Base operativa disponible.
-- Sin skills especificas del repo registradas todavia.
+- Generado automaticamente por scripts/generate-catalog.ps1.
+- Sin skills locales registradas todavia.
 
 ## Uso
 
-- Documenta aqui solo skills propias de este workspace.
-- Mantiene esta ruta valida para `.agent/config/skills-sources.json`.
+- Este catalogo solo refleja skills locales versionadas en este workspace.
+- Las fuentes globales o de sesion siguen resolviendose fuera de este archivo.
 
 ## Skills workspace
 

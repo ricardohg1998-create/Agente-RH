@@ -1,4 +1,4 @@
----
+﻿---
 id: workflow-dispatch
 name: Workflow Dispatch
 activation: model-decision
@@ -13,25 +13,29 @@ Seleccionar workflow correcto y mantener salida accionable.
 
 ## Workflow map
 
-- `Desarrollador de profundidad` (`desarrollador-profundidad`): profundidad funcional/UX/producto.
-- `Autista cafeinado` (`autista-cafeinado`): revision extrema tecnica + producto.
-- `Buscar skills` (`buscar-skills`): seleccion e instalacion minima util de skills.
-- `Implementacion quirurgica` (`implementacion-quirurgica`): plan tecnico atomico con dependencias y validacion.
-- `Mr Problem Solver` (`mr-problem-solver`): triage de incidentes de sintoma a causa raiz.
-- `Higiene de contexto` (`higiene-contexto`): limpieza de deriva documental y duplicidades.
-- `Cierre operativo` (`cierre-operativo`): cierre de tarea y handoff verificable.
-- `Inicio de proyecto` (`inicio-proyecto`): arranque guiado desde repo clonado hasta proyecto funcional.
+<!-- GENERATED:WORKFLOW-MAP:START -->
+- `Autista cafeinado` (`autista-cafeinado`): Ejecutar una revision extrema, hipercritica y util del proyecto o modulo, con foco en defectos, deuda y coherencia de producto/arquitectura.
+- `Buscar skills` (`buscar-skills`): Seleccionar e instalar el conjunto minimo util de skills para el stack real del proyecto, sin ruido ni redundancias.
+- `Cierre operativo` (`cierre-operativo`): Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
+- `Desarrollador de profundidad` (`desarrollador-profundidad`): Detectar falta de profundidad real en UX, flujos, rutas, contenido funcional y propuesta de valor.
+- `Higiene de contexto` (`higiene-contexto`): Reducir deriva documental y consumo innecesario de contexto manteniendo la memoria operativa util y compacta.
+- `Implementacion quirurgica` (`implementacion-quirurgica`): Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, sin saltos de complejidad.
+- `Inicio de proyecto` (`inicio-proyecto`): Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, con estado verificable y cerebro actualizado.
+- `Mr Problem Solver` (`mr-problem-solver`): Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con contencion y validacion.
+<!-- GENERATED:WORKFLOW-MAP:END -->
 
 ## Dispatch criteria
 
-- Si se pide profundidad de implementacion en producto/UX -> `Desarrollador de profundidad` (`desarrollador-profundidad`).
-- Si se pide revision radicalmente minuciosa -> `Autista cafeinado` (`autista-cafeinado`).
-- Si se pide instalar skills -> `Buscar skills` (`buscar-skills`).
-- Si hay errores, caidas o regresiones -> `Mr Problem Solver` (`mr-problem-solver`) como prioridad por defecto.
-- Si se pide plan tecnico detallado de ejecucion -> `Implementacion quirurgica` (`implementacion-quirurgica`).
-- Si se pide limpieza documental/contexto/tokens -> `Higiene de contexto` (`higiene-contexto`).
-- Si se pide cierre o handoff de tarea -> `Cierre operativo` (`cierre-operativo`).
-- Si se arranca proyecto nuevo -> `Inicio de proyecto` (`inicio-proyecto`).
+<!-- GENERATED:WORKFLOW-DISPATCH:START -->
+- Usar `Autista cafeinado` (`autista-cafeinado`) cuando: Antes de release relevante.
+- Usar `Buscar skills` (`buscar-skills`) cuando: Inicio de proyecto nuevo.
+- Usar `Cierre operativo` (`cierre-operativo`) cuando: Al terminar una tarea tecnica o documental.
+- Usar `Desarrollador de profundidad` (`desarrollador-profundidad`) cuando: Producto parece incompleto o superficial.
+- Usar `Higiene de contexto` (`higiene-contexto`) cuando: Se detecta ruido, duplicidad o documentos largos sin accion.
+- Usar `Implementacion quirurgica` (`implementacion-quirurgica`) cuando: Se pide desglose de implementacion paso a paso.
+- Usar `Inicio de proyecto` (`inicio-proyecto`) cuando: Repo recien clonado con esqueleto base.
+- Usar `Mr Problem Solver` (`mr-problem-solver`) cuando: Hay errores, caidas, regresiones o comportamiento inestable.
+<!-- GENERATED:WORKFLOW-DISPATCH:END -->
 
 ## Priority and tie-break
 
@@ -82,3 +86,5 @@ Tras ejecutar workflow, actualizar:
 ## Context budget
 
 Ademas del workflow elegido, aplicar siempre la regla `context-budget` para mantener salida concisa y evitar deriva documental.
+
+

@@ -5,7 +5,9 @@ function New-TestWorkspace {
   $workspace = Join-Path $env:TEMP ('agente-rh-tests-' + [guid]::NewGuid().ToString())
   New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 
-  Get-ChildItem -LiteralPath $repoRoot -Force | ForEach-Object {
+  Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
+    $_.Name -ne '.git'
+  } | ForEach-Object {
     Copy-Item -LiteralPath $_.FullName -Destination $workspace -Recurse -Force
   }
 
@@ -71,13 +73,13 @@ Describe 'bootstrap.ps1' {
   It 'crea directorios y gitkeep seguros cuando faltan' {
     $workspace = New-TestWorkspace
     try {
-      Remove-Item -LiteralPath (Join-Path $workspace 'tools') -Recurse -Force
+      Remove-Item -LiteralPath (Join-Path $workspace 'src') -Recurse -Force
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\bootstrap.ps1'
 
       $result.ExitCode | Should Be 0
-      (Test-Path -LiteralPath (Join-Path $workspace 'tools') -PathType Container) | Should Be $true
-      (Test-Path -LiteralPath (Join-Path $workspace 'tools\.gitkeep') -PathType Leaf) | Should Be $true
+      (Test-Path -LiteralPath (Join-Path $workspace 'src') -PathType Container) | Should Be $true
+      (Test-Path -LiteralPath (Join-Path $workspace 'src\.gitkeep') -PathType Leaf) | Should Be $true
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
