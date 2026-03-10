@@ -18,22 +18,12 @@
     "src",
     "tests",
     "tests/Pester",
-    "tools",
-    "tools/stacks",
-    "tools/stacks/node-api",
-    "tools/stacks/node-api/template",
-    "tools/stacks/node-api/template/src",
-    "tools/stacks/next-app",
-    "tools/stacks/next-app/template",
-    "tools/stacks/next-app/template/app",
-    "tools/stacks/python-cli",
-    "tools/stacks/python-cli/template",
-    "tools/stacks/python-cli/template/src",
-    "tools/stacks/python-cli/template/src/__PYTHON_PACKAGE__"
+    "tools"
   ],
   "requiredFiles": [
     "README.md",
     ".gitignore",
+    ".editorconfig",
     "AGENTS.md",
     "GEMINI.md",
     "CATALOG.md",
@@ -109,22 +99,6 @@
     "scripts/lib/resolve-ps-bin.ps1",
     "tests/Pester/OperationalScripts.Tests.ps1",
     "tests/Pester/ExtendedOperationalScripts.Tests.ps1",
-    "tests/Pester/TestHelpers.ps1",
-    "tools/stacks/node-api/stack.json",
-    "tools/stacks/node-api/template/package.json",
-    "tools/stacks/node-api/template/tsconfig.json",
-    "tools/stacks/node-api/template/src/index.ts",
-    "tools/stacks/next-app/stack.json",
-    "tools/stacks/next-app/template/package.json",
-    "tools/stacks/next-app/template/tsconfig.json",
-    "tools/stacks/next-app/template/next.config.ts",
-    "tools/stacks/next-app/template/next-env.d.ts",
-    "tools/stacks/next-app/template/app/layout.tsx",
-    "tools/stacks/next-app/template/app/page.tsx",
-    "tools/stacks/python-cli/stack.json",
-    "tools/stacks/python-cli/template/pyproject.toml",
-    "tools/stacks/python-cli/template/src/__PYTHON_PACKAGE__/__init__.py",
-    "tools/stacks/python-cli/template/src/__PYTHON_PACKAGE__/__main__.py",
-    "tools/stacks/python-cli/template/src/__PYTHON_PACKAGE__/cli.py"
+    "tests/Pester/TestHelpers.ps1"
   ]
 }

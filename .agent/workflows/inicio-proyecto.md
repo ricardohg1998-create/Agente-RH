@@ -32,6 +32,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 - Expandir a `brain/project-overview.md` y `brain/stack.md` para verificar estado previo.
 - Si hay decisiones anteriores relevantes, leer `brain/decisions.md`.
 
+
 ## Pasos internos
 
 1. Ejecutar `scripts/bootstrap.ps1` y verificar estructura completa.
@@ -39,21 +40,10 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 3. Seleccionar stack -> rellenar `brain/stack.md` con eleccion, razon y versiones.
 4. Registrar decision de stack en `brain/decisions.md`.
 5. Ejecutar workflow `buscar-skills` para el stack elegido.
-6. Scaffoldear proyecto de forma reproducible segun stack, listo para instalar dependencias y arrancar.
+6. Inicializar proyecto usando CLIs oficiales del stack (ej. `npx create-next-app@latest`, `pip init`, etc).
 7. Actualizar `brain/architecture.md` con estructura real del proyecto.
 8. Actualizar capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 9. Ejecutar `scripts/run-checks.ps1` -> todo en verde.
-10. Primer commit con checks pasando.
-
-## Output obligatorio
-
-1. Estructura scaffoldeada y reproducible, lista para instalar dependencias y arrancar.
-2. `brain/project-overview.md` con vision y alcance definidos.
-3. `brain/stack.md` completo con eleccion razonada.
-4. Decision registrada en `brain/decisions.md`.
-5. Skills instaladas segun stack.
-6. `brain/architecture.md` actualizado.
-7. Resultado de checks (estructura + limpieza + context budget).
 8. Primer commit verificable.
 
 ## Criterios de calidad

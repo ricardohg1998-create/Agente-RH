@@ -8,7 +8,7 @@
   "critical": {
     "quickLayer": {
       "maxLines": 200,
-      "maxChars": 8000
+      "maxChars": 12000
     },
     "duplication": {
       "minParagraphChars": 180,
