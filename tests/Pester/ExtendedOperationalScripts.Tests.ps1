@@ -117,6 +117,22 @@ Describe 'generadores y validadores' {
     }
   }
 
+  It 'ignora paquetes npm con scope dentro de codigo inline' {
+    $workspace = New-TestWorkspace
+    try {
+      $readmePath = Join-Path $workspace 'README.md'
+      $readmeRaw = Get-Content -Path $readmePath -Raw
+      $readmeRaw += "`r`n`r`nDependencias utiles: ``@mui/material``, ``@tailwindcss/postcss`` y ``scripts/run-checks.ps1``.`r`n"
+      Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeRaw
+
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-links.ps1'
+      $result.ExitCode | Should Be 0
+      $result.Output | Should Match 'check-links: OK'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+
   It 'detecta duplicacion fuerte incluyendo README, AGENTS y templates' {
     $workspace = New-TestWorkspace
     try {

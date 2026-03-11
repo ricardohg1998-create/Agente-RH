@@ -107,9 +107,12 @@ foreach ($special in @('.DS_Store', 'Thumbs.db')) {
 $sizeBuckets = @{}
 foreach ($f in $allFiles) {
   if ($f.Name -eq '.gitkeep') { continue }
-  if ($f.Length -eq 0) { continue }
+  $len = $f.Length
+  if ($null -eq $len) { continue }
+  if ($len -eq 0) { continue }
 
-  $sizeKey = [string]$f.Length
+  $sizeKey = [string]$len
+  if ([string]::IsNullOrWhiteSpace($sizeKey)) { continue }
   if (-not $sizeBuckets.ContainsKey($sizeKey)) {
     $sizeBuckets[$sizeKey] = New-Object System.Collections.Generic.List[string]
   }

@@ -47,6 +47,16 @@ function Test-IgnoreLinkTarget {
   return $false
 }
 
+function Remove-ScopedPackageSpecifiers {
+  param([string]$Text)
+
+  if ([string]::IsNullOrWhiteSpace($Text)) {
+    return $Text
+  }
+
+  return [regex]::Replace($Text, '(?<![\w./\\-])@[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*', ' ')
+}
+
 function Test-PathToken {
   param(
     [string]$SourcePath,
@@ -108,7 +118,11 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
   }
 
   foreach ($codeMatch in [regex]::Matches($rawWithoutCodeBlocks, '(?<!`)`(?<code>[^`\r\n]+)`(?!`)')) {
-    $code = $codeMatch.Groups['code'].Value
+    $code = Remove-ScopedPackageSpecifiers -Text $codeMatch.Groups['code'].Value
+    if ([string]::IsNullOrWhiteSpace($code)) {
+      continue
+    }
+
     foreach ($tokenMatch in [regex]::Matches($code, '(?<token>(?:\.{0,2}/)?(?:[A-Za-z0-9_.-]+[\\/])+[A-Za-z0-9_.-]+(?:\.[A-Za-z0-9_.-]+)?)')) {
       $token = $tokenMatch.Groups['token'].Value
       Test-PathToken -SourcePath $file -Token $token -ResolveRelativeToSource $false
