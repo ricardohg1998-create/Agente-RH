@@ -3,7 +3,7 @@
 <!-- QUICK-DEEP:START -->
 ## Resumen profundo (auto)
 
-- brain/project-overview.md | estado: activo | resumen: Disponer de un esqueleto de repo operativo, stack-agnostico, listo para clonar y usar con... | mod: 2026-03-12
+- brain/project-overview.md | estado: activo | resumen: Crear proyecto base | mod: 2026-03-12
 - brain/architecture.md | estado: activo | resumen: /.agent: capa operativa del agente (reglas, workflows, templates, config). | mod: 2026-03-12
 - brain/decisions.md | estado: activo | resumen: **Contexto**: Relatos breves de por que se toma la decision. | mod: 2026-03-12
 - brain/milestones.md | estado: activo | resumen: **Objetivo**: Descripcion general del hito. | mod: 2026-03-12
