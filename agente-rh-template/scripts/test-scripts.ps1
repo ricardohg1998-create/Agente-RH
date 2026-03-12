@@ -10,9 +10,16 @@ if ($testScripts.Count -eq 0) {
   throw 'No se encontraron tests en tests/Pester.'
 }
 
-$pesterModule = Get-Module -ListAvailable Pester | Sort-Object Version -Descending | Select-Object -First 1
+$pesterModule = Get-Module -ListAvailable Pester | Where-Object { $_.Version.Major -eq 4 } | Sort-Object Version -Descending | Select-Object -First 1
+
 if ($null -eq $pesterModule) {
-  throw 'No se encontro Pester instalado.'
+  Write-Host "test-scripts: Instalando Pester 4.x..." -ForegroundColor Yellow
+  Install-Module -Name Pester -MaximumVersion 4.99.99 -Force -SkipPublisherCheck -Scope CurrentUser -AllowClobber
+  $pesterModule = Get-Module -ListAvailable Pester | Where-Object { $_.Version.Major -eq 4 } | Sort-Object Version -Descending | Select-Object -First 1
+}
+
+if ($null -eq $pesterModule) {
+  throw 'No se encontro Pester 4.x instalado.'
 }
 
 Import-Module $pesterModule.Path -Force
