@@ -1,4 +1,4 @@
-﻿# Repo Base Operativo para Agente (Antigravity + Win11)
+# Repo Base Operativo para Agente (Antigravity + Win11)
 
 Este repositorio es un esqueleto operativo, listo para clonar y arrancar, para proyectos de desarrollo asistidos por agente.
 
