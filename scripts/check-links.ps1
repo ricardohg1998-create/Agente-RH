@@ -3,6 +3,10 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$repoRootWithSep = $repoRoot
+if (-not $repoRootWithSep.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+  $repoRootWithSep += [System.IO.Path]::DirectorySeparatorChar
+}
 $issues = New-Object System.Collections.Generic.List[string]
 $filesToScan = New-Object System.Collections.Generic.List[string]
 
@@ -24,13 +28,8 @@ function Resolve-RepoPath {
 function Get-RelativeRepoPath {
   param([string]$FullPath)
 
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
+  if ($FullPath.StartsWith($repoRootWithSep, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return ($FullPath.Substring($repoRootWithSep.Length) -replace '\\', '/')
   }
 
   return ($FullPath -replace '\\', '/')
