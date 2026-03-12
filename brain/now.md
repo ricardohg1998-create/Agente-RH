@@ -15,6 +15,7 @@
 
 ## Cambios recientes
 
+- [2026-03-12] Mejora de rendimiento en `agente-rh-template/scripts/generate-catalog.ps1` reemplazando el operador `+=` de arrays con `System.Collections.Generic.List[string]`.
 - [2026-03-10 16:32] Hardening de `check-links.ps1` y `check-cleanliness.ps1` en raiz y template.
 - [2026-03-10 13:46] Actualizacion rapida por agent.
 - [2026-03-11] Nueva instruccion persistente: No actualizar la memoria de agente-rh-template; esa carpeta debe mantenerse como una copia virgen e identica del repo, lista para iniciar un nuevo proyecto.
