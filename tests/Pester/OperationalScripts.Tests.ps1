@@ -1,70 +1,12 @@
-$ErrorActionPreference = 'Stop'
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-
-function New-TestWorkspace {
-  $workspace = Join-Path $env:TEMP ('agente-rh-tests-' + [guid]::NewGuid().ToString())
-  New-Item -ItemType Directory -Path $workspace -Force | Out-Null
-
-  Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
-    $_.Name -ne '.git'
-  } | ForEach-Object {
-    Copy-Item -LiteralPath $_.FullName -Destination $workspace -Recurse -Force
-  }
-
-  return $workspace
-}
-
-function Remove-TestWorkspace {
-  param([string]$Workspace)
-
-  if ($Workspace -and (Test-Path -LiteralPath $Workspace)) {
-    Remove-Item -LiteralPath $Workspace -Recurse -Force
-  }
-}
-
-function Invoke-WorkspaceScript {
-  param(
-    [string]$Workspace,
-    [string]$RelativeScript,
-    [string[]]$Arguments = @()
-  )
-
-  $scriptPath = Join-Path $Workspace $RelativeScript
-  $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
-  $exitCode = $LASTEXITCODE
-
-  return [pscustomobject]@{
-    ExitCode = $exitCode
-    Output = ($output | ForEach-Object { $_.ToString() }) -join "`n"
-  }
-}
-
-function Get-WorkspaceFileRaw {
-  param(
-    [string]$Workspace,
-    [string]$RelativePath
-  )
-
-  return Get-Content -Path (Join-Path $Workspace $RelativePath) -Raw
-}
-
-function Set-WorkspaceFileRaw {
-  param(
-    [string]$Workspace,
-    [string]$RelativePath,
-    [string]$Content
-  )
-
-  Set-Content -Path (Join-Path $Workspace $RelativePath) -Encoding UTF8 -Value $Content
-}
+. "$PSScriptRoot/TestHelpers.ps1"
 
 Describe 'bootstrap.ps1' {
   It 'devuelve OK con CheckOnly en un repo sano' {
     $workspace = New-TestWorkspace
     try {
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\bootstrap.ps1' -Arguments @('-CheckOnly')
-      $result.ExitCode | Should Be 0
-      $result.Output | Should Match 'Estructura minima OK'
+      $result.ExitCode | Should -Be 0
+      $result.Output | Should -Match 'Estructura minima OK'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -77,9 +19,9 @@ Describe 'bootstrap.ps1' {
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\bootstrap.ps1'
 
-      $result.ExitCode | Should Be 0
-      (Test-Path -LiteralPath (Join-Path $workspace 'src') -PathType Container) | Should Be $true
-      (Test-Path -LiteralPath (Join-Path $workspace 'src\.gitkeep') -PathType Leaf) | Should Be $true
+      $result.ExitCode | Should -Be 0
+      (Test-Path -LiteralPath (Join-Path $workspace 'src') -PathType Container) | Should -Be $true
+      (Test-Path -LiteralPath (Join-Path $workspace 'src\.gitkeep') -PathType Leaf) | Should -Be $true
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -92,9 +34,49 @@ Describe 'bootstrap.ps1' {
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\bootstrap.ps1'
 
-      $result.ExitCode | Should Be 1
-      (Test-Path -LiteralPath (Join-Path $workspace 'AGENTS.md')) | Should Be $false
-      $result.Output | Should Match 'no genera placeholders'
+      $result.ExitCode | Should -Be 1
+      (Test-Path -LiteralPath (Join-Path $workspace 'AGENTS.md')) | Should -Be $false
+      $result.Output | Should -Match 'no genera placeholders'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+}
+
+Describe 'log-decision.ps1' {
+  It 'falla si no existe brain/decisions.md' {
+    $workspace = New-TestWorkspace
+    try {
+      Remove-Item -LiteralPath (Join-Path $workspace 'brain\decisions.md') -Force
+
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\log-decision.ps1' -Arguments @(
+        '-Title', 'Test',
+        '-Context', 'Ctx',
+        '-Decision', 'Dec',
+        '-Consequences', 'Cons'
+      )
+
+      $result.ExitCode | Should -Be 1
+      $result.Output | Should -Match 'No existe'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+
+  It 'falla si no existe brain/changelog.md' {
+    $workspace = New-TestWorkspace
+    try {
+      Remove-Item -LiteralPath (Join-Path $workspace 'brain\changelog.md') -Force
+
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\log-decision.ps1' -Arguments @(
+        '-Title', 'Test',
+        '-Context', 'Ctx',
+        '-Decision', 'Dec',
+        '-Consequences', 'Cons'
+      )
+
+      $result.ExitCode | Should -Be 1
+      $result.Output | Should -Match 'No existe'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -114,8 +96,8 @@ Describe 'update-brain-quick.ps1' {
         '-NextAction', 'Preparar primer entregable'
       )
 
-      $result.ExitCode | Should Be 0
-      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\current-state.md') | Should Match ('- Fase: ' + [regex]::Escape($expectedPhase))
+      $result.ExitCode | Should -Be 0
+      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\current-state.md') | Should -Match ('- Fase: ' + [regex]::Escape($expectedPhase))
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -128,8 +110,8 @@ Describe 'update-brain-quick.ps1' {
         '-Phase', 'implementacion'
       )
 
-      $result.ExitCode | Should Be 0
-      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\current-state.md') | Should Match '- Fase: implementacion'
+      $result.ExitCode | Should -Be 0
+      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\current-state.md') | Should -Match '- Fase: implementacion'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -143,8 +125,8 @@ Describe 'update-brain-quick.ps1' {
         '-SummaryNow', 'Sin tocar stack'
       )
 
-      $result.ExitCode | Should Be 0
-      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\stack.md') | Should Be $before
+      $result.ExitCode | Should -Be 0
+      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\stack.md') | Should -Be $before
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -161,12 +143,12 @@ Describe 'update-brain-quick.ps1' {
         '-StackVersions', 'Node 22', 'Next 15'
       )
 
-      $result.ExitCode | Should Be 0
+      $result.ExitCode | Should -Be 0
       $stackRaw = Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\stack.md'
-      $stackRaw | Should Match 'Frontend: Next.js'
-      $stackRaw | Should Match 'Backend: Fastify'
-      $stackRaw | Should Match 'Base de datos: PostgreSQL'
-      $stackRaw | Should Match 'Node 22'
+      $stackRaw | Should -Match 'Frontend: Next.js'
+      $stackRaw | Should -Match 'Backend: Fastify'
+      $stackRaw | Should -Match 'Base de datos: PostgreSQL'
+      $stackRaw | Should -Match 'Node 22'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -183,15 +165,15 @@ Describe 'update-brain-quick.ps1' {
       $withoutSync = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\update-brain-quick.ps1' -Arguments @(
         '-SummaryNow', 'Sin sync profundo'
       )
-      $withoutSync.ExitCode | Should Be 0
-      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\deep-summary.md') | Should Match 'DESINCRONIZADO'
+      $withoutSync.ExitCode | Should -Be 0
+      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\deep-summary.md') | Should -Match 'DESINCRONIZADO'
 
       $withSync = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\update-brain-quick.ps1' -Arguments @(
         '-SummaryNow', 'Con sync profundo',
         '-SyncDeepSummary'
       )
-      $withSync.ExitCode | Should Be 0
-      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\deep-summary.md') | Should Not Match 'DESINCRONIZADO'
+      $withSync.ExitCode | Should -Be 0
+      (Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\deep-summary.md') | Should -Not -Match 'DESINCRONIZADO'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -203,8 +185,8 @@ Describe 'check-crossrefs.ps1' {
     $workspace = New-TestWorkspace
     try {
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-crossrefs.ps1'
-      $result.ExitCode | Should Be 0
-      $result.Output | Should Match 'check-crossrefs: OK'
+      $result.ExitCode | Should -Be 0
+      $result.Output | Should -Match 'check-crossrefs: OK'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -220,8 +202,8 @@ Describe 'check-crossrefs.ps1' {
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-crossrefs.ps1'
 
-      $result.ExitCode | Should Be 1
-      $result.Output | Should Match 'README.md'
+      $result.ExitCode | Should -Be 1
+      $result.Output | Should -Match 'README.md'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -233,7 +215,7 @@ Describe 'check-skills-catalog.ps1' {
     $workspace = New-TestWorkspace
     try {
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-skills-catalog.ps1'
-      $result.ExitCode | Should Be 0
+      $result.ExitCode | Should -Be 0
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -246,8 +228,8 @@ Describe 'check-skills-catalog.ps1' {
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-skills-catalog.ps1'
 
-      $result.ExitCode | Should Be 0
-      $result.Output | Should Match 'WARN'
+      $result.ExitCode | Should -Be 0
+      $result.Output | Should -Match 'WARN'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -267,8 +249,8 @@ Describe 'check-skills-catalog.ps1' {
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-skills-catalog.ps1'
 
-      $result.ExitCode | Should Be 1
-      $result.Output | Should Match 'Catalogo local faltante'
+      $result.ExitCode | Should -Be 1
+      $result.Output | Should -Match 'Catalogo local faltante'
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
@@ -287,10 +269,10 @@ Describe 'init-project.ps1' {
         '-CreateCatalog'
       )
 
-      $firstRun.ExitCode | Should Be 0
-      (Test-Path -LiteralPath (Join-Path $workspace '.git') -PathType Container) | Should Be $true
-      (Test-Path -LiteralPath (Join-Path $workspace '.git\hooks\pre-commit') -PathType Leaf) | Should Be $true
-      (Test-Path -LiteralPath (Join-Path $workspace 'CATALOG.md') -PathType Leaf) | Should Be $true
+      $firstRun.ExitCode | Should -Be 0
+      (Test-Path -LiteralPath (Join-Path $workspace '.git') -PathType Container) | Should -Be $true
+      (Test-Path -LiteralPath (Join-Path $workspace '.git\hooks\pre-commit') -PathType Leaf) | Should -Be $true
+      (Test-Path -LiteralPath (Join-Path $workspace 'CATALOG.md') -PathType Leaf) | Should -Be $true
 
       $secondRun = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\init-project.ps1' -Arguments @(
         '-InitGit',
@@ -298,7 +280,10 @@ Describe 'init-project.ps1' {
         '-CreateCatalog'
       )
 
-      $secondRun.ExitCode | Should Be 0
+      $secondRun.ExitCode | Should -Be 0
+
+      # Clean up so we don't pollute subsequent tests if any exist that scan globally
+      Remove-Item -LiteralPath (Join-Path $workspace '.git') -Recurse -Force
     } finally {
       Remove-TestWorkspace -Workspace $workspace
     }
