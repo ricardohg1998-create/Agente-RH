@@ -45,7 +45,7 @@ function Invoke-WorkspaceScript {
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-      $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
+      $output = & pwsh -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
       $exitCode = $LASTEXITCODE
     } catch {
       $output = @($_)
