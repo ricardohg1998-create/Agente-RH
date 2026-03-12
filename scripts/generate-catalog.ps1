@@ -5,6 +5,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $PSScriptRoot 'lib/get-relative-repo-path.ps1')
+
 $catalogPath = Join-Path $repoRoot 'CATALOG.md'
 $skillsRoot = Join-Path $repoRoot '.agent/skills'
 
@@ -12,21 +14,6 @@ function Normalize-Eol {
   param([string]$Text)
 
   return ($Text -replace "`r`n", "`n").Trim()
-}
-
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
 }
 
 function Get-SectionParagraph {
@@ -70,7 +57,7 @@ foreach ($skillFile in $skillFiles) {
   $raw = Get-Content -Path $skillFile.FullName -Raw
   $directoryName = Split-Path -Path $skillFile.DirectoryName -Leaf
   $summary = Get-SectionParagraph -Raw $raw
-  $relativePath = Get-RelativeRepoPath -FullPath $skillFile.FullName
+  $relativePath = Get-RelativeRepoPath -FullPath $skillFile.FullName -RepoRoot $repoRoot
   $skillLines.Add(('- ' + (Format-InlineCode -Text $directoryName) + " -> $summary (" + (Format-InlineCode -Text $relativePath) + ').'))
 }
 
