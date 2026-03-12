@@ -32,15 +32,14 @@ function Get-RelativeRepoPath {
 function Get-SectionParagraph {
   param([string]$Raw)
 
-  $lines = @()
-  foreach ($line in ($Raw -split "`r?`n")) {
+  $lines = @(foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
     if ($clean.StartsWith('#')) { continue }
     if ($clean.StartsWith('```')) { continue }
     if ($clean.StartsWith('---')) { continue }
-    $lines += $clean
-  }
+    $clean
+  })
 
   if ($lines.Count -eq 0) {
     return 'Sin descripcion.'
