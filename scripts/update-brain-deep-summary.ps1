@@ -147,7 +147,19 @@ foreach ($file in $deepFiles) {
   $raw = Get-Content -Path $deepFileFullPath -Raw
   $summary = Get-DeepSummary -Raw $raw
   $state = Get-DeepState -Raw $raw -Summary $summary
-  $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
+
+  $mod = $null
+  if (Get-Command 'git' -ErrorAction SilentlyContinue) {
+    $gitMod = (& git log -1 --format="%cd" --date=short -- $deepFileFullPath 2>$null)
+    if (-not [string]::IsNullOrWhiteSpace($gitMod)) {
+      $mod = $gitMod.Trim()
+    }
+  }
+
+  if ([string]::IsNullOrWhiteSpace($mod)) {
+    $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
+  }
+
   $lines.Add("- $file | estado: $state | resumen: $summary | mod: $mod")
 }
 
