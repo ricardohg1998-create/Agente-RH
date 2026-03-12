@@ -5,6 +5,12 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+
+$repoRootWithSeparator = $repoRoot
+if (-not $repoRootWithSeparator.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+  $repoRootWithSeparator += [System.IO.Path]::DirectorySeparatorChar
+}
+
 $catalogPath = Join-Path $repoRoot 'CATALOG.md'
 $skillsRoot = Join-Path $repoRoot '.agent/skills'
 
@@ -17,13 +23,8 @@ function Normalize-Eol {
 function Get-RelativeRepoPath {
   param([string]$FullPath)
 
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
+  if ($FullPath.StartsWith($repoRootWithSeparator, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return ($FullPath.Substring($repoRootWithSeparator.Length) -replace '\\', '/')
   }
 
   return ($FullPath -replace '\\', '/')
@@ -32,14 +33,14 @@ function Get-RelativeRepoPath {
 function Get-SectionParagraph {
   param([string]$Raw)
 
-  $lines = @()
+  $lines = [System.Collections.Generic.List[string]]::new()
   foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
     if ($clean.StartsWith('#')) { continue }
     if ($clean.StartsWith('```')) { continue }
     if ($clean.StartsWith('---')) { continue }
-    $lines += $clean
+    $lines.Add($clean)
   }
 
   if ($lines.Count -eq 0) {

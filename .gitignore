@@ -47,4 +47,3 @@ node_modules/
 
 # Artefactos locales del agente (no versionar)
 .agent/local/
-.agent/skills/
