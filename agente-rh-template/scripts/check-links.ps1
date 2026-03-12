@@ -3,6 +3,8 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $PSScriptRoot 'lib/get-relative-repo-path.ps1')
+
 $issues = New-Object System.Collections.Generic.List[string]
 $filesToScan = New-Object System.Collections.Generic.List[string]
 
@@ -19,21 +21,6 @@ function Resolve-RepoPath {
   }
 
   return (Join-Path $repoRoot $normalized)
-}
-
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
 }
 
 function Test-IgnoreLinkTarget {
@@ -95,7 +82,7 @@ function Test-PathToken {
   }
 
   if (-not (Test-Path -LiteralPath $candidate)) {
-    $issues.Add("Ruta rota en $(Get-RelativeRepoPath -FullPath $SourcePath): $Token")
+    $issues.Add("Ruta rota en $(Get-RelativeRepoPath -FullPath $SourcePath -RepoRoot $repoRoot): $Token")
   }
 }
 

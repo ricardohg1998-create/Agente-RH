@@ -5,6 +5,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $PSScriptRoot 'lib/get-relative-repo-path.ps1')
+
 $workflowDir = Join-Path $repoRoot '.agent/workflows'
 $templatePath = Join-Path $repoRoot '.agent/templates/workflow-quick-layer-snippet.md'
 $readmePath = Join-Path $repoRoot 'README.md'
@@ -15,21 +17,6 @@ function Normalize-Eol {
   param([string]$Text)
 
   return ($Text -replace "`r`n", "`n").Trim()
-}
-
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
 }
 
 function Get-MarkedSectionUpdate {
@@ -157,7 +144,7 @@ function Parse-Workflow {
     Modes = $modes
     Summary = Get-FirstParagraph -Body $body -Heading 'Proposito'
     Trigger = Get-FirstBullet -Body $body -Heading 'Cuando usarlo'
-    RelativePath = Get-RelativeRepoPath -FullPath $File.FullName
+    RelativePath = Get-RelativeRepoPath -FullPath $File.FullName -RepoRoot $repoRoot
     FullPath = $File.FullName
   }
 }
@@ -190,7 +177,8 @@ $dispatchCriteriaBody = ($workflows | ForEach-Object {
 
 $readmeUpdate = Get-MarkedSectionUpdate -Path $readmePath -StartMarker '<!-- GENERATED:README-WORKFLOWS:START -->' -EndMarker '<!-- GENERATED:README-WORKFLOWS:END -->' -NewBody $readmeWorkflowsBody
 $dispatchMapUpdate = Get-MarkedSectionUpdate -Path $dispatchPath -StartMarker '<!-- GENERATED:WORKFLOW-MAP:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-MAP:END -->' -NewBody $dispatchMapBody
-$dispatchTempPath = Join-Path $env:TEMP ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
+$tempDir = if ([string]::IsNullOrWhiteSpace($env:TEMP)) { '/tmp' } else { $env:TEMP }
+$dispatchTempPath = Join-Path $tempDir ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
 Set-Content -Path $dispatchTempPath -Encoding UTF8 -Value $dispatchMapUpdate.Updated
 try {
   $dispatchCriteriaUpdate = Get-MarkedSectionUpdate -Path $dispatchTempPath -StartMarker '<!-- GENERATED:WORKFLOW-DISPATCH:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-DISPATCH:END -->' -NewBody $dispatchCriteriaBody
@@ -241,7 +229,7 @@ $pending = New-Object System.Collections.Generic.List[string]
 
 foreach ($update in $workflowUpdates) {
   if ((Normalize-Eol -Text $update.Raw) -ne (Normalize-Eol -Text $update.Updated)) {
-    $pending.Add((Get-RelativeRepoPath -FullPath $update.Path))
+    $pending.Add((Get-RelativeRepoPath -FullPath $update.Path -RepoRoot $repoRoot))
   }
 }
 

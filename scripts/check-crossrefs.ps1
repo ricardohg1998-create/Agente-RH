@@ -3,25 +3,12 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+. (Join-Path $PSScriptRoot 'lib/get-relative-repo-path.ps1')
+
 $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
 . $resolvePsBinPath
 $psBin = Resolve-PowerShellBinary
 $issues = New-Object System.Collections.Generic.List[string]
-
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
-}
 
 function Get-WorkflowMetadata {
   param([System.IO.FileInfo]$File)
@@ -37,7 +24,7 @@ function Get-WorkflowMetadata {
   return [pscustomobject]@{
     Id = $idMatch.Groups[1].Value.Trim()
     Name = $nameMatch.Groups[1].Value.Trim()
-    RelativePath = Get-RelativeRepoPath -FullPath $File.FullName
+    RelativePath = Get-RelativeRepoPath -FullPath $File.FullName -RepoRoot $repoRoot
   }
 }
 
@@ -95,7 +82,7 @@ $managedFiles = @(
 $actualStackFiles = @()
 $stacksRoot = Join-Path $repoRoot 'tools/stacks'
 if (Test-Path -LiteralPath $stacksRoot -PathType Container) {
-  $actualStackFiles = @(Get-ChildItem -Path $stacksRoot -Recurse -File | ForEach-Object { Get-RelativeRepoPath -FullPath $_.FullName })
+  $actualStackFiles = @(Get-ChildItem -Path $stacksRoot -Recurse -File | ForEach-Object { Get-RelativeRepoPath -FullPath $_.FullName -RepoRoot $repoRoot })
 }
 
 $expectedManagedFiles = @($managedFiles + $actualStackFiles | Sort-Object -Unique)
