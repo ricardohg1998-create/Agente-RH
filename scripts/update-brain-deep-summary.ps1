@@ -8,6 +8,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
+$replaceMarkedSectionPath = Join-Path $PSScriptRoot 'lib/replace-marked-section.ps1'
+. $replaceMarkedSectionPath
+
 function Resolve-RepoPath {
   param([string]$Path)
 
@@ -91,37 +94,6 @@ function Get-DeepState {
   return 'activo'
 }
 
-function Replace-MarkedSection {
-  param(
-    [string]$Path,
-    [string]$StartMarker,
-    [string]$EndMarker,
-    [string]$NewBody
-  )
-
-  if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
-    throw "Archivo no encontrado: $Path"
-  }
-
-  $raw = Get-Content -Path $Path -Raw
-  $startIdx = $raw.IndexOf($StartMarker)
-  $endIdx = $raw.IndexOf($EndMarker)
-
-  if ($startIdx -lt 0 -or $endIdx -lt 0 -or $endIdx -le $startIdx) {
-    throw "Marcadores no validos en $Path"
-  }
-
-  $head = $raw.Substring(0, $startIdx + $StartMarker.Length)
-  $tail = $raw.Substring($endIdx)
-  $updated = $head + "`r`n" + $NewBody.Trim() + "`r`n" + $tail
-
-  return [pscustomobject]@{
-    Raw = $raw
-    Updated = $updated
-    CurrentBody = $raw.Substring($startIdx + $StartMarker.Length, $endIdx - ($startIdx + $StartMarker.Length))
-  }
-}
-
 $policyFullPath = Resolve-RepoPath -Path $PolicyPath
 $summaryFullPath = Resolve-RepoPath -Path $SummaryPath
 
@@ -160,7 +132,7 @@ $newBody = @"
 $($lines -join "`r`n")
 "@
 
-$replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
+$replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody -NoWrite
 
 if ($CheckOnly) {
   if ((Normalize-Eol -Text $replace.CurrentBody) -ne (Normalize-Eol -Text "`r`n$newBody`r`n")) {
