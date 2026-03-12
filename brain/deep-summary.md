@@ -12,12 +12,10 @@
 - brain/technical-debt.md | estado: base | resumen: sin novedades | mod: 2026-03-10
 - brain/pitfalls-and-errors.md | estado: base | resumen: sin novedades | mod: 2026-03-08
 - brain/ideas.md | estado: base | resumen: sin novedades | mod: 2026-03-08
-- brain/changelog.md | estado: activo | resumen: 2026-03-10 / Hardening de checks: check-links.ps1 ignora paquetes npm con scope en codigo... | mod: 2026-03-11
+- brain/changelog.md | estado: base | resumen: sin novedades | mod: 2026-03-10
 - brain/skills-available.md | estado: base | resumen: Config en .agent/config/skills-sources.json. | mod: 2026-03-10
 - brain/workflows-index.md | estado: activo | resumen: Autista cafeinado (autista-cafeinado) -> Ejecutar una revision extrema, hipercritica y uti... | mod: 2026-03-10
-- brain/user-instructions.md | estado: activo | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-03-11
+- brain/user-instructions.md | estado: base | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-03-08
 <!-- QUICK-DEEP:END -->
-
-
 
 

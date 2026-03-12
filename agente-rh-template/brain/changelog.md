@@ -1,5 +1,0 @@
-# Changelog
-
-## Registros
-
-- (sin registros)
