@@ -101,6 +101,74 @@ Describe 'bootstrap.ps1' {
   }
 }
 
+Describe 'log-decision.ps1' {
+  It 'registra una decision con todos los parametros explicitos' {
+    $workspace = New-TestWorkspace
+    try {
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\log-decision.ps1' -Arguments @(
+        '-Title', 'Titulo Test',
+        '-Context', 'Contexto Test',
+        '-Decision', 'Decision Test',
+        '-Consequences', 'Consecuencias Test',
+        '-Status', 'propuesta',
+        '-Id', 'DEC-TEST-01'
+      )
+
+      $result.ExitCode | Should Be 0
+      $decisionsRaw = Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\decisions.md'
+      $decisionsRaw | Should Match '### DEC-TEST-01'
+      $decisionsRaw | Should Match '- Estado: propuesta'
+      $decisionsRaw | Should Match '- Titulo: Titulo Test'
+      $decisionsRaw | Should Match 'Contexto Test'
+      $decisionsRaw | Should Match 'Decision Test'
+      $decisionsRaw | Should Match 'Consecuencias Test'
+
+      $changelogRaw = Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\changelog.md'
+      $changelogRaw | Should Match 'Decision registrada \(DEC-TEST-01\): Titulo Test'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+
+  It 'genera un Id automatico si no se provee' {
+    $workspace = New-TestWorkspace
+    try {
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\log-decision.ps1' -Arguments @(
+        '-Title', 'Titulo Auto',
+        '-Context', 'Contexto Auto',
+        '-Decision', 'Decision Auto',
+        '-Consequences', 'Consecuencias Auto'
+      )
+
+      $result.ExitCode | Should Be 0
+      $decisionsRaw = Get-WorkspaceFileRaw -Workspace $workspace -RelativePath 'brain\decisions.md'
+      $decisionsRaw | Should Match '### DEC-\d{8}-\d{6}'
+      $decisionsRaw | Should Match '- Estado: accepted'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+
+  It 'falla si los archivos base no existen' {
+    $workspace = New-TestWorkspace
+    try {
+      Remove-Item -LiteralPath (Join-Path $workspace 'brain\decisions.md') -Force
+
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\log-decision.ps1' -Arguments @(
+        '-Title', 'T',
+        '-Context', 'C',
+        '-Decision', 'D',
+        '-Consequences', 'C'
+      )
+
+      $result.ExitCode | Should Be 1
+      $result.Output | Should Match 'No existe'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
+}
+
 Describe 'update-brain-quick.ps1' {
   It 'mantiene la fase existente si no se pasa Phase' {
     $workspace = New-TestWorkspace
