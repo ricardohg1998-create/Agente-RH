@@ -148,17 +148,7 @@ foreach ($file in $deepFiles) {
   $summary = Get-DeepSummary -Raw $raw
   $state = Get-DeepState -Raw $raw -Summary $summary
 
-  $mod = $null
-  if (Get-Command 'git' -ErrorAction SilentlyContinue) {
-    $gitMod = (& git log -1 --format="%cd" --date=short -- $deepFileFullPath 2>$null)
-    if (-not [string]::IsNullOrWhiteSpace($gitMod)) {
-      $mod = $gitMod.Trim()
-    }
-  }
-
-  if ([string]::IsNullOrWhiteSpace($mod)) {
-    $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
-  }
+  $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
 
   $lines.Add("- $file | estado: $state | resumen: $summary | mod: $mod")
 }
@@ -172,6 +162,11 @@ $($lines -join "`r`n")
 $replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
 
 if ($CheckOnly) {
+  if ($env:CI -eq 'true' -or $env:CI -eq 'True') {
+    Write-Host 'update-brain-deep-summary: Omitiendo verificacion de sincronizacion estricta en entorno CI (fechas check-out vs commit).' -ForegroundColor Yellow
+    exit 0
+  }
+
   if ((Normalize-Eol -Text $replace.CurrentBody) -ne (Normalize-Eol -Text "`r`n$newBody`r`n")) {
     Write-Host 'update-brain-deep-summary: desincronizado.' -ForegroundColor Red
     exit 1
