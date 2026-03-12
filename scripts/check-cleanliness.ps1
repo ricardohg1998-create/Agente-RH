@@ -137,7 +137,22 @@ foreach ($hash in $hashBuckets.Keys) {
   $bucket = $hashBuckets[$hash]
   if ($bucket.Count -gt 1) {
     $rel = $bucket | ForEach-Object { Get-RelativePath -Root $repoRoot -FullPath $_ }
-    $issues.Add("Posible duplicado (recomendacion: consolidar): $($rel -join ', ')")
+
+    # Filter out known mirrored files from agente-rh-template
+    $filteredRel = New-Object System.Collections.Generic.List[string]
+    foreach ($path in $rel) {
+      if ($path -match '^agente-rh-template[\\/](.+)$') {
+        $rootEquivalent = $matches[1]
+        if ($rel -contains $rootEquivalent) {
+          continue
+        }
+      }
+      $filteredRel.Add($path)
+    }
+
+    if ($filteredRel.Count -gt 1) {
+      $issues.Add("Posible duplicado (recomendacion: consolidar): $($filteredRel -join ', ')")
+    }
   }
 }
 

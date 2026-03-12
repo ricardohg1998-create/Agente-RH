@@ -105,9 +105,7 @@ Describe 'generadores y validadores' {
     $workspace = New-TestWorkspace
     try {
       $readmePath = Join-Path $workspace 'README.md'
-      $readmeRaw = Get-Content -Path $readmePath -Raw
-      $readmeRaw += "`r`n`r`n[Enlace roto](docs/no-existe.md)`r`n"
-      Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeRaw
+      Add-Content -Path $readmePath -Value "`r`n`r`n[Enlace roto](docs/no-existe.md)`r`n" -NoNewline -Encoding utf8
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-links.ps1'
       $result.ExitCode | Should Be 1
@@ -121,9 +119,7 @@ Describe 'generadores y validadores' {
     $workspace = New-TestWorkspace
     try {
       $readmePath = Join-Path $workspace 'README.md'
-      $readmeRaw = Get-Content -Path $readmePath -Raw
-      $readmeRaw += "`r`n`r`nDependencias utiles: ``@mui/material``, ``@tailwindcss/postcss`` y ``scripts/run-checks.ps1``.`r`n"
-      Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeRaw
+      Add-Content -Path $readmePath -Value "`r`n`r`nDependencias utiles: ``@mui/material``, ``@tailwindcss/postcss`` y ``scripts/run-checks.ps1``.`r`n" -NoNewline -Encoding utf8
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-links.ps1'
       $result.ExitCode | Should Be 0
