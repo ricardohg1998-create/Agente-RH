@@ -157,6 +157,8 @@ if ($shouldPrepareProjectMetadata) {
   Write-Host "init-project: inicializacion terminada. Usa CLIs oficiales (npx, pip) para scaffolding de stack." -ForegroundColor Green
 }
 
+$updateBrainDeepSummaryScript = Join-Path $PSScriptRoot 'update-brain-deep-summary.ps1'
+Invoke-CheckedScript -ScriptPath $updateBrainDeepSummaryScript
 Invoke-CheckedScript -ScriptPath $runChecksScript
 
 if ($CreateInitialCommit) {

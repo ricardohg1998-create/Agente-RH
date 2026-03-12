@@ -1,4 +1,4 @@
-﻿# CATALOG
+# CATALOG
 
 Catalogo local generado automaticamente desde .agent/skills/.
 

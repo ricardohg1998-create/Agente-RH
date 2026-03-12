@@ -6,7 +6,8 @@ function New-TestWorkspace {
     [switch]$IncludeGit
   )
 
-  $workspace = Join-Path $env:TEMP ('agente-rh-tests-' + [guid]::NewGuid().ToString())
+  $tempDir = if ([string]::IsNullOrWhiteSpace($env:TEMP)) { '/tmp' } else { $env:TEMP }
+  $workspace = Join-Path $tempDir ('agente-rh-tests-' + [guid]::NewGuid().ToString())
   New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 
   Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
@@ -45,7 +46,7 @@ function Invoke-WorkspaceScript {
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-      $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
+      $output = & pwsh -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
       $exitCode = $LASTEXITCODE
     } catch {
       $output = @($_)
