@@ -105,9 +105,10 @@ Describe 'generadores y validadores' {
     $workspace = New-TestWorkspace
     try {
       $readmePath = Join-Path $workspace 'README.md'
-      $readmeRaw = Get-Content -Path $readmePath -Raw
-      $readmeRaw += "`r`n`r`n[Enlace roto](docs/no-existe.md)`r`n"
-      Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeRaw
+      $sb = New-Object System.Text.StringBuilder
+      [void]$sb.Append((Get-Content -Path $readmePath -Raw))
+      [void]$sb.Append("`r`n`r`n[Enlace roto](docs/no-existe.md)`r`n")
+      Set-Content -Path $readmePath -Encoding UTF8 -Value $sb.ToString()
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-links.ps1'
       $result.ExitCode | Should Be 1
@@ -121,9 +122,10 @@ Describe 'generadores y validadores' {
     $workspace = New-TestWorkspace
     try {
       $readmePath = Join-Path $workspace 'README.md'
-      $readmeRaw = Get-Content -Path $readmePath -Raw
-      $readmeRaw += "`r`n`r`nDependencias utiles: ``@mui/material``, ``@tailwindcss/postcss`` y ``scripts/run-checks.ps1``.`r`n"
-      Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeRaw
+      $sb = New-Object System.Text.StringBuilder
+      [void]$sb.Append((Get-Content -Path $readmePath -Raw))
+      [void]$sb.Append("`r`n`r`nDependencias utiles: ``@mui/material``, ``@tailwindcss/postcss`` y ``scripts/run-checks.ps1``.`r`n")
+      Set-Content -Path $readmePath -Encoding UTF8 -Value $sb.ToString()
 
       $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-links.ps1'
       $result.ExitCode | Should Be 0

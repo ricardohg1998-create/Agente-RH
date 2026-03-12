@@ -13,7 +13,7 @@ function Get-RelativeRepoPath {
 
   $prefix = $repoRoot
   if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
+    $prefix = $prefix + [System.IO.Path]::DirectorySeparatorChar
   }
 
   if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {

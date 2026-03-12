@@ -24,7 +24,7 @@ function Get-RelativePath {
 
   $rootWithSlash = $Root
   if (-not $rootWithSlash.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $rootWithSlash += [System.IO.Path]::DirectorySeparatorChar
+    $rootWithSlash = $rootWithSlash + [System.IO.Path]::DirectorySeparatorChar
   }
 
   if ($FullPath.StartsWith($rootWithSlash, [System.StringComparison]::OrdinalIgnoreCase)) {

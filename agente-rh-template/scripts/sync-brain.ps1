@@ -169,7 +169,7 @@ function Get-PlainSectionParagraph {
     return $null
   }
 
-  $lines = @()
+  $lines = New-Object System.Collections.Generic.List[string]
   foreach ($line in ($sectionBody -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) {
@@ -180,7 +180,7 @@ function Get-PlainSectionParagraph {
       continue
     }
 
-    $lines += $clean
+    [void]$lines.Add($clean)
   }
 
   if ($lines.Count -eq 0) {

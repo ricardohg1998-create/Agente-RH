@@ -19,7 +19,7 @@ function Get-RelativeRepoPath {
 
   $prefix = $repoRoot
   if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
+    $prefix = $prefix + [System.IO.Path]::DirectorySeparatorChar
   }
 
   if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
@@ -32,14 +32,14 @@ function Get-RelativeRepoPath {
 function Get-SectionParagraph {
   param([string]$Raw)
 
-  $lines = @()
+  $lines = New-Object System.Collections.Generic.List[string]
   foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
     if ($clean.StartsWith('#')) { continue }
     if ($clean.StartsWith('```')) { continue }
     if ($clean.StartsWith('---')) { continue }
-    $lines += $clean
+    [void]$lines.Add($clean)
   }
 
   if ($lines.Count -eq 0) {
