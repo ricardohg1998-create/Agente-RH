@@ -16,6 +16,7 @@ if ($null -eq $pesterModule) {
 }
 
 Import-Module $pesterModule.Path -Force
+. (Join-Path $testsPath 'TestHelpers.ps1')
 $majorVersion = [int]$pesterModule.Version.Major
 
 if ($majorVersion -ge 5) {
