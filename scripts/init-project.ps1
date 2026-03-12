@@ -157,6 +157,10 @@ if ($shouldPrepareProjectMetadata) {
   Write-Host "init-project: inicializacion terminada. Usa CLIs oficiales (npx, pip) para scaffolding de stack." -ForegroundColor Green
 }
 
+# Workaround para evitar fallos de desincronizacion de deep-summary
+# si sync-brain u otra operacion toco archivos en brain/ durante la init.
+& $psBin -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'update-brain-deep-summary.ps1') | Out-Null
+
 Invoke-CheckedScript -ScriptPath $runChecksScript
 
 if ($CreateInitialCommit) {

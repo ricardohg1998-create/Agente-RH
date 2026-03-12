@@ -10,7 +10,7 @@ function New-TestWorkspace {
   New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 
   Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
-    $IncludeGit -or $_.Name -ne '.git'
+    ($IncludeGit -or $_.Name -ne '.git') -and ($_.Name -ne 'agente-rh-template')
   } | ForEach-Object {
     Copy-Item -LiteralPath $_.FullName -Destination $workspace -Recurse -Force
   }
@@ -45,7 +45,7 @@ function Invoke-WorkspaceScript {
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-      $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
+      $output = & pwsh -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
       $exitCode = $LASTEXITCODE
     } catch {
       $output = @($_)
