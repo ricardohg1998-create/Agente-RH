@@ -18,6 +18,11 @@ if ($null -eq $pesterModule) {
 Import-Module $pesterModule.Path -Force
 $majorVersion = [int]$pesterModule.Version.Major
 
+$testHelpersPath = Join-Path $testsPath 'TestHelpers.ps1'
+if (Test-Path -LiteralPath $testHelpersPath -PathType Leaf) {
+  . $testHelpersPath
+}
+
 if ($majorVersion -ge 5) {
   $result = Invoke-Pester -Path $testScripts -PassThru
 } else {
