@@ -190,7 +190,8 @@ $dispatchCriteriaBody = ($workflows | ForEach-Object {
 
 $readmeUpdate = Get-MarkedSectionUpdate -Path $readmePath -StartMarker '<!-- GENERATED:README-WORKFLOWS:START -->' -EndMarker '<!-- GENERATED:README-WORKFLOWS:END -->' -NewBody $readmeWorkflowsBody
 $dispatchMapUpdate = Get-MarkedSectionUpdate -Path $dispatchPath -StartMarker '<!-- GENERATED:WORKFLOW-MAP:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-MAP:END -->' -NewBody $dispatchMapBody
-$dispatchTempPath = Join-Path $env:TEMP ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
+$tempDir = if ($env:TEMP) { $env:TEMP } else { '/tmp' }
+$dispatchTempPath = Join-Path $tempDir ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
 Set-Content -Path $dispatchTempPath -Encoding UTF8 -Value $dispatchMapUpdate.Updated
 try {
   $dispatchCriteriaUpdate = Get-MarkedSectionUpdate -Path $dispatchTempPath -StartMarker '<!-- GENERATED:WORKFLOW-DISPATCH:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-DISPATCH:END -->' -NewBody $dispatchCriteriaBody
