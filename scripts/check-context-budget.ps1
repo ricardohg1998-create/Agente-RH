@@ -5,6 +5,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+if (-not $repoRoot.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+  $repoRoot += [System.IO.Path]::DirectorySeparatorChar
+}
 
 function Resolve-RepoPath {
   param([string]$Path)
@@ -22,13 +25,8 @@ function Get-RelativePath {
     [string]$FullPath
   )
 
-  $rootWithSlash = $Root
-  if (-not $rootWithSlash.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $rootWithSlash += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($rootWithSlash, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return $FullPath.Substring($rootWithSlash.Length)
+  if ($FullPath.StartsWith($Root, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return $FullPath.Substring($Root.Length)
   }
 
   return $FullPath
