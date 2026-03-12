@@ -7,12 +7,8 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $catalogPath = Join-Path $repoRoot 'CATALOG.md'
 $skillsRoot = Join-Path $repoRoot '.agent/skills'
-
-function Normalize-Eol {
-  param([string]$Text)
-
-  return ($Text -replace "`r`n", "`n").Trim()
-}
+$textUtilsPath = Join-Path $PSScriptRoot 'lib/text-utils.ps1'
+. $textUtilsPath
 
 function Get-RelativeRepoPath {
   param([string]$FullPath)

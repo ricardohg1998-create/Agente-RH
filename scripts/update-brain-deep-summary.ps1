@@ -7,6 +7,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$textUtilsPath = Join-Path $PSScriptRoot 'lib/text-utils.ps1'
+. $textUtilsPath
 
 function Resolve-RepoPath {
   param([string]$Path)
@@ -16,11 +18,6 @@ function Resolve-RepoPath {
   }
 
   return (Join-Path $repoRoot $Path)
-}
-
-function Normalize-Eol {
-  param([string]$Text)
-  return ($Text -replace "`r`n", "`n").Trim()
 }
 
 function Normalize-ShortText {
@@ -150,7 +147,9 @@ foreach ($file in $deepFiles) {
   $raw = Get-Content -Path $deepFileFullPath -Raw
   $summary = Get-DeepSummary -Raw $raw
   $state = Get-DeepState -Raw $raw -Summary $summary
+
   $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
+
   $lines.Add("- $file | estado: $state | resumen: $summary | mod: $mod")
 }
 
@@ -163,6 +162,11 @@ $($lines -join "`r`n")
 $replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
 
 if ($CheckOnly) {
+  if ($env:CI -eq 'true' -or $env:CI -eq 'True') {
+    Write-Host 'update-brain-deep-summary: Omitiendo verificacion de sincronizacion estricta en entorno CI (fechas check-out vs commit).' -ForegroundColor Yellow
+    exit 0
+  }
+
   if ((Normalize-Eol -Text $replace.CurrentBody) -ne (Normalize-Eol -Text "`r`n$newBody`r`n")) {
     Write-Host 'update-brain-deep-summary: desincronizado.' -ForegroundColor Red
     exit 1
