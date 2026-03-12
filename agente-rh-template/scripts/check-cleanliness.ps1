@@ -33,8 +33,7 @@ function Get-RelativePath {
 }
 
 $excludedAbsolutePaths = @(
-  $(Normalize-ComparablePath -Path (Join-Path $repoRoot '.agent\local')),
-  $(Normalize-ComparablePath -Path (Join-Path $repoRoot 'agente-rh-template'))
+  $(Normalize-ComparablePath -Path (Join-Path $repoRoot '.agent\local'))
 )
 
 function Should-SkipDirectory {
