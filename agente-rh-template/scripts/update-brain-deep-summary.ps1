@@ -37,7 +37,7 @@ function Get-DeepSummary {
 
   $placeholderRegex = '(?i)\(sin registros\)|\(pendiente definir\)|\(sin definir\)|\(sin novedades\)|\bsin registros\b|\bpendiente definir\b|\bsin definir\b'
 
-  $lines = @()
+  $lines = New-Object System.Collections.Generic.List[string]
   foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
@@ -51,7 +51,7 @@ function Get-DeepSummary {
     $item = Normalize-ShortText -Text $item
     if ([string]::IsNullOrWhiteSpace($item)) { continue }
     if ($item -match $placeholderRegex) { continue }
-    $lines += $item
+    $lines.Add($item)
   }
 
   if ($lines.Count -eq 0) {
