@@ -32,14 +32,14 @@ function Get-RelativeRepoPath {
 function Get-SectionParagraph {
   param([string]$Raw)
 
-  $lines = @()
+  $lines = New-Object System.Collections.Generic.List[string]
   foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
     if ($clean.StartsWith('#')) { continue }
     if ($clean.StartsWith('```')) { continue }
     if ($clean.StartsWith('---')) { continue }
-    $lines += $clean
+    $lines.Add($clean)
   }
 
   if ($lines.Count -eq 0) {
