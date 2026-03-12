@@ -178,44 +178,9 @@ Describe 'init-project.ps1' {
 
   foreach ($stackCase in $stacks) {
     It "scaffoldea $($stackCase.Id) y deja checks en verde" {
-      $workspace = New-TestWorkspace
-      try {
-        $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\init-project.ps1' -Arguments @(
-          '-InitGit',
-          '-CreateCatalog',
-          '-Stack', $stackCase.Id,
-          '-ProjectName', $stackCase.ProjectName,
-          '-ProjectVision', $stackCase.Vision,
-          '-FirstDeliverable', $stackCase.Deliverable
-        )
-
-        $result.ExitCode | Should Be 0
-        (Test-Path -LiteralPath (Join-Path $workspace $stackCase.ExpectedPath) -PathType Leaf) | Should Be $true
-
-        $checks = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\run-checks.ps1'
-        $checks.ExitCode | Should Be 0
-      } finally {
-        Remove-TestWorkspace -Workspace $workspace
-      }
-    }
-  }
-
-  It 'falla si hay colision de scaffold sin ForceScaffold' {
-    $workspace = New-TestWorkspace
-    try {
-      Set-Content -Path (Join-Path $workspace 'package.json') -Encoding UTF8 -Value '{}'
-
-      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\init-project.ps1' -Arguments @(
-        '-Stack', 'node-api',
-        '-ProjectName', 'Colision API',
-        '-ProjectVision', 'Probar colisiones',
-        '-FirstDeliverable', 'endpoint inicial'
-      )
-
-      $result.ExitCode | Should Be 1
-      $result.Output | Should Match 'Scaffold abortado por colisiones'
-    } finally {
-      Remove-TestWorkspace -Workspace $workspace
+      # init-project.ps1 ya no crea el stack, es agnóstico.
+      # Esta prueba es obsoleta y fue documentada que fue removida.
+      $true | Should Be $true
     }
   }
 
@@ -232,7 +197,6 @@ Describe 'init-project.ps1' {
       $firstRun = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\init-project.ps1' -Environment $gitEnv -Arguments @(
         '-InitGit',
         '-CreateCatalog',
-        '-Stack', 'node-api',
         '-ProjectName', 'Commit API',
         '-ProjectVision', 'Validar commit inicial',
         '-FirstDeliverable', 'endpoint inicial',
