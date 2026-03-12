@@ -30,7 +30,7 @@ function Invoke-WorkspaceScript {
   )
 
   $scriptPath = Join-Path $Workspace $RelativeScript
-  $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
+  $output = & pwsh -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
   $exitCode = $LASTEXITCODE
 
   return [pscustomobject]@{

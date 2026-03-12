@@ -151,6 +151,7 @@ if ($shouldPrepareProjectMetadata) {
     ProjectVision = $ProjectVision
     ProjectGoals  = @("Entregar $FirstDeliverable")
     ScopeIn       = @("Estructura inicial operativa construida")
+    SyncDeepSummary = $true
   }
 
   & $syncBrainScript @syncParams
