@@ -10,12 +10,8 @@ $templatePath = Join-Path $repoRoot '.agent/templates/workflow-quick-layer-snipp
 $readmePath = Join-Path $repoRoot 'README.md'
 $dispatchPath = Join-Path $repoRoot '.agent/rules/workflow-dispatch.md'
 $indexPath = Join-Path $repoRoot 'brain/workflows-index.md'
-
-function Normalize-Eol {
-  param([string]$Text)
-
-  return ($Text -replace "`r`n", "`n").Trim()
-}
+$textUtilsPath = Join-Path $PSScriptRoot 'lib/text-utils.ps1'
+. $textUtilsPath
 
 function Get-RelativeRepoPath {
   param([string]$FullPath)

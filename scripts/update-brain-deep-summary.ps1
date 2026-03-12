@@ -7,6 +7,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$textUtilsPath = Join-Path $PSScriptRoot 'lib/text-utils.ps1'
+. $textUtilsPath
 
 function Resolve-RepoPath {
   param([string]$Path)
@@ -16,11 +18,6 @@ function Resolve-RepoPath {
   }
 
   return (Join-Path $repoRoot $Path)
-}
-
-function Normalize-Eol {
-  param([string]$Text)
-  return ($Text -replace "`r`n", "`n").Trim()
 }
 
 function Normalize-ShortText {
