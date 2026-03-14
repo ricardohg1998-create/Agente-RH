@@ -65,3 +65,4 @@ Ejecutar una revision extrema, hipercritica y util del proyecto o modulo, con fo
 - Leer: `brain/current-state.md`, `brain/architecture.md`, `brain/technical-debt.md`, `brain/pitfalls-and-errors.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/technical-debt.md`, `brain/backlog.md`, `brain/changelog.md`.
 
+

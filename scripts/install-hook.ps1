@@ -28,7 +28,8 @@ $lines = @(
   '  exit 1',
   'fi',
   '',
-  '"$PS_BIN" -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1'
+  '"$PS_BIN" -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1',
+  '"$PS_BIN" -NoProfile -ExecutionPolicy Bypass -File scripts/check-context-budget.ps1'
 )
 
 $content = ($lines -join "`n")

@@ -88,3 +88,5 @@ Tras ejecutar workflow, actualizar:
 Ademas del workflow elegido, aplicar siempre la regla `context-budget` para mantener salida concisa y evitar deriva documental.
 
 
+
+

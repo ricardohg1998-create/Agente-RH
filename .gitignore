@@ -47,3 +47,11 @@ node_modules/
 
 # Artefactos locales del agente (no versionar)
 .agent/local/
+
+# Generales y Bases de Datos
+logs/
+data/
+.opencode/
+dev.db
+*.sqlite
+*.sqlite3

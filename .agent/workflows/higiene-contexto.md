@@ -63,3 +63,4 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/workflows-index.md`, `brain/changelog.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/changelog.md`, `brain/archive/` (si aplica).
 
+

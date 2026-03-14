@@ -154,3 +154,4 @@ Guia de higiene: `docs/repo-hygiene.md`.
 
 Ver `docs/handoff-checklist.md`.
 
+

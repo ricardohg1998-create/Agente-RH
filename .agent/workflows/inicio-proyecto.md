@@ -57,3 +57,4 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/project-overview.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/project-overview.md`, `brain/architecture.md`, `brain/decisions.md`, `brain/skills-available.md`, `brain/changelog.md`.
 
+

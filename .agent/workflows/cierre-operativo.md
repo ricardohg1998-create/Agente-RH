@@ -62,3 +62,4 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`, `brain/milestones.md` (si aplica).
 
+

@@ -67,3 +67,4 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/pitfalls-and-errors.md`, `brain/technical-debt.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/pitfalls-and-errors.md`, `brain/backlog.md`, `brain/changelog.md`.
 
+

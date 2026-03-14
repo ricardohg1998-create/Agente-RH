@@ -22,6 +22,7 @@ $excludeList = @(
     '.gemini',
     'node_modules',
     '.venv',
+    'brain/session_logs',
     '*.tmp',
     '*.log'
 )
@@ -30,7 +31,7 @@ $robocopyArgs = @(
     $repoRoot,
     $targetDir,
     '/S',
-    '/XD', '.git', '.agent\local', 'agente-rh-template', '.gemini', 'node_modules', '.venv',
+    '/XD', '.git', '.agent\local', 'agente-rh-template', '.gemini', 'node_modules', '.venv', 'brain\session_logs',
     '/XF', '*.tmp', '*.log',
     '/NFL', '/NDL', '/NJH', '/NJS', '/nc', '/ns', '/np'
 )

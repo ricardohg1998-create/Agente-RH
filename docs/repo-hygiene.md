@@ -1,25 +1,9 @@
-﻿# Higiene del repositorio
+# Higiene del repositorio
 
-## Objetivo
+> **NOTA IMPORTANTE:**
+> Las reglas de higiene han sido consolidadas para evitar duplicidad. 
+> La única fuente de verdad y reglas operativas para el agente y humanos sobre la higiene se encuentra en:
+> 
+> [**`.agent/rules/repo-hygiene.md`**](../.agent/rules/repo-hygiene.md)
 
-Mantener el repo legible, mantenible y sin residuos.
-
-## Reglas
-
-- No crear archivos temporales persistentes.
-- Reutilizar archivos y rutas existentes antes de abrir nuevos.
-- Evitar duplicar contexto en multiples markdowns.
-- Archivar historico util en `brain/archive/`.
-- Borrar residuos sin valor historico.
-
-## Comandos
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-context-budget.ps1
-```
-
-## Criterio rapido
-
-- Archivar: decisiones viejas, informes cerrados con valor historico.
-- Borrar: `.tmp`, `.bak`, logs, snapshots de prueba sin uso.
+*Por favor, consulta ese archivo para las guías de archivado, borrado, limpieza de contexto y operaciones de mantenimiento.*
