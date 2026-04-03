@@ -141,6 +141,7 @@ function Parse-Workflow {
   $idMatch = [regex]::Match($frontMatter, '(?m)^id:\s*(.+?)\s*$')
   $nameMatch = [regex]::Match($frontMatter, '(?m)^name:\s*(.+?)\s*$')
   $versionMatch = [regex]::Match($frontMatter, '(?m)^version:\s*(.+?)\s*$')
+  $descriptionMatch = [regex]::Match($frontMatter, '(?m)^description:\s*(.+?)\s*$')
   $modesMatch = [regex]::Match($frontMatter, '(?m)^modes:\s*(.+?)\s*$')
   $modeMatch = [regex]::Match($frontMatter, '(?m)^mode:\s*(.+?)\s*$')
 
@@ -149,13 +150,14 @@ function Parse-Workflow {
   }
 
   $modes = if ($modesMatch.Success) { $modesMatch.Groups[1].Value.Trim() } elseif ($modeMatch.Success) { $modeMatch.Groups[1].Value.Trim() } else { 'sin definir' }
+  $summary = if ($descriptionMatch.Success) { $descriptionMatch.Groups[1].Value.Trim() } else { Get-FirstParagraph -Body $body -Heading 'Proposito' }
 
   return [pscustomobject]@{
     Id = $idMatch.Groups[1].Value.Trim()
     Name = $nameMatch.Groups[1].Value.Trim()
     Version = if ($versionMatch.Success) { $versionMatch.Groups[1].Value.Trim() } else { 'sin definir' }
     Modes = $modes
-    Summary = Get-FirstParagraph -Body $body -Heading 'Proposito'
+    Summary = $summary
     Trigger = Get-FirstBullet -Body $body -Heading 'Cuando usarlo'
     RelativePath = Get-RelativeRepoPath -FullPath $File.FullName
     FullPath = $File.FullName

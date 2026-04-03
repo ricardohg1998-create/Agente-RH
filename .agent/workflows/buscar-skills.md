@@ -1,7 +1,8 @@
-﻿---
+---
 id: buscar-skills
 name: Buscar skills
-version: 1.0.0
+description: Seleccionar e instalar el conjunto minimo util de skills para el stack real del proyecto, sin ruido ni redundancias.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -65,5 +66,4 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 npx skills add "<ruta_repo_skills>" -g -a antigravity --copy -y -s <skills...>
 npx skills list -g -a antigravity
 ```
-
 

@@ -4,6 +4,7 @@ param(
   [string]$Id,
   [Parameter(Mandatory=$true)]
   [string]$Title,
+  [string]$Description = '',
   [switch]$UpdateDocs
 )
 
@@ -11,6 +12,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $workflowsDir = Join-Path $repoRoot '.agent\workflows'
 $workflowFile = Join-Path $workflowsDir "$Id.md"
+$templatePath = Join-Path $repoRoot '.agent\templates\workflow-quick-layer-snippet.md'
 
 if (-not (Test-Path -LiteralPath $workflowsDir -PathType Container)) {
   New-Item -ItemType Directory -Path $workflowsDir -Force | Out-Null
@@ -20,32 +22,70 @@ if (Test-Path -LiteralPath $workflowFile -PathType Leaf) {
   throw "El workflow '$Id' ya existe en $workflowFile"
 }
 
+$quickLayerSnippet = ''
+if (Test-Path -LiteralPath $templatePath -PathType Leaf) {
+  $quickLayerSnippet = (Get-Content -Path $templatePath -Raw).Trim()
+}
+
+if ([string]::IsNullOrWhiteSpace($Description)) {
+  $Description = "(pendiente de definir)"
+}
+
 $content = @"
 ---
 id: $Id
 name: $Title
-activation: model-decision
+description: $Description
 version: 1.0.0
+modes: [planning, execution]
 ---
 
-# $Title
+# Workflow: $Title
 
-<objective>
-## Goal
-Definir claramente el objetivo principal de este workflow.
-</objective>
+## Proposito
 
-<context>
-## Contexto o Pre-requisitos
-- ¿Cuándo y por qué se usa este workflow?
-</context>
+$Description
 
-<instructions>
-## Steps
-1. **Analizar la situación.**
-2. **Ejecutar pasos resolutivos.**
-3. **Validar y cerrar.**
-</instructions>
+## Cuando usarlo
+
+- (definir situaciones en las que se activa este workflow)
+
+## Input esperado
+
+- Alcance concreto.
+- Objetivo.
+- Restricciones (tiempo, riesgo, compatibilidad).
+
+## Politica de lectura de memoria
+
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
+$quickLayerSnippet
+<!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
+- Expandir a capa profunda solo si hay gatillos de contexto.
+
+## Pasos internos
+
+1. Leer capa rapida.
+2. Expandir a capa profunda si hay gatillos.
+3. (definir pasos resolutivos)
+4. Emitir output obligatorio.
+
+## Output obligatorio
+
+1. Diagnostico general.
+2. Hallazgos priorizados.
+3. Plan de accion.
+4. Riesgos y dudas abiertas.
+
+## Criterios de calidad
+
+- Cada hallazgo con evidencia y accion concreta.
+- Priorizacion defendible tecnicamente.
+
+## Brain read/write
+
+- Leer: ``brain/now.md``, ``brain/current-state.md``, ``brain/stack.md``, ``brain/deep-summary.md``.
+- Escribir: ``brain/now.md``, ``brain/current-state.md``, ``brain/deep-summary.md``, ``brain/changelog.md``.
 "@
 
 Set-Content -Path $workflowFile -Encoding UTF8 -Value $content

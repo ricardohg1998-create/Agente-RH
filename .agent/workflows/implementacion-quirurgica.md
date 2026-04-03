@@ -1,7 +1,8 @@
-﻿---
+---
 id: implementacion-quirurgica
 name: Implementacion quirurgica
-version: 1.0.0
+description: Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, sin saltos de complejidad.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -64,5 +65,4 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/architecture.md`, `brain/backlog.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/open-questions.md`, `brain/changelog.md`.
-
 

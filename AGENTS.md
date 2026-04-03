@@ -1,4 +1,4 @@
-﻿# AGENTS.md
+# AGENTS.md
 
 Este archivo define reglas de colaboracion para agentes en este repo.
 
@@ -45,3 +45,11 @@ Este repo esta alineado con Antigravity:
 
 - `ms-python.python`
 - `ms-azuretools.vscode-docker`
+
+## Infraestructura de producción (Template)
+
+- **Servidor**: [Por definir]
+- **BBDD**: [Por definir]. Credenciales en `brain/access.md` u otro sistema.
+- **SSH/Deploy**: [Por definir].
+- **Errores conocidos**: Leer SIEMPRE `brain/pitfalls-and-errors.md` antes de despliegue.
+- **Deuda técnica activa**: Consultar `brain/technical-debt.md`.

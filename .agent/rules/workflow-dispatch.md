@@ -14,14 +14,16 @@ Seleccionar workflow correcto y mantener salida accionable.
 ## Workflow map
 
 <!-- GENERATED:WORKFLOW-MAP:START -->
-- `Autista cafeinado` (`autista-cafeinado`): Ejecutar una revision extrema, hipercritica y util del proyecto o modulo, con foco en defectos, deuda y coherencia de producto/arquitectura.
+- `Autista cafeinado` (`autista-cafeinado`): Revision obsesiva, hiper-detallada y profunda del proyecto con critica constructiva despiadada y un Implementation Plan completo de mejoras.
 - `Buscar skills` (`buscar-skills`): Seleccionar e instalar el conjunto minimo util de skills para el stack real del proyecto, sin ruido ni redundancias.
 - `Cierre operativo` (`cierre-operativo`): Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
-- `Desarrollador de profundidad` (`desarrollador-profundidad`): Detectar falta de profundidad real en UX, flujos, rutas, contenido funcional y propuesta de valor.
+- `Code Review` (`code-review`): Revision tecnica de codigo desde un archivo hasta el repo completo, con foco en seguridad, credenciales, APIs y auth.
+- `Desarrollador de profundidad` (`desarrollador-profundidad`): Detector exhaustivo de falta de profundidad en UX, flujos, contenido y funcionalidad, con Implementation Plan completisimo.
 - `Higiene de contexto` (`higiene-contexto`): Reducir deriva documental y consumo innecesario de contexto manteniendo la memoria operativa util y compacta.
 - `Implementacion quirurgica` (`implementacion-quirurgica`): Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, sin saltos de complejidad.
 - `Inicio de proyecto` (`inicio-proyecto`): Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, con estado verificable y cerebro actualizado.
-- `Mr Problem Solver` (`mr-problem-solver`): Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con contencion y validacion.
+- `Mr Problem Solver` (`mr-problem-solver`): Resolver incidentes de forma sistematica, del sintoma a la causa raiz, con contencion y validacion.
+- `Retrospectiva` (`retrospectiva`): Analizar que funciono, que fallo y que mejorar al cierre de un ciclo de trabajo.
 <!-- GENERATED:WORKFLOW-MAP:END -->
 
 ## Dispatch criteria
@@ -30,11 +32,13 @@ Seleccionar workflow correcto y mantener salida accionable.
 - Usar `Autista cafeinado` (`autista-cafeinado`) cuando: Antes de release relevante.
 - Usar `Buscar skills` (`buscar-skills`) cuando: Inicio de proyecto nuevo.
 - Usar `Cierre operativo` (`cierre-operativo`) cuando: Al terminar una tarea tecnica o documental.
+- Usar `Code Review` (`code-review`) cuando: Antes de merge o deploy.
 - Usar `Desarrollador de profundidad` (`desarrollador-profundidad`) cuando: Producto parece incompleto o superficial.
 - Usar `Higiene de contexto` (`higiene-contexto`) cuando: Se detecta ruido, duplicidad o documentos largos sin accion.
 - Usar `Implementacion quirurgica` (`implementacion-quirurgica`) cuando: Se pide desglose de implementacion paso a paso.
 - Usar `Inicio de proyecto` (`inicio-proyecto`) cuando: Repo recien clonado con esqueleto base.
 - Usar `Mr Problem Solver` (`mr-problem-solver`) cuando: Hay errores, caidas, regresiones o comportamiento inestable.
+- Usar `Retrospectiva` (`retrospectiva`) cuando: Al cerrar un hito, fase o sprint relevante.
 <!-- GENERATED:WORKFLOW-DISPATCH:END -->
 
 ## Priority and tie-break
@@ -86,6 +90,8 @@ Tras ejecutar workflow, actualizar:
 ## Context budget
 
 Ademas del workflow elegido, aplicar siempre la regla `context-budget` para mantener salida concisa y evitar deriva documental.
+
+
 
 
 

@@ -1,4 +1,4 @@
-﻿# Prompts eficientes y control de contexto
+# Prompts eficientes y control de contexto
 
 ## Principios
 
@@ -45,8 +45,8 @@
 
 - Si un documento crece mucho, resumir y mover detalle a archivo profundo.
 - No duplicar el mismo parrafo largo en varios archivos.
-- Mantener `now.md`, `current-state.md`, `stack.md` y `deep-summary.md` cortos y accionables.
-- Si cambias cualquier archivo profundo, actualiza `deep-summary.md` en la misma tarea.
+- Mantener `brain/now.md`, `brain/current-state.md`, `brain/stack.md` y `brain/deep-summary.md` cortos y accionables.
+- Si cambias cualquier archivo profundo, actualiza `brain/deep-summary.md` en la misma tarea.
 
 ## Check tecnico
 

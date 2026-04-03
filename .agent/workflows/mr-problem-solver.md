@@ -1,7 +1,8 @@
-﻿---
+---
 id: mr-problem-solver
 name: Mr Problem Solver
-version: 1.0.0
+description: Resolver incidentes de forma sistematica, del sintoma a la causa raiz, con contencion y validacion.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -66,5 +67,4 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/pitfalls-and-errors.md`, `brain/technical-debt.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/pitfalls-and-errors.md`, `brain/backlog.md`, `brain/changelog.md`.
-
 

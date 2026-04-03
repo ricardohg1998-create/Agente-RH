@@ -40,6 +40,8 @@
     ".agent/workflows/implementacion-quirurgica.md",
     ".agent/workflows/inicio-proyecto.md",
     ".agent/workflows/mr-problem-solver.md",
+    ".agent/workflows/code-review.md",
+    ".agent/workflows/retrospectiva.md",
     ".agent/templates/decision-template.md",
     ".agent/templates/bug-finding-template.md",
     ".agent/templates/implementation-plan-template.md",

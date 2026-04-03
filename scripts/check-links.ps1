@@ -44,6 +44,8 @@ function Test-IgnoreLinkTarget {
   if ($Target.StartsWith('/')) { return $true }
   if ($Target -match '^(?i)(https?|mailto|tel):') { return $true }
   if ($Target -like '<*') { return $true }
+  if ($Target -like '~*') { return $true }
+  if ($Target -like '$*') { return $true }
   return $false
 }
 
@@ -63,6 +65,7 @@ function Test-PathToken {
   $clean = $clean -replace '\\', '/'
   $clean = $clean -replace '#.*$', ''
   $clean = $clean -replace ':\d+(?::\d+)?$', ''
+  if ($clean -match '[<>|"*?]') { return }
 
   if (Test-IgnoreLinkTarget -Target $clean) {
     return
@@ -94,11 +97,15 @@ foreach ($root in @('docs', 'brain', '.agent')) {
   $fullRoot = Join-Path $repoRoot $root
   if (-not (Test-Path -LiteralPath $fullRoot -PathType Container)) { continue }
   Get-ChildItem -Path $fullRoot -Recurse -Filter *.md -File | ForEach-Object {
-    [void]$filesToScan.Add($_.FullName)
+    # Eliminar escaneo de skills (suelen contener links de ejemplo)
+    if ($_.FullName -notmatch '[\\/]\.agent[\\/]skills[\\/]') {
+      [void]$filesToScan.Add($_.FullName)
+    }
   }
 }
 
 foreach ($file in ($filesToScan | Sort-Object -Unique)) {
+  Write-Host "Scanning: $($file)" -ForegroundColor Cyan
   $raw = Get-Content -Path $file -Raw
   $rawWithoutCodeBlocks = [regex]::Replace($raw, '(?s)```.*?```', ' ')
 
@@ -108,11 +115,10 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
   }
 
   foreach ($codeMatch in [regex]::Matches($rawWithoutCodeBlocks, '(?<!`)`(?<code>[^`\r\n]+)`(?!`)')) {
-    $code = $codeMatch.Groups['code'].Value
-    foreach ($tokenMatch in [regex]::Matches($code, '(?<token>(?:\.{0,2}/)?(?:[A-Za-z0-9_.-]+[\\/])+[A-Za-z0-9_.-]+(?:\.[A-Za-z0-9_.-]+)?)')) {
-      $token = $tokenMatch.Groups['token'].Value
-      Test-PathToken -SourcePath $file -Token $token -ResolveRelativeToSource $false
-    }
+    $token = $codeMatch.Groups['code'].Value.Trim()
+    if ($token -notmatch '[\\/]' -and $token -notmatch '\.(md|ps1|json|ya?ml|sh|txt)$') { continue }
+    if ($token -match '^(?:implementation_plan\.md|task\.md|walkthrough\.md)$') { continue }
+    Test-PathToken -SourcePath $file -Token $token -ResolveRelativeToSource $false
   }
 }
 

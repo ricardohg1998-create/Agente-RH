@@ -20,49 +20,18 @@ $checks = @(
 
 $failed = $false
 
-# Detect PowerShell version. We only do parallel if PS >= 7
-$psVer = $PSVersionTable.PSVersion
-
-if ($psVer.Major -ge 7) {
-  Write-Host "run-checks: PowerShell 7+ detectado. Ejecutando checks en paralelo..." -ForegroundColor Cyan
-  $results = $checks | ForEach-Object -Parallel {
-    $arguments = @()
-    if ($_.ContainsKey('Arguments')) {
-      $arguments = @($_.Arguments)
-    }
-    
-    $proc = Start-Process -FilePath $using:psBin -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $_.Script, $arguments) -NoNewWindow -PassThru -Wait
-    $exitCode = $proc.ExitCode
-    
-    [PSCustomObject]@{
-      Name = $_.Name
-      ExitCode = $exitCode
-    }
-  } -ThrottleLimit 4
-
-  foreach ($res in $results) {
-    if ($res.ExitCode -ne 0) {
-      Write-Host "run-checks: fallo en $($res.Name) (exit=$($res.ExitCode))" -ForegroundColor Red
-      $failed = $true
-    } else {
-      Write-Host "run-checks: $($res.Name) finalizó OK." -ForegroundColor Green
-    }
+foreach ($check in $checks) {
+  Write-Host "run-checks: ejecutando $($check.Name)..." -ForegroundColor Cyan
+  $arguments = @()
+  if ($check.ContainsKey('Arguments')) {
+    $arguments = @($check.Arguments)
   }
-} else {
-  Write-Host "run-checks: PowerShell v$($psVer.Major) detectado. Ejecutando checks secuencialmente..." -ForegroundColor Cyan
-  foreach ($check in $checks) {
-    Write-Host "run-checks: ejecutando $($check.Name)..." -ForegroundColor Cyan
-    $arguments = @()
-    if ($check.ContainsKey('Arguments')) {
-      $arguments = @($check.Arguments)
-    }
-    & $psBin -NoProfile -ExecutionPolicy Bypass -File $check.Script @arguments
-    $exitCode = $LASTEXITCODE
-    if ($exitCode -ne 0) {
-      Write-Host "run-checks: fallo en $($check.Name) (exit=$exitCode)" -ForegroundColor Red
-      $failed = $true
-      # Continuamos ejecutando los demás para tener reporte completo
-    }
+  & $psBin -NoProfile -ExecutionPolicy Bypass -File $check.Script @arguments
+  $exitCode = $LASTEXITCODE
+  if ($exitCode -ne 0) {
+    Write-Host "run-checks: fallo en $($check.Name) (exit=$exitCode)" -ForegroundColor Red
+    $failed = $true
+    break
   }
 }
 

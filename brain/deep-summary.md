@@ -12,11 +12,12 @@
 - brain/technical-debt.md | estado: base | resumen: sin novedades | mod: 2026-03-10
 - brain/pitfalls-and-errors.md | estado: base | resumen: sin novedades | mod: 2026-03-08
 - brain/ideas.md | estado: base | resumen: sin novedades | mod: 2026-03-08
-- brain/changelog.md | estado: base | resumen: sin novedades | mod: 2026-03-11
+- brain/changelog.md | estado: activo | resumen: **2026-03-21**: Finalizado el retroceso de mejoras (Backport) desde el proyecto derivado c... | mod: 2026-03-21
 - brain/skills-available.md | estado: base | resumen: Config en .agent/config/skills-sources.json. | mod: 2026-03-10
-- brain/workflows-index.md | estado: activo | resumen: Autista cafeinado (autista-cafeinado) -> Ejecutar una revision extrema, hipercritica y uti... | mod: 2026-03-14
+- brain/workflows-index.md | estado: activo | resumen: Autista cafeinado (autista-cafeinado) -> Revision obsesiva, hiper-detallada y profunda del... | mod: 2026-04-03
 - brain/user-instructions.md | estado: activo | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-03-14
 <!-- QUICK-DEEP:END -->
+
 
 
 

@@ -1,7 +1,8 @@
-﻿---
+---
 id: inicio-proyecto
 name: Inicio de proyecto
-version: 1.0.0
+description: Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, con estado verificable y cerebro actualizado.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -44,7 +45,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 7. Actualizar `brain/architecture.md` con estructura real del proyecto.
 8. Actualizar capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 9. Ejecutar `scripts/run-checks.ps1` -> todo en verde.
-8. Primer commit verificable.
+10. Primer commit verificable.
 
 ## Criterios de calidad
 
@@ -56,5 +57,4 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/project-overview.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/project-overview.md`, `brain/architecture.md`, `brain/decisions.md`, `brain/skills-available.md`, `brain/changelog.md`.
-
 

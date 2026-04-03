@@ -1,7 +1,8 @@
-﻿---
+---
 id: cierre-operativo
 name: Cierre operativo
-version: 1.0.0
+description: Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -61,5 +62,4 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`, `brain/milestones.md` (si aplica).
-
 

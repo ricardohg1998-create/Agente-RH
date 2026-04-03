@@ -1,7 +1,8 @@
-﻿---
+---
 id: higiene-contexto
 name: Higiene de contexto
-version: 1.0.0
+description: Reducir deriva documental y consumo innecesario de contexto manteniendo la memoria operativa util y compacta.
+version: 1.1.0
 modes: [planning, execution]
 ---
 
@@ -62,5 +63,4 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 
 - Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/workflows-index.md`, `brain/changelog.md`.
 - Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/changelog.md`, `brain/archive/` (si aplica).
-
 
