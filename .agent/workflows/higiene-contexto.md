@@ -42,6 +42,14 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 6. Verificar alineacion con `context-budget` y `repo-hygiene`.
 7. Emitir plan de limpieza priorizado.
 
+## Herramientas sugeridas
+
+- **Auditar estructura documental**: `list_dir` recursivo de `brain/`, `.agent/`, `docs/` para mapear todo el contenido.
+- **Detectar duplicidades**: `grep_search` con frases clave de documentos sospechosos para encontrar texto repetido entre archivos.
+- **Medir tamano de documentos**: `view_file` para evaluar longitud y densidad de informacion util vs relleno.
+- **Verificar presupuesto de contexto**: `run_command` con `scripts/check-context-budget.ps1` para obtener metricas objetivas.
+- **Verificar cross-references**: `run_command` con `scripts/check-crossrefs.ps1` para detectar enlaces rotos.
+
 ## Output obligatorio
 
 1. Diagnostico de deriva documental.
@@ -58,6 +66,12 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 - Mantener una sola fuente vigente por tema.
 - Priorizar claridad operativa sobre volumen de texto.
 - No borrar historial con valor tecnico sin alternativa.
+
+## Composicion
+
+- **Suele preceder a**: `cierre-operativo`.
+- **Suele seguir a**: `retrospectiva`, `autista-cafeinado`.
+- **Workflow sugerido al completar**: `cierre-operativo` (para cerrar la tarea de limpieza).
 
 ## Brain read/write
 

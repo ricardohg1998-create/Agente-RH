@@ -1,4 +1,4 @@
-# Repo Base Operativo para Agente (Antigravity + Win11)
+﻿# Repo Base Operativo para Agente (Antigravity + Win11)
 
 Este repositorio es un esqueleto operativo, listo para clonar y arrancar, para proyectos de desarrollo asistidos por agente.
 
@@ -104,7 +104,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/add-instruction.ps1 
 - `Implementacion quirurgica` (id: implementacion-quirurgica) -> `.agent/workflows/implementacion-quirurgica.md`
 - `Inicio de proyecto` (id: inicio-proyecto) -> `.agent/workflows/inicio-proyecto.md`
 - `Mr Problem Solver` (id: mr-problem-solver) -> `.agent/workflows/mr-problem-solver.md`
+- `Pre-lanzamiento` (id: pre-release) -> `.agent/workflows/pre-release.md`
+- `QA y Pruebas` (id: qa-testing) -> `.agent/workflows/qa-testing.md`
 - `Retrospectiva` (id: retrospectiva) -> `.agent/workflows/retrospectiva.md`
+- `Spike de investigacion` (id: spike-investigacion) -> `.agent/workflows/spike-investigacion.md`
 <!-- GENERATED:README-WORKFLOWS:END -->
 
 Regla de dispatch clave: incidentes (errores/caidas/regresiones) priorizan `mr-problem-solver`.
@@ -155,6 +158,7 @@ Guia de higiene: `docs/repo-hygiene.md`.
 ## Checklist de handoff
 
 Ver `docs/handoff-checklist.md`.
+
 
 
 

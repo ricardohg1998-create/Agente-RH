@@ -44,6 +44,16 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 7. Proponer contencion inmediata y fix estructural.
 8. Definir validacion, monitoreo y criterios de cierre.
 
+## Herramientas sugeridas
+
+- **Reproducir el error**: `run_command` para ejecutar el comando o test que falla y capturar output exacto.
+- **Buscar trazas del error**: `grep_search` con el mensaje de error, stack trace, o codigo de error para encontrar origen y apariciones.
+- **Monitorear procesos**: `command_status` para seguir la ejecucion de comandos largos y capturar output en tiempo real.
+- **Inspeccionar codigo sospechoso**: `view_file` para analizar la funcion o modulo donde se origina el fallo.
+- **Verificar cambios recientes**: `run_command` con `git log -n 10 --oneline` y `git diff` para correlacionar con cambios recientes.
+- **Reproducir visualmente**: `browser_subagent` si el error es de UI/UX para capturar el comportamiento roto.
+- **Buscar errores conocidos**: `search_web` con el mensaje de error para encontrar soluciones documentadas.
+
 ## Output obligatorio
 
 1. Resumen del incidente.
@@ -62,6 +72,12 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 - No confundir sintoma con causa raiz.
 - Toda accion debe estar justificada por evidencia.
 - Incluir contencion y solucion de fondo.
+
+## Composicion
+
+- **Suele preceder a**: `implementacion-quirurgica` (fix estructural), `code-review` (validar el fix).
+- **Suele seguir a**: incidente detectado por usuario o sistema.
+- **Workflow sugerido al completar**: `implementacion-quirurgica` (si el fix requiere plan) o `cierre-operativo` (si el fix es inmediato).
 
 ## Brain read/write
 

@@ -82,6 +82,16 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
     - Orden de ejecucion recomendado.
     - Criterios de aceptacion verificables.
 
+## Herramientas sugeridas
+
+- **Detectar CTAs sin destino**: `grep_search` con patrones: `onClick={() => {}}`, `onClick={() => null}`, `href="#"`, `href="javascript:void`, `// TODO`, `// implement`.
+- **Detectar placeholders y contenido vacio**: `grep_search` con: `Lorem ipsum`, `Coming soon`, `placeholder`, `dummy`, `example`, `TODO`, `TBD`, `sample data`.
+- **Detectar handlers vacios**: `grep_search` con: `() => {}`, `function() {}`, `async () => {}`, `// noop`.
+- **Verificar rutas existentes**: `grep_search` para mapear definiciones de rutas vs enlaces en componentes y detectar rutas huerfanas.
+- **Navegar la app visualmente**: `browser_subagent` para recorrer todos los flujos de usuario, buscar estados vacios, formularios sin validacion, navegacion sin retorno.
+- **Mapear estructura completa**: `list_dir` recursivo para entender la topologia del proyecto y detectar areas no conectadas.
+- **Inspeccion de componentes**: `view_file` para verificar que cada componente tiene manejo de loading, error y empty states.
+
 ## Output obligatorio
 
 1. **Diagnostico general** del nivel de completitud del producto/modulo.
@@ -107,6 +117,30 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 - **Sin feedback superficial**: si reportas un problema, explica por que importa y como resolverlo con detalle.
 - **Implementation Plan ejecutable sin ambiguedad**: un desarrollador (o agente) debe poder coger el plan y ejecutarlo de principio a fin sin necesitar contexto adicional.
 - **Priorizacion accionable** con dependencias reales, no teoricas.
+
+## Modos de operacion
+
+### Modo archivo/componente (alcance < 5 archivos)
+- Focalizar en completitud del componente especifico: estados UX, handlers, validaciones.
+- Sin mapeo global.
+- Output: lista de huecos + fix propuesto por cada uno.
+
+### Modo modulo/feature (alcance 5-30 archivos)
+- Mapeo del modulo y sus flujos de usuario asociados.
+- Verificar coherencia interna del feature.
+- Output estandar con priorizacion.
+
+### Modo repo completo (alcance > 30 archivos o sin especificar)
+- Mapeo exhaustivo de todas las areas funcionales.
+- `browser_subagent` obligatorio para recorrer flujos criticos.
+- Output completo con Implementation Plan detallado por fases.
+- Mapa de zonas superficiales/rotas como visualizacion principal.
+
+## Composicion
+
+- **Suele preceder a**: `implementacion-quirurgica`, `qa-testing`.
+- **Suele seguir a**: `autista-cafeinado`, `inicio-proyecto`.
+- **Workflow sugerido al completar**: `implementacion-quirurgica` (para planificar la implementacion de lo que falta).
 
 ## Brain read/write
 

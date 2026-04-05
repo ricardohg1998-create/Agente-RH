@@ -47,11 +47,25 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 9. Ejecutar `scripts/run-checks.ps1` -> todo en verde.
 10. Primer commit verificable.
 
+## Herramientas sugeridas
+
+- **Bootstrap del repo**: `run_command` con `scripts/bootstrap.ps1` y CLIs oficiales del stack (`npx create-next-app`, `pip init`, etc.).
+- **Evaluar opciones de stack**: `search_web` para comparar alternativas tecnicas con datos actualizados.
+- **Verificar estructura generada**: `list_dir` recursivo para confirmar que la estructura es correcta tras bootstrap.
+- **Validar que arranca**: `run_command` con el dev server del stack elegido y verificar que levanta sin errores.
+- **Ejecutar checks**: `run_command` con `scripts/run-checks.ps1` para confirmar que el estado inicial pasa todos los checks.
+
 ## Criterios de calidad
 
 - El proyecto debe arrancar localmente tras completar el workflow.
 - Toda decision de stack debe estar justificada y registrada.
 - El cerebro debe reflejar el estado real del proyecto, no el estado plantilla.
+
+## Composicion
+
+- **Suele preceder a**: `buscar-skills`, `implementacion-quirurgica`.
+- **Suele seguir a**: clonado de repo o arranque de proyecto nuevo.
+- **Workflow sugerido al completar**: `buscar-skills` (para equipar al agente con skills relevantes).
 
 ## Brain read/write
 

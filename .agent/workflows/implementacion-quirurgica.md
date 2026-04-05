@@ -44,6 +44,14 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 7. Definir verificacion tecnica por cada bloque.
 8. Emitir plan de implementacion secuenciado.
 
+## Herramientas sugeridas
+
+- **Mapear estructura afectada**: `list_dir` para entender la topologia de archivos del alcance y sus dependencias.
+- **Inspeccionar contratos e interfaces**: `view_file` para revisar tipos, interfaces, schemas y puntos de integracion que cambiaran.
+- **Buscar dependencias inversas**: `grep_search` para encontrar todos los consumidores de la funcion/modulo que se va a modificar.
+- **Validar por paso**: `run_command` para ejecutar tests/build tras cada bloque atomico y verificar que no se rompe nada.
+- **Investigar patrones**: `search_web` cuando la implementacion requiera una decision tecnica no obvia.
+
 ## Output obligatorio
 
 1. Objetivo y alcance confirmado.
@@ -60,6 +68,12 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 - Cada paso debe ser ejecutable sin decisiones ocultas.
 - El orden debe ser defendible por dependencias reales.
 - La verificacion debe ser objetiva y repetible.
+
+## Composicion
+
+- **Suele preceder a**: ejecucion del plan, `code-review`, `qa-testing`.
+- **Suele seguir a**: `autista-cafeinado`, `desarrollador-profundidad`, `mr-problem-solver`, `spike-investigacion`.
+- **Workflow sugerido al completar**: `code-review` (tras ejecutar el plan) o `qa-testing` (si incluye funcionalidad nueva).
 
 ## Brain read/write
 

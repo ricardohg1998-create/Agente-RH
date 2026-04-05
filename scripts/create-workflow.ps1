@@ -70,6 +70,10 @@ $quickLayerSnippet
 3. (definir pasos resolutivos)
 4. Emitir output obligatorio.
 
+## Herramientas sugeridas
+
+- (mapear herramientas de Antigravity a pasos concretos: ``grep_search``, ``view_file``, ``run_command``, ``browser_subagent``, ``search_web``, ``list_dir``, etc.)
+
 ## Output obligatorio
 
 1. Diagnostico general.
@@ -81,6 +85,12 @@ $quickLayerSnippet
 
 - Cada hallazgo con evidencia y accion concreta.
 - Priorizacion defendible tecnicamente.
+
+## Composicion
+
+- **Suele preceder a**: (workflows que tipicamente siguen)
+- **Suele seguir a**: (workflows que tipicamente preceden)
+- **Workflow sugerido al completar**: (el mas natural como siguiente paso)
 
 ## Brain read/write
 

@@ -57,6 +57,15 @@ Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente 
 7. **Proponer ajustes concretos** al proceso/herramientas/workflows:
    - Cambios especificos, no genericos ("usar mas tests" NO, "anadir test de integracion para el modulo X antes de deploy" SI).
 8. **Registrar lecciones aprendidas** en brain para futuras referencias.
+9. **Analizar metricas de workflows** en `brain/workflow-metrics.md`: cuales se usaron, cuales no, cuales dieron buen resultado, y proponer ajustes a workflows subutilizados o ineficientes.
+
+## Herramientas sugeridas
+
+- **Revisar session logs**: `view_file` de archivos en `brain/session_logs/` para reconstruir la timeline del ciclo.
+- **Auditar artifacts generados**: `list_dir` para ver que se creo, modifico o dejo pendiente.
+- **Revisar changelog y decisiones**: `view_file` de `brain/changelog.md` y `brain/decisions.md` para trazar historial.
+- **Buscar patrones en el trabajo**: `grep_search` en session logs buscando palabras como `error`, `revert`, `workaround`, `bloqueado` para detectar fricciones recurrentes.
+- **Verificar estado de workflows**: `view_file` de `brain/workflow-metrics.md` para analizar datos de uso.
 
 ## Output obligatorio
 
@@ -75,6 +84,12 @@ Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente 
 - **Ajustes accionables**: cada propuesta debe ser especifica y ejecutable.
 - **Balance**: incluir lo positivo y lo negativo — la retrospectiva no es solo buscar fallos.
 - **Sin culpas**: foco en procesos y decisiones, no en personas.
+
+## Composicion
+
+- **Suele preceder a**: `higiene-contexto`, ajustes de proceso.
+- **Suele seguir a**: cierre de hito, sprint o proyecto; `cierre-operativo`.
+- **Workflow sugerido al completar**: `higiene-contexto` (para limpiar lo que la retrospectiva identifique como ruido).
 
 ## Brain read/write
 

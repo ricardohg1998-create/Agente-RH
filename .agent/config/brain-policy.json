@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
   "mode": "quick-layer-strict",
@@ -30,7 +30,8 @@
       "brain/changelog.md",
       "brain/skills-available.md",
       "brain/workflows-index.md",
-      "brain/user-instructions.md"
+      "brain/user-instructions.md",
+      "brain/workflow-metrics.md"
     ],
     "updatePolicy": "if_applies"
   },

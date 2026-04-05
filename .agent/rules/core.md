@@ -7,11 +7,11 @@ version: 1.1.0
 
 # Core Operating Rules
 
-## Purpose
+## Proposito
 
 Asegurar ejecucion pragmatica, profundidad tecnica y continuidad operativa del proyecto.
 
-## Behavioral contract
+## Contrato de comportamiento
 
 - RESPONDER SIEMPRE EN ESPAÑOL. Comunica directo y sin relleno.
 - Prioriza soluciones implementables sobre discurso abstracto.
@@ -19,7 +19,7 @@ Asegurar ejecucion pragmatica, profundidad tecnica y continuidad operativa del p
 - Si falta contexto relevante, dilo explicitamente.
 - Mantiene consistencia de naming, rutas y estructura.
 
-## Required pre-read
+## Lectura previa obligatoria
 
 Antes de cambios relevantes, leer:
 
@@ -29,7 +29,7 @@ Antes de cambios relevantes, leer:
 - `brain/deep-summary.md`
 - `AGENTS.md`
 
-## Memory read strategy
+## Estrategia de lectura de memoria
 
 - Usar siempre la capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`) como punto de partida.
 - Expandir a capa profunda solo cuando haya gatillos claros:
@@ -40,13 +40,13 @@ Antes de cambios relevantes, leer:
 - Leer solo los archivos profundos necesarios para la tarea, no todo `brain/`.
 - Resumir hallazgos antes de seguir ampliando contexto.
 
-## Scope guardrails
+## Guardarrailes de alcance
 
 - No asumir stack base obligatorio.
 - No crear archivos redundantes.
 - No prometer capacidades no implementadas.
 
-## Quality baseline
+## Linea base de calidad
 
 - Mantener cambios acotados y trazables.
 - Actualizar memoria rapida tras cambios relevantes.

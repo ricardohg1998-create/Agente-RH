@@ -1,4 +1,4 @@
-﻿---
+---
 id: brain-maintenance
 name: Brain Maintenance
 activation: always-on
@@ -7,11 +7,11 @@ version: 1.1.0
 
 # Brain Maintenance Rule
 
-## Goal
+## Objetivo
 
 Mantener `brain/` como memoria operativa viva, util y sin duplicidades.
 
-## Update order (strict)
+## Orden de actualizacion (estricto)
 
 1. Actualizar capa rapida:
    - `brain/now.md`
@@ -20,13 +20,13 @@ Mantener `brain/` como memoria operativa viva, util y sin duplicidades.
 2. Si aplica, actualizar capa profunda (`deepLayer.files` en `.agent/config/brain-policy.json`).
 3. Si cambia cualquier archivo de `deepLayer.files`, actualizar `brain/deep-summary.md` en la misma tarea.
 
-## Minimal write policy
+## Politica de escritura minima
 
 - Resumir, no copiar y pegar conversaciones.
 - Enlazar documentos relacionados en vez de duplicar texto.
 - Mover contenido obsoleto a `brain/archive/`. ANTE LA DUDA COMO AGENTE, ARCHIVAR, NO BORRAR, para preservar la trazabilidad.
 
-## Trigger examples
+## Ejemplos de activacion
 
 Actualizar cerebro cuando exista alguno de estos eventos:
 
@@ -36,7 +36,7 @@ Actualizar cerebro cuando exista alguno de estos eventos:
 - Error repetible identificado y solucionado.
 - Instruccion persistente del usuario agregada o modificada.
 
-## Automation hooks
+## Hooks de automatizacion
 
 Usar scripts:
 

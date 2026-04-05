@@ -14,11 +14,7 @@
     "brain/archive",
     "docs",
     "scripts",
-    "scripts/lib",
-    "src",
-    "tests",
-    "tests/Pester",
-    "tools"
+    "scripts/lib"
   ],
   "requiredFiles": [
     "README.md",
@@ -42,6 +38,9 @@
     ".agent/workflows/mr-problem-solver.md",
     ".agent/workflows/code-review.md",
     ".agent/workflows/retrospectiva.md",
+    ".agent/workflows/spike-investigacion.md",
+    ".agent/workflows/qa-testing.md",
+    ".agent/workflows/pre-release.md",
     ".agent/templates/decision-template.md",
     ".agent/templates/bug-finding-template.md",
     ".agent/templates/implementation-plan-template.md",
@@ -72,6 +71,7 @@
     "brain/skills-available.md",
     "brain/stack.md",
     "brain/deep-summary.md",
+    "brain/workflow-metrics.md",
     "docs/repo-hygiene.md",
     "docs/handoff-checklist.md",
     "docs/operating-flow-win11.md",
@@ -98,9 +98,10 @@
     "scripts/check-brain-deep-summary-sync.ps1",
     "scripts/check-context-budget.ps1",
     "scripts/run-checks.ps1",
-    "scripts/lib/resolve-ps-bin.ps1",
-    "tests/Pester/OperationalScripts.Tests.ps1",
-    "tests/Pester/ExtendedOperationalScripts.Tests.ps1",
-    "tests/Pester/TestHelpers.ps1"
+    "scripts/deploy.ps1",
+    "scripts/create-workflow.ps1",
+    "scripts/create-skill.ps1",
+    "scripts/doctor.ps1",
+    "scripts/lib/resolve-ps-bin.ps1"
   ]
 }

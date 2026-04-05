@@ -53,6 +53,16 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 9. **Priorizar por impacto/esfuerzo** con justificacion tecnica defendible.
 10. **Generar Implementation Plan completo** por fases, accionable y secuenciado.
 
+## Herramientas sugeridas
+
+- **Mapeo de estructura**: `list_dir` para recorrer el arbol completo del proyecto y detectar archivos huerfanos, convenciones de naming rotas o carpetas sin sentido.
+- **Deteccion de secrets y credenciales**: `grep_search` con patrones: `AKIA`, `sk-`, `ghp_`, `password\s*=`, `secret`, `token`, `apiKey`, archivos `.env` fuera de `.gitignore`.
+- **Deteccion de dead code y deuda**: `grep_search` con `TODO`, `FIXME`, `HACK`, `XXX`, `console.log`, `debugger`, `// eslint-disable`.
+- **Inspeccion de archivos concretos**: `view_file` para revisar logica, imports sin usar, complejidad ciclomatica y anti-patrones.
+- **Validacion visual de UX/UI**: `browser_subagent` para navegar la app localmente y detectar estados rotos, layouts descuadrados, flujos incompletos.
+- **Investigacion de buenas practicas**: `search_web` cuando se detecte un patron dudoso y haga falta contrastar con el estado del arte.
+- **Ejecucion de checks**: `run_command` para ejecutar linters, tests, builds de produccion y scripts de higiene del repo.
+
 ## Output obligatorio
 
 1. Alcance revisado (que se audito exactamente).
@@ -78,6 +88,31 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 - **Priorizacion defendible**: cada posicion en el ranking debe estar justificada tecnicamente.
 - **Critica constructiva**: ser despiadado con los problemas, pero siempre proponer solucion concreta.
 - **Implementation Plan ejecutable**: debe poder ejecutarse sin ambiguedad, sin preguntas pendientes, sin decisiones ocultas.
+
+## Modos de operacion
+
+### Modo archivo/componente (alcance < 5 archivos)
+- Saltar pasos de mapeo global (paso 2).
+- Lectura de memoria: solo quick layer.
+- Output reducido: hallazgos + quick fixes, sin Implementation Plan por fases.
+- Objetivo: feedback rapido y accionable.
+
+### Modo modulo/feature (alcance 5-30 archivos)
+- Mapeo del modulo y sus dependencias directas.
+- Lectura de memoria: quick layer + `brain/architecture.md`.
+- Output estandar completo.
+
+### Modo repo completo (alcance > 30 archivos o sin especificar)
+- Mapeo exhaustivo de toda la estructura.
+- Lectura de memoria: quick + deep layer completo.
+- Output completo con Implementation Plan por fases.
+- Priorizacion por impacto/esfuerzo obligatoria.
+
+## Composicion
+
+- **Suele preceder a**: `implementacion-quirurgica`, `code-review`.
+- **Suele seguir a**: solicitud directa del usuario o sospecha de fragilidad.
+- **Workflow sugerido al completar**: `implementacion-quirurgica` (para planificar la correccion de los hallazgos).
 
 ## Brain read/write
 

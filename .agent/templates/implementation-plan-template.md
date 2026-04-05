@@ -1,10 +1,14 @@
-﻿# Plantilla: Implementation Plan
+# Plantilla: Implementation Plan
 
 ## Objetivo
 
 ## Alcance
 
 ## Estado actual
+
+## Herramientas a usar
+
+- (mapear herramientas de Antigravity a pasos concretos del plan)
 
 ## Cambios propuestos
 
@@ -19,5 +23,9 @@
 3. Fase 3
 
 ## Criterios de aceptacion
+
+## Validacion automatica
+
+- (comandos de verificacion, tests, checks)
 
 ## Dudas abiertas

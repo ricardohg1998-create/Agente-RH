@@ -43,6 +43,14 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 7. Seleccionar core minimo + opcionales.
 8. Instalar y validar.
 
+## Herramientas sugeridas
+
+- **Leer skills candidatas**: `view_file` de cada `SKILL.md` para evaluar utilidad, calidad y compatibilidad.
+- **Evaluar alternativas externas**: `search_web` para buscar skills o herramientas que cubran necesidades no resueltas por el catalogo local.
+- **Listar skills instaladas**: `run_command` con `npx skills list -g -a antigravity` para ver el estado actual.
+- **Instalar skills seleccionadas**: `run_command` con `npx skills add` y los parametros correctos.
+- **Verificar solapamientos**: `view_file` comparando las descripciones de skills similares para decidir cual mantener.
+
 ## Output obligatorio
 
 1. Lista final core.
@@ -54,6 +62,12 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 - Priorizar utilidad real sobre cantidad.
 - Mantener maximo una skill por dominio cuando haya overlap.
 - Evitar repetir busquedas largas si ya hay catalogo local util.
+
+## Composicion
+
+- **Suele preceder a**: `implementacion-quirurgica`.
+- **Suele seguir a**: `inicio-proyecto`, cambio de stack.
+- **Workflow sugerido al completar**: `implementacion-quirurgica` (para comenzar el desarrollo con el stack equipado).
 
 ## Brain read/write
 
