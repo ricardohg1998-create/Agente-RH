@@ -1,3 +1,3 @@
-﻿# Ideas
+# Ideas
 
 - (sin registros)

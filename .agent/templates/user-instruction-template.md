@@ -1,4 +1,4 @@
-﻿# Plantilla: Instruccion persistente
+# Plantilla: Instruccion persistente
 
 ## Meta
 

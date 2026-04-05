@@ -1,4 +1,4 @@
-﻿---
+---
 id: workflow-dispatch
 name: Workflow Dispatch
 activation: model-decision

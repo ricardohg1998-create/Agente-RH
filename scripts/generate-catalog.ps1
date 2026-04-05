@@ -8,6 +8,9 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $catalogPath = Join-Path $repoRoot 'CATALOG.md'
 $skillsRoot = Join-Path $repoRoot '.agent/skills'
 
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
+
 function Normalize-Eol {
   param([string]$Text)
 
@@ -67,14 +70,14 @@ if (Test-Path -LiteralPath $skillsRoot -PathType Container) {
 
 $skillLines = New-Object System.Collections.Generic.List[string]
 foreach ($skillFile in $skillFiles) {
-  $raw = Get-Content -Path $skillFile.FullName -Raw
+  $raw = Read-Utf8File -Path $skillFile.FullName
   $directoryName = Split-Path -Path $skillFile.DirectoryName -Leaf
   $summary = Get-SectionParagraph -Raw $raw
   $relativePath = Get-RelativeRepoPath -FullPath $skillFile.FullName
   $skillLines.Add(('- ' + (Format-InlineCode -Text $directoryName) + " -> $summary (" + (Format-InlineCode -Text $relativePath) + ').'))
 }
 
-$skillsBody = if ($skillLines.Count -eq 0) { '- (sin registros)' } else { $skillLines -join "`r`n" }
+$skillsBody = if ($skillLines.Count -eq 0) { '- (sin registros)' } else { $skillLines -join "`n" }
 $statusLine = if ($skillLines.Count -eq 0) { '- Sin skills locales registradas todavia.' } else { "- Skills locales detectadas: $($skillLines.Count)." }
 
 $expected = @"
@@ -103,7 +106,7 @@ if ($CheckOnly) {
     exit 1
   }
 
-  $current = Get-Content -Path $catalogPath -Raw
+  $current = Read-Utf8File -Path $catalogPath
   if ((Normalize-Eol -Text $current) -ne (Normalize-Eol -Text $expected)) {
     Write-Host 'generate-catalog: desincronizado.' -ForegroundColor Red
     exit 1
@@ -113,6 +116,6 @@ if ($CheckOnly) {
   exit 0
 }
 
-Set-Content -Path $catalogPath -Encoding UTF8 -Value $expected
+Write-Utf8File -Path $catalogPath -Content $expected
 Write-Host 'generate-catalog: actualizado.' -ForegroundColor Green
 exit 0

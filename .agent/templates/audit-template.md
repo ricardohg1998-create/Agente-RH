@@ -1,4 +1,4 @@
-﻿# Plantilla: Auditoria
+# Plantilla: Auditoria
 
 ## Alcance
 

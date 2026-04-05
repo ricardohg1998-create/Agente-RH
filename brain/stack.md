@@ -1,4 +1,4 @@
-﻿# Stack del proyecto
+# Stack del proyecto
 
 <!-- QUICK-STACK:START -->
 ## Stack elegido

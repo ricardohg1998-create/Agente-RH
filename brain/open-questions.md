@@ -1,3 +1,3 @@
-﻿# Open Questions
+# Open Questions
 
 - (sin registros)

@@ -2,9 +2,9 @@
 
 ## Actual
 
-- **Bug check-links.ps1**: Se cuelga con archivos .md largos. Necesita implementar timeout por archivo (10s max). Impacto: bloquea `run-checks.ps1`. Prioridad: media.
-- **Encoding mixto LF/CRLF**: Varios archivos mezclan `\n` y `\r\n`. Causa diffs innecesarios. Prioridad: baja.
-- **Headings de reglas en ingles**: Las 3 reglas (`core.md`, `brain-maintenance.md`, `repo-hygiene.md`) tienen headings en ingles cuando AGENTS.md dice "hablar siempre en espanol". Prioridad: baja (cosmetico pero incoherente).
+- ~~**Bug check-links.ps1**~~: **RESUELTO 2026-04-05** — Implementado timeout de 10s por archivo (Start-Job) y skip de archivos >200KB. El script ya no se cuelga.
+- ~~**Encoding mixto LF/CRLF**~~: **RESUELTO 2026-04-05** — Normalizados 29 archivos a LF. `.editorconfig` define `end_of_line = lf`.
+- ~~**Headings de reglas en ingles**~~: **RESUELTO 2026-04-05** — Traducidos a español en `core.md`, `brain-maintenance.md` y `repo-hygiene.md`.
 
 ## Riesgos de deuda futura
 

@@ -1,4 +1,4 @@
-﻿# GEMINI.md (compat shim)
+# GEMINI.md (compat shim)
 
 Este archivo existe por compatibilidad con herramientas que aun buscan `GEMINI.md`.
 

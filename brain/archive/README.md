@@ -1,4 +1,4 @@
-﻿# Archive
+# Archive
 
 Carpeta para contenido historico obsoleto pero util para trazabilidad.
 

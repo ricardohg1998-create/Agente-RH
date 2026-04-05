@@ -1,4 +1,4 @@
-﻿# Deep Summary
+# Deep Summary
 
 <!-- QUICK-DEEP:START -->
 ## Resumen profundo (auto)
@@ -8,16 +8,18 @@
 - brain/decisions.md | estado: activo | resumen: **Contexto**: Relatos breves de por que se toma la decision. | mod: 2026-04-05
 - brain/milestones.md | estado: activo | resumen: **Objetivo**: Descripcion general del hito. | mod: 2026-04-05
 - brain/backlog.md | estado: activo | resumen: **Estado**: (Todo/In Progress/Done) | mod: 2026-03-10
-- brain/open-questions.md | estado: base | resumen: sin novedades | mod: 2026-03-08
-- brain/technical-debt.md | estado: activo | resumen: **Bug check-links.ps1**: Se cuelga con archivos .md largos. Necesita implementar timeout p... | mod: 2026-04-05
-- brain/pitfalls-and-errors.md | estado: activo | resumen: **check-links.ps1 se cuelga con archivos .md largos**: El script entra en un bucle de lect... | mod: 2026-04-05
-- brain/ideas.md | estado: base | resumen: sin novedades | mod: 2026-03-08
-- brain/changelog.md | estado: activo | resumen: **2026-04-05**: Workflows v3.0 â€” 13 workflows operativos (10 mejorados + 3 nuevos). Herr... | mod: 2026-04-05
+- brain/open-questions.md | estado: base | resumen: sin novedades | mod: 2026-04-05
+- brain/technical-debt.md | estado: activo | resumen: ~~**Bug check-links.ps1**~~: **RESUELTO 2026-04-05** — Implementado timeout de 10s por arc... | mod: 2026-04-05
+- brain/pitfalls-and-errors.md | estado: activo | resumen: ~~**check-links.ps1 se cuelga con archivos .md largos**~~: **RESUELTO 2026-04-05** — Imple... | mod: 2026-04-05
+- brain/ideas.md | estado: base | resumen: sin novedades | mod: 2026-04-05
+- brain/changelog.md | estado: activo | resumen: **2026-04-05**: Workflows v3.0 — 13 workflows operativos (10 mejorados + 3 nuevos). Herram... | mod: 2026-04-05
 - brain/skills-available.md | estado: base | resumen: Config en .agent/config/skills-sources.json. | mod: 2026-03-10
 - brain/workflows-index.md | estado: activo | resumen: Autista cafeinado (autista-cafeinado) -> Revision obsesiva, hiper-detallada y profunda del... | mod: 2026-04-05
 - brain/user-instructions.md | estado: activo | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-03-14
 - brain/workflow-metrics.md | estado: activo | resumen: / Workflow / Veces usado / Ultima vez / Satisfaccion / | mod: 2026-04-05
 <!-- QUICK-DEEP:END -->
+
+
 
 
 

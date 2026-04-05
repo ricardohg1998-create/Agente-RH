@@ -39,6 +39,9 @@ Import-Module $fsUtilsPath -Force
 $brainUtilsPath = Join-Path $PSScriptRoot 'lib/brain-utils.psm1'
 Import-Module $brainUtilsPath -Force
 
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
+
 function Replace-MarkedSection {
   param(
     [string]$Path,
@@ -51,10 +54,10 @@ function Replace-MarkedSection {
     throw "Archivo no encontrado: $Path"
   }
 
-  $raw = Get-Content -Path $Path -Raw
+  $raw = Read-Utf8File -Path $Path
   $blockId = $StartMarker -replace '<!-- (.*?):START -->', '$1'
-  $updated = Set-BrainBlock -Content $raw -BlockId $blockId -NewBlockContent "`r`n`r`n" + $NewBody.Trim() + "`r`n`r`n"
-  Set-Content -Path $Path -Encoding UTF8 -Value $updated
+  $updated = Set-BrainBlock -Content $raw -BlockId $blockId -NewBlockContent "`n`n" + $NewBody.Trim() + "`n`n"
+  Write-Utf8File -Path $Path -Content $updated
 }
 
 function Get-MarkedSectionBody {
@@ -68,7 +71,7 @@ function Get-MarkedSectionBody {
     throw "Archivo no encontrado: $Path"
   }
 
-  $raw = Get-Content -Path $Path -Raw
+  $raw = Read-Utf8File -Path $Path
   $blockId = $StartMarker -replace '<!-- (.*?):START -->', '$1'
   $block = Get-BrainBlock -Content $raw -BlockId $blockId
   if ($null -eq $block) { throw "Marcadores no validos en $Path" }
@@ -159,7 +162,7 @@ function Format-BulletList {
   param([string[]]$Items, [string]$EmptyFallback = '(sin registros)')
   $normalized = @($Items | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
   if ($normalized.Count -eq 0) { return "- $EmptyFallback" }
-  return ($normalized | ForEach-Object { "- $_" }) -join "`r`n"
+  return ($normalized | ForEach-Object { "- $_" }) -join "`n"
 }
 
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
@@ -177,7 +180,7 @@ $blockersValue = Resolve-MergedListParam -ParameterName 'Blockers' -ExistingValu
 $currentStateValue = Resolve-MergedValueParam -ParameterName 'CurrentState' -ExistingValue (Get-LabeledBulletValue -Body $stateBodyCurrent -Label 'Estado') -Fallback 'activo'
 $phaseValue = Resolve-MergedValueParam -ParameterName 'Phase' -ExistingValue (Get-LabeledBulletValue -Body $stateBodyCurrent -Label 'Fase') -Fallback 'sin definir'
 $riskValue = Resolve-MergedValueParam -ParameterName 'Risk' -ExistingValue (Get-LabeledBulletValue -Body $stateBodyCurrent -Label 'Riesgo principal') -Fallback 'no definido'
-$blockersText = ($blockersValue | ForEach-Object { "- $_" }) -join "`r`n"
+$blockersText = ($blockersValue | ForEach-Object { "- $_" }) -join "`n"
 
 $nowBody = @"
 ## Estado actual

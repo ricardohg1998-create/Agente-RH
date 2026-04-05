@@ -1,4 +1,4 @@
-﻿# Plantilla: Decision tecnica
+# Plantilla: Decision tecnica
 
 ## Meta
 

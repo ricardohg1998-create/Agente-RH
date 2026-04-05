@@ -5,6 +5,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
 $workflowDir = Join-Path $repoRoot '.agent/workflows'
 $templatePath = Join-Path $repoRoot '.agent/templates/workflow-quick-layer-snippet.md'
 $readmePath = Join-Path $repoRoot 'README.md'
@@ -44,7 +47,7 @@ function Get-MarkedSectionUpdate {
     throw "Archivo no encontrado: $Path"
   }
 
-  $raw = Get-Content -Path $Path -Raw
+  $raw = Read-Utf8File -Path $Path
   $startIdx = $raw.IndexOf($StartMarker)
   $endIdx = $raw.IndexOf($EndMarker)
 
@@ -129,7 +132,7 @@ function Format-InlineCode {
 function Parse-Workflow {
   param([System.IO.FileInfo]$File)
 
-  $raw = Get-Content -Path $File.FullName -Raw
+  $raw = Read-Utf8File -Path $File.FullName
   $frontMatterMatch = [regex]::Match($raw, '(?s)^---\s*(?<front>.*?)\s*---\s*(?<body>.*)$')
   if (-not $frontMatterMatch.Success) {
     throw "Workflow sin frontmatter valido: $($File.FullName)"
@@ -168,7 +171,7 @@ if (-not (Test-Path -LiteralPath $templatePath -PathType Leaf)) {
   throw "Falta template de quick layer: $templatePath"
 }
 
-$quickLayerSnippet = (Get-Content -Path $templatePath -Raw).Trim()
+$quickLayerSnippet = (Read-Utf8File -Path $templatePath).Trim()
 $workflows = @(Get-ChildItem -Path $workflowDir -Filter *.md -File | Sort-Object Name | ForEach-Object { Parse-Workflow -File $_ })
 
 $workflowUpdates = New-Object System.Collections.Generic.List[object]
@@ -180,20 +183,20 @@ foreach ($workflow in $workflows) {
 
 $readmeWorkflowsBody = ($workflows | ForEach-Object {
   '- ' + (Format-InlineCode -Text $_.Name) + ' (id: ' + $_.Id + ') -> ' + (Format-InlineCode -Text $_.RelativePath)
-}) -join "`r`n"
+}) -join "`n"
 
 $dispatchMapBody = ($workflows | ForEach-Object {
   '- ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + '): ' + $_.Summary.TrimEnd('.') + '.'
-}) -join "`r`n"
+}) -join "`n"
 
 $dispatchCriteriaBody = ($workflows | ForEach-Object {
   '- Usar ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + ') cuando: ' + $_.Trigger + '.'
-}) -join "`r`n"
+}) -join "`n"
 
 $readmeUpdate = Get-MarkedSectionUpdate -Path $readmePath -StartMarker '<!-- GENERATED:README-WORKFLOWS:START -->' -EndMarker '<!-- GENERATED:README-WORKFLOWS:END -->' -NewBody $readmeWorkflowsBody
 $dispatchMapUpdate = Get-MarkedSectionUpdate -Path $dispatchPath -StartMarker '<!-- GENERATED:WORKFLOW-MAP:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-MAP:END -->' -NewBody $dispatchMapBody
 $dispatchTempPath = Join-Path $env:TEMP ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
-Set-Content -Path $dispatchTempPath -Encoding UTF8 -Value $dispatchMapUpdate.Updated
+Write-Utf8File -Path $dispatchTempPath -Content $dispatchMapUpdate.Updated
 try {
   $dispatchCriteriaUpdate = Get-MarkedSectionUpdate -Path $dispatchTempPath -StartMarker '<!-- GENERATED:WORKFLOW-DISPATCH:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-DISPATCH:END -->' -NewBody $dispatchCriteriaBody
 } finally {
@@ -202,11 +205,11 @@ try {
 
 $indexSummaryBody = ($workflows | ForEach-Object {
   '- ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + ') -> ' + $_.Summary.TrimEnd('.') + '.'
-}) -join "`r`n"
+}) -join "`n"
 
 $indexDispatchBody = ($workflows | ForEach-Object {
   '- ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + ') -> ' + $_.Trigger + '.'
-}) -join "`r`n"
+}) -join "`n"
 
 $indexSourcesBody = @(
   $workflows | ForEach-Object { '- ' + (Format-InlineCode -Text $_.RelativePath) }
@@ -252,12 +255,12 @@ if ((Normalize-Eol -Text $readmeUpdate.Raw) -ne (Normalize-Eol -Text $readmeUpda
 }
 
 $dispatchExpected = $dispatchCriteriaUpdate.Updated
-$dispatchCurrent = Get-Content -Path $dispatchPath -Raw
+$dispatchCurrent = Read-Utf8File -Path $dispatchPath
 if ((Normalize-Eol -Text $dispatchCurrent) -ne (Normalize-Eol -Text $dispatchExpected)) {
   $pending.Add('.agent/rules/workflow-dispatch.md')
 }
 
-$indexCurrent = Get-Content -Path $indexPath -Raw
+$indexCurrent = Read-Utf8File -Path $indexPath
 if ((Normalize-Eol -Text $indexCurrent) -ne (Normalize-Eol -Text $expectedIndex)) {
   $pending.Add('brain/workflows-index.md')
 }
@@ -275,13 +278,13 @@ if ($CheckOnly) {
 
 foreach ($update in $workflowUpdates) {
   if ((Normalize-Eol -Text $update.Raw) -ne (Normalize-Eol -Text $update.Updated)) {
-    Set-Content -Path $update.Path -Encoding UTF8 -Value $update.Updated
+    Write-Utf8File -Path $update.Path -Content $update.Updated
   }
 }
 
-Set-Content -Path $readmePath -Encoding UTF8 -Value $readmeUpdate.Updated
-Set-Content -Path $dispatchPath -Encoding UTF8 -Value $dispatchExpected
-Set-Content -Path $indexPath -Encoding UTF8 -Value $expectedIndex
+Write-Utf8File -Path $readmePath -Content $readmeUpdate.Updated
+Write-Utf8File -Path $dispatchPath -Content $dispatchExpected
+Write-Utf8File -Path $indexPath -Content $expectedIndex
 
 Write-Host 'generate-workflows-docs: actualizado.' -ForegroundColor Green
 exit 0

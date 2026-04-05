@@ -9,6 +9,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
 $skillsDir = Join-Path $repoRoot '.agent\skills'
 $targetDir = Join-Path $skillsDir $Id
 
@@ -41,7 +44,7 @@ version: 1.0.0
 3. Verificar resultados.
 "@
 
-Set-Content -Path $skillFile -Encoding UTF8 -Value $content
+Write-Utf8File -Path $skillFile -Content $content
 
 Write-Host "Skill '$Id' generada exitosamente en $skillFile." -ForegroundColor Green
 

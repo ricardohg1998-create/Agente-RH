@@ -41,10 +41,11 @@ Este repo esta alineado con Antigravity:
 - Skills workspace en `.agent/skills/`.
 - Workflows documentados para planning mode.
 
-## Extensiones recordatorio
+## Herramientas del entorno
 
-- `ms-python.python`
-- `ms-azuretools.vscode-docker`
+- IDE principal: Google Antigravity
+- Modelo preferido: Gemini 3.1 Pro
+- Shell: PowerShell (Windows 11)
 
 ## Infraestructura de producción (Template)
 

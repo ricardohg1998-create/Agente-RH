@@ -1,4 +1,4 @@
-﻿# Plantilla: Bug o hallazgo
+# Plantilla: Bug o hallazgo
 
 ## Meta
 

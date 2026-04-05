@@ -1,4 +1,4 @@
-﻿# Workflows Index
+# Workflows Index
 
 ## Resumen
 

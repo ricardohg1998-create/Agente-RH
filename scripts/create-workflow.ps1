@@ -10,6 +10,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
 $workflowsDir = Join-Path $repoRoot '.agent\workflows'
 $workflowFile = Join-Path $workflowsDir "$Id.md"
 $templatePath = Join-Path $repoRoot '.agent\templates\workflow-quick-layer-snippet.md'
@@ -24,7 +27,7 @@ if (Test-Path -LiteralPath $workflowFile -PathType Leaf) {
 
 $quickLayerSnippet = ''
 if (Test-Path -LiteralPath $templatePath -PathType Leaf) {
-  $quickLayerSnippet = (Get-Content -Path $templatePath -Raw).Trim()
+  $quickLayerSnippet = (Read-Utf8File -Path $templatePath).Trim()
 }
 
 if ([string]::IsNullOrWhiteSpace($Description)) {
@@ -98,7 +101,7 @@ $quickLayerSnippet
 - Escribir: ``brain/now.md``, ``brain/current-state.md``, ``brain/deep-summary.md``, ``brain/changelog.md``.
 "@
 
-Set-Content -Path $workflowFile -Encoding UTF8 -Value $content
+Write-Utf8File -Path $workflowFile -Content $content
 
 Write-Host "Workflow '$Id' generado exitosamente en $workflowFile." -ForegroundColor Green
 

@@ -1,4 +1,4 @@
-﻿# Plantilla: Hito
+# Plantilla: Hito
 
 ## Meta
 

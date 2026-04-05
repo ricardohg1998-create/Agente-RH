@@ -1,4 +1,4 @@
-﻿# Troubleshooting hooks y commit
+# Troubleshooting hooks y commit
 
 ## Error: cannot spawn .git/hooks/pre-commit
 

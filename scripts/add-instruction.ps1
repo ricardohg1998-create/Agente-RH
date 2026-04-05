@@ -13,6 +13,9 @@ $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
 . $resolvePsBinPath
 $psBin = Resolve-PowerShellBinary
 
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
+
 function Resolve-RepoPath {
   param([string]$Path)
 
@@ -40,7 +43,7 @@ function Add-QuickNote {
   )
 
   if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return }
-  $raw = Get-Content -Path $Path -Raw
+  $raw = Read-Utf8File -Path $Path
   $start = $raw.IndexOf($StartMarker)
   $end = $raw.IndexOf($EndMarker)
   if ($start -lt 0 -or $end -lt 0 -or $end -le $start) { return }
@@ -48,8 +51,8 @@ function Add-QuickNote {
   $insertionPoint = $end
   $prefix = $raw.Substring(0, $insertionPoint)
   $suffix = $raw.Substring($insertionPoint)
-  $newRaw = $prefix.TrimEnd() + "`r`n- $Note`r`n" + $suffix
-  Set-Content -Path $Path -Encoding UTF8 -Value $newRaw
+  $newRaw = $prefix.TrimEnd() + "`n- $Note`n" + $suffix
+  Write-Utf8File -Path $Path -Content $newRaw
 }
 
 $target = Resolve-RepoPath -Path 'brain/user-instructions.md'
@@ -57,7 +60,7 @@ if (-not (Test-Path -LiteralPath $target -PathType Leaf)) {
   throw "No existe $target"
 }
 
-$raw = Get-Content -Path $target -Raw
+$raw = Read-Utf8File -Path $target
 $normNew = Normalize-Text -Text $Instruction
 
 $existingMatches = [regex]::Matches($raw, 'texto:\s*(.+)$', [System.Text.RegularExpressions.RegexOptions]::Multiline)
@@ -78,7 +81,7 @@ if ($alreadyExists) {
 $today = Get-Date -Format 'yyyy-MM-dd'
 $entry = "- [x] $today | fuente: $Source | tipo: $Type | texto: $Instruction"
 
-Set-Content -Path $target -Encoding UTF8 -Value ($raw.TrimEnd() + "`r`n" + $entry + "`r`n")
+Write-Utf8File -Path $target -Content ($raw.TrimEnd() + "`n" + $entry + "`n")
 
 if ($AffectsNow) {
   $note = "[$today] Nueva instruccion persistente: $Instruction"

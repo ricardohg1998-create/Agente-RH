@@ -7,6 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 
 function Resolve-RepoPath {
   param([string]$Path)
@@ -103,7 +104,7 @@ function Replace-MarkedSection {
     throw "Archivo no encontrado: $Path"
   }
 
-  $raw = Get-Content -Path $Path -Raw
+  $raw = [System.IO.File]::ReadAllText($Path, $utf8NoBom)
   $startIdx = $raw.IndexOf($StartMarker)
   $endIdx = $raw.IndexOf($EndMarker)
 
@@ -113,7 +114,7 @@ function Replace-MarkedSection {
 
   $head = $raw.Substring(0, $startIdx + $StartMarker.Length)
   $tail = $raw.Substring($endIdx)
-  $updated = $head + "`r`n" + $NewBody.Trim() + "`r`n" + $tail
+  $updated = $head + "`n" + $NewBody.Trim() + "`n" + $tail
 
   return [pscustomobject]@{
     Raw = $raw
@@ -133,7 +134,7 @@ if (-not (Test-Path -LiteralPath $summaryFullPath -PathType Leaf)) {
   throw "No existe archivo resumen: $SummaryPath"
 }
 
-$policy = Get-Content -Path $policyFullPath -Raw | ConvertFrom-Json
+$policy = [System.IO.File]::ReadAllText($policyFullPath, $utf8NoBom) | ConvertFrom-Json
 $deepFiles = @($policy.deepLayer.files)
 if ($deepFiles.Count -eq 0) {
   throw "deepLayer.files vacio en $PolicyPath"
@@ -147,7 +148,7 @@ foreach ($file in $deepFiles) {
     throw "Archivo profundo faltante: $file"
   }
 
-  $raw = Get-Content -Path $deepFileFullPath -Raw
+  $raw = [System.IO.File]::ReadAllText($deepFileFullPath, $utf8NoBom)
   $summary = Get-DeepSummary -Raw $raw
   $state = Get-DeepState -Raw $raw -Summary $summary
   $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
@@ -157,7 +158,7 @@ foreach ($file in $deepFiles) {
 $newBody = @"
 ## Resumen profundo (auto)
 
-$($lines -join "`r`n")
+$($lines -join "`n")
 "@
 
 $replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
@@ -172,6 +173,6 @@ if ($CheckOnly) {
   exit 0
 }
 
-Set-Content -Path $summaryFullPath -Encoding UTF8 -Value $replace.Updated
+[System.IO.File]::WriteAllText($summaryFullPath, $replace.Updated, $utf8NoBom)
 Write-Host 'update-brain-deep-summary: actualizado.' -ForegroundColor Green
 exit 0

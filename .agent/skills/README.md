@@ -1,4 +1,4 @@
-﻿# Workspace Skills
+# Workspace Skills
 
 Carpeta reservada para skills especificas del workspace.
 
