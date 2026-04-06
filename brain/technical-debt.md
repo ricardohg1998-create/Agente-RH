@@ -9,4 +9,4 @@
 ## Riesgos de deuda futura
 
 - Si el template crece a >20 workflows, `workflow-dispatch.md` podria superar el presupuesto de contexto. Monitorear con `check-context-budget.ps1`.
-- Los tests Pester existen pero no se ejecutan automaticamente en `run-checks.ps1`. Riesgo de regresion silenciosa en scripts.
+- ~~**Los tests Pester existen pero no se ejecutan automaticamente**~~: **RESUELTO 2026-04-06** — Autista Cafeinado inyectó la dependencia en run-checks.ps1.

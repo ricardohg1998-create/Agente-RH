@@ -42,7 +42,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 5. Revisar riesgos residuales y acciones de seguimiento.
 6. Validar checks operativos requeridos.
 7. Eliminar los archivos efímeros o temporales creados durante la sesión que ya hayan cumplido su función y no se necesiten más.
-8. Añadir un registro en `brain/session_logs` asegurándose de que su contenido sea el **walkthrough completo de la sesión**, detallando exhaustivamente los cambios realizados y decisiones técnicas abordadas.
+8. **Automatizacion de Memoria**: Ejecutar el script `.agent/scripts/compact-memory.ps1` (si existe) para que extraiga el diff y context de forma procedimental, eximiendo al agente de redactar los logs/now manualmente.
 9. Actualizar `brain/workflow-metrics.md` registrando que workflows se usaron en la sesion, con que resultado y satisfaccion.
 
 ## Herramientas sugeridas

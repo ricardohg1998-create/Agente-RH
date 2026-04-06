@@ -42,7 +42,7 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 3. **Definir criterios de evaluacion** ponderados: rendimiento, DX, comunidad, madurez, compatibilidad con stack actual, coste, curva de aprendizaje.
 4. **Investigar estado del arte**: `search_web` + `read_url_content` para recoger alternativas, benchmarks, opiniones y documentacion oficial.
 5. **Construir matriz de comparacion** con pros/cons/fit para cada alternativa evaluada contra los criterios definidos.
-6. **PoC minimo** si aplica: implementar lo justo para validar la hipotesis mas critica (no construir un proyecto entero).
+6. **PoC minimo aislado** si aplica: crear siempre una rama temporal (`git checkout -b spike/[tema]`) para implementar la validacion sin ensuciar main, destruyendola al acabar.
 7. **Evaluar riesgo de cada alternativa**: lockin, mantenibilidad, longevidad del proyecto, dependencias transitivas.
 8. **Formular recomendacion** con justificacion tecnica defendible.
 9. **Registrar decision** en `brain/decisions.md` con contexto, alternativas evaluadas y razon de la eleccion.

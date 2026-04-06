@@ -5,8 +5,8 @@
 | Workflow | Veces usado | Ultima vez | Satisfaccion |
 |----------|-------------|------------|--------------|
 | autista-cafeinado | 2 | 2026-04-05 | Alta — detecto 5 criticos + 7 importantes, todos corregidos |
-| implementacion-quirurgica | 1 | 2026-04-05 | Alta — plan de 7 fases ejecutado al 100% |
-| cierre-operativo | 2 | 2026-04-05 | Alta — checks limpios, handoff claro |
+| implementacion-quirurgica | 2 | 2026-04-06 | Alta — Genero arquitectura V4 de manera impecable |
+| cierre-operativo | 3 | 2026-04-06 | Alta — Scripts automatizados funcionan perfectamente |
 | code-review | 1 | 2026-04-03 | Alta |
 | retrospectiva | 0 | - | - |
 | desarrollador-profundidad | 0 | - | - |

@@ -38,11 +38,13 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 2. Expandir a capa profunda solo si hay gatillos de contexto.
 3. Definir alcance operativo y criterio de exito.
-4. Descomponer en unidades atomicas por dependencia real.
-5. Definir interfaces, contratos y datos que cambian.
-6. Detectar riesgos por paso y mitigaciones.
-7. Definir verificacion tecnica por cada bloque.
-8. Emitir plan de implementacion secuenciado.
+4. Aislar entorno: Ejecutar `git checkout -b feature/[nombre-tarea]` para asilar el riesgo espacialmente.
+5. Descomponer en unidades atomicas por dependencia real.
+6. Definir interfaces, contratos y datos que cambian.
+7. Detectar riesgos por paso y mitigaciones.
+8. Definir verificacion tecnica por cada bloque.
+9. Emitir plan de implementacion secuenciado y ejecutarlo.
+10. Integrar: Al validar el exito, hacer checkout a main, merge y destruir la rama efimera (`git branch -D`).
 
 ## Herramientas sugeridas
 

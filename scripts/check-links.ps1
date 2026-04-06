@@ -99,8 +99,8 @@ foreach ($root in @('docs', 'brain', '.agent')) {
   $fullRoot = Join-Path $repoRoot $root
   if (-not (Test-Path -LiteralPath $fullRoot -PathType Container)) { continue }
   Get-ChildItem -Path $fullRoot -Recurse -Filter *.md -File | ForEach-Object {
-    # Eliminar escaneo de skills (suelen contener links de ejemplo)
-    if ($_.FullName -notmatch '[\\/]\.agent[\\/]skills[\\/]') {
+    # Eliminar escaneo de skills y modulos de node que ralentizan
+    if ($_.FullName -notmatch '[\\/]\.agent[\\/]skills[\\/]' -and $_.FullName -notmatch '[\\/]node_modules[\\/]') {
       [void]$filesToScan.Add($_.FullName)
     }
   }
