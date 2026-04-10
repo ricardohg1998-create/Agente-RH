@@ -32,4 +32,5 @@ Evitar deriva documental, residuos tecnicos y ruido estructural.
 ## Archivar vs borrar
 
 - Archivar en `brain/archive/` si tiene valor historico.
+- **Log Rotation**: Mover proactivamente los registros antiguos de `brain/session_logs/` a `brain/archive/session_logs/` periódicamente para evitar saturación.
 - Borrar si solo es residuo tecnico o ruido sin valor.

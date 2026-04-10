@@ -142,6 +142,26 @@ if ($shouldPrepareProjectMetadata) {
   $ProjectVision = Read-RequiredValue -Label 'Vision del proyecto' -CurrentValue $ProjectVision
   $FirstDeliverable = Read-RequiredValue -Label 'Primer entregable' -CurrentValue $FirstDeliverable
 
+  # Factory Reset de memoria heredada del template
+  Write-Host 'init-project: purgados logs e historial del template base para el nuevo proyecto.' -ForegroundColor Cyan
+  $sessionLogsDir = Join-Path $repoRoot 'brain/session_logs'
+  $archiveLogsDir = Join-Path $repoRoot 'brain/archive/session_logs'
+
+  if (Test-Path $sessionLogsDir) {
+    Get-ChildItem -Path $sessionLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Set-Content -Path "$sessionLogsDir\.gitkeep" -Value "" -Encoding UTF8
+  }
+  if (Test-Path $archiveLogsDir) {
+    Get-ChildItem -Path $archiveLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Set-Content -Path "$archiveLogsDir\.gitkeep" -Value "" -Encoding UTF8
+  }
+
+  $nowPath = Join-Path $repoRoot 'brain/now.md'
+  if (Test-Path $nowPath) {
+    $nowResetContent = "# Now`n`n<!-- QUICK-NOW:START -->`n## Estado actual`n`n- Memoria reseteada para nuevo proyecto.`n`n## Siguiente accion recomendada`n- Definir base arquitectónica.`n<!-- QUICK-NOW:END -->`n"
+    Set-Content -Path $nowPath -Value $nowResetContent -Encoding UTF8 -Force
+  }
+
   $syncParams = @{
     SummaryNow    = "Proyecto $ProjectName inicializado en el cerebro."
     NextAction    = "Elegir e inicializar stack (ej. con npm/pip) manual o usar workflows."

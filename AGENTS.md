@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Este archivo define reglas de colaboracion para agentes en este repo.
+Este archivo define reglas de colaboración para agentes en este repo.
 
 ## Prioridades
 
-1. Hablar siempre en espanol.
+1. Hablar siempre en español.
 2. Mantener el repo limpio y sin basura.
 3. No crear complejidad artificial.
 4. Actualizar memoria operativa en `brain/` tras cambios relevantes.
@@ -14,32 +14,37 @@ Este archivo define reglas de colaboracion para agentes en este repo.
 - Reglas operativas: `.agent/rules/`
 - Workflows: `.agent/workflows/`
 - Plantillas: `.agent/templates/`
-- Politicas configurables: `.agent/config/`
+- Políticas configurables: `.agent/config/`
 - Memoria del proyecto: `brain/`
 
 ## Modo de trabajo
 
 - Antes de cambios relevantes: leer `brain/now.md`, `brain/current-state.md`, `brain/stack.md` y `brain/deep-summary.md`.
-- Despues de cambios relevantes:
-  - actualizar capa rapida (`now.md`, `current-state.md`, `stack.md` si aplica)
+- Después de cambios relevantes:
+  - actualizar capa rápida (`now.md`, `current-state.md`, `stack.md` si aplica)
   - si cambia cualquier archivo de memoria profunda (`deepLayer.files`), actualizar `deep-summary.md` en la misma tarea
-  - registrar decision o hito si aplica
+  - registrar decisión o hito si aplica
   - registrar en changelog si aplica
 
 ## Higiene
 
 - Reutilizar documentos existentes antes de crear nuevos.
-- Evitar duplicidad semantica entre `brain/` y docs historicos.
+- Evitar duplicidad semántica entre `brain/` y docs históricos.
 - Proponer archivado o borrado de restos obsoletos.
 - Ejecutar checks con scripts de `scripts/`.
 
 ## Compatibilidad IDE
 
-Este repo esta alineado con Antigravity:
+Este repo está alineado con Antigravity:
 
 - Workspace rules en `.agent/rules/`.
 - Skills workspace en `.agent/skills/`.
 - Workflows documentados para planning mode.
+
+## Extensiones recordatorio
+
+- `ms-python.python`
+- `ms-azuretools.vscode-docker`
 
 ## Herramientas del entorno
 
