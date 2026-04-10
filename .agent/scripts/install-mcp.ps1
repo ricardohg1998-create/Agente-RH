@@ -29,7 +29,8 @@ if (Test-Path $ConfigPath) {
         $jsonContent.mcpServers | Add-Member -MemberType NoteProperty -Name 'Agente-RH-Semantic' -Value $mcpServerConfig
     }
 
-    $jsonContent | ConvertTo-Json -Depth 10 | Set-Content -Path $ConfigPath -Encoding UTF8
+    $jsonStr = $jsonContent | ConvertTo-Json -Depth 10
+    [System.IO.File]::WriteAllText($ConfigPath, $jsonStr, (New-Object System.Text.UTF8Encoding($False)))
     Write-Host "[Install-MCP] Servidor 'Agente-RH-Semantic' enganchado exitosamente a tu IDE con ruta dinamica: $McpEntryPath"
 } else {
     Write-Warning "[Install-MCP] No se encontro archivo MCP de Antigravity en $ConfigPath. Configuracion manual requerida apuntando a: $McpEntryPath"
