@@ -35,7 +35,7 @@ function Invoke-CheckedScript {
   }
 }
 
-function Ensure-GitAvailable {
+function Assert-GitAvailable {
   if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     throw 'No se encontro git en PATH.'
   }
@@ -74,7 +74,7 @@ function Test-GitHeadExists {
 }
 
 if (($InitGit -or $InstallHook -or $CreateInitialCommit) -and (-not (Test-Path -LiteralPath $gitDir -PathType Container))) {
-  Ensure-GitAvailable
+  Assert-GitAvailable
 }
 
 if ($InstallHook -and -not (Test-Path -LiteralPath $gitDir -PathType Container) -and -not $InitGit) {
