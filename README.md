@@ -6,6 +6,7 @@ Este repositorio es un esqueleto operativo, listo para clonar y arrancar, para p
 - Fuente de verdad del agente: `.agent/`.
 - Memoria operativa del proyecto: `brain/`.
 - Flujo principal recomendado: Google Antigravity en modo Planning para tareas complejas.
+- **Servidor Semántico MCP**: Integración nativa (`.agent/mcp`) para dotar a los agentes IA de navegación AST exacta en TypeScript.
 
 ## Arranque en menos de 30 segundos
 
@@ -131,6 +132,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-hook.ps1
 ```
 
 Guia de higiene: `docs/repo-hygiene.md`.
+
+## Superpoderes Semánticos (MCP Server)
+
+Este template despliega un servidor del **Model Context Protocol (MCP)** basado en `ts-morph` que permite al agente "surfear" tu código TypeScript explorando el AST real y encontrando usos exactos (*"Find All References"*). 
+Para activarlo en tu nuevo proyecto o repositorio clonado:
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .agent/scripts/install-mcp.ps1
+```
+*(Requiere ejecutar `npm install` y `npm run build` en la carpeta `.agent/mcp/semantic-server/` previamente).*
 
 ## Flujo diario en Antigravity (Win11)
 

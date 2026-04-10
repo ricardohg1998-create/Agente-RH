@@ -175,6 +175,7 @@ if ($shouldPrepareProjectMetadata) {
 
   & $syncBrainScript @syncParams
   Write-Host "init-project: inicializacion terminada. Usa CLIs oficiales (npx, pip) para scaffolding de stack." -ForegroundColor Green
+  Write-Host "init-project: (Opcional) Si usarás TypeScript, inicializa el Semantic Server ejecutando: powershell -File .agent/scripts/install-mcp.ps1" -ForegroundColor Cyan
 }
 
 Invoke-CheckedScript -ScriptPath $runChecksScript
