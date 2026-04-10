@@ -136,11 +136,10 @@ Guia de higiene: `docs/repo-hygiene.md`.
 ## Superpoderes Semánticos (MCP Server)
 
 Este template despliega un servidor del **Model Context Protocol (MCP)** basado en `ts-morph` que permite al agente "surfear" tu código TypeScript explorando el AST real y encontrando usos exactos (*"Find All References"*). 
-Para activarlo en tu nuevo proyecto o repositorio clonado:
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .agent/scripts/install-mcp.ps1
-```
-*(Requiere ejecutar `npm install` y `npm run build` en la carpeta `.agent/mcp/semantic-server/` previamente).*
+El script de inicialización (`scripts/init-project.ps1`) se encargará automáticamente de:
+1. Detectar Node.js y descargar sus dependencias.
+2. Compilar el clúster semántico en local.
+3. Engancharlo en secreto al IDE Antigravity.
 
 ## Flujo diario en Antigravity (Win11)
 

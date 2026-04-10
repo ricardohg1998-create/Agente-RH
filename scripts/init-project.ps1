@@ -175,7 +175,34 @@ if ($shouldPrepareProjectMetadata) {
 
   & $syncBrainScript @syncParams
   Write-Host "init-project: inicializacion terminada. Usa CLIs oficiales (npx, pip) para scaffolding de stack." -ForegroundColor Green
-  Write-Host "init-project: (Opcional) Si usarás TypeScript, inicializa el Semantic Server ejecutando: powershell -File .agent/scripts/install-mcp.ps1" -ForegroundColor Cyan
+
+  # Automatización de instalación del MCP Semantic Server
+  if (Get-Command npm -ErrorAction SilentlyContinue) {
+    Write-Host "init-project: Detectado Node.js. Autoinstalando y compilando el MCP Semantic Server en background..." -ForegroundColor Magenta
+    
+    $mcpDir = Join-Path $repoRoot ".agent\mcp\semantic-server"
+    $installMcpScript = Join-Path $repoRoot ".agent\scripts\install-mcp.ps1"
+    
+    if (Test-Path $mcpDir) {
+      Push-Location $mcpDir
+      try {
+        Write-Host "  -> npm install..."
+        & npm install --silent | Out-Null
+        Write-Host "  -> compilando (tsc)..."
+        & npm run build --silent | Out-Null
+      } finally {
+        Pop-Location
+      }
+      
+      if (Test-Path $installMcpScript) {
+        Write-Host "  -> enlazando el cliente MCP con el IDE..."
+        Invoke-CheckedScript -ScriptPath $installMcpScript
+        Write-Host "init-project: Semantic Server instalado en silencio y enganchado con éxito." -ForegroundColor Green
+      }
+    }
+  } else {
+    Write-Host "init-project: (Aviso) No se detectó 'npm'. El servidor MCP semántico no pudo compilarse automáticamente." -ForegroundColor Yellow
+  }
 }
 
 Invoke-CheckedScript -ScriptPath $runChecksScript
