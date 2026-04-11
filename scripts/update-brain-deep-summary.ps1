@@ -8,23 +8,15 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
-
-function Normalize-Eol {
+function ConvertTo-TrimmedEol {
   param([string]$Text)
   return ($Text -replace "`r`n", "`n").Trim()
 }
 
-function Normalize-ShortText {
+function ConvertTo-NormalizedShortText {
   param([string]$Text)
   $t = $Text.Trim()
   $t = $t -replace '`', ''
@@ -49,7 +41,7 @@ function Get-DeepSummary {
 
     $item = $clean -replace '^\s*[-*+]\s+', ''
     $item = $item -replace '^\s*\d+\.\s+', ''
-    $item = Normalize-ShortText -Text $item
+    $item = ConvertTo-NormalizedShortText -Text $item
     if ([string]::IsNullOrWhiteSpace($item)) { continue }
     if ($item -match $placeholderRegex) { continue }
     $lines += $item
@@ -92,7 +84,7 @@ function Get-DeepState {
   return 'activo'
 }
 
-function Replace-MarkedSection {
+function Set-MarkedSection {
   param(
     [string]$Path,
     [string]$StartMarker,
@@ -161,10 +153,10 @@ $newBody = @"
 $($lines -join "`n")
 "@
 
-$replace = Replace-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
+$replace = Set-MarkedSection -Path $summaryFullPath -StartMarker '<!-- QUICK-DEEP:START -->' -EndMarker '<!-- QUICK-DEEP:END -->' -NewBody $newBody
 
 if ($CheckOnly) {
-  if ((Normalize-Eol -Text $replace.CurrentBody) -ne (Normalize-Eol -Text "`r`n$newBody`r`n")) {
+  if ((ConvertTo-TrimmedEol -Text $replace.CurrentBody) -ne (ConvertTo-TrimmedEol -Text "`r`n$newBody`r`n")) {
     Write-Host 'update-brain-deep-summary: desincronizado.' -ForegroundColor Red
     exit 1
   }

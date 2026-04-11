@@ -8,15 +8,8 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $structurePath = Join-Path $repoRoot '.agent/config/repo-structure.json'
 $safeFiles = @('src/.gitkeep', 'tests/.gitkeep', 'tools/.gitkeep')
 
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
 if (-not (Test-Path -LiteralPath $structurePath -PathType Leaf)) {
   throw "No existe manifiesto estructural: $structurePath"
@@ -61,6 +54,10 @@ foreach ($keep in $safeFiles) {
   $keepPath = Resolve-RepoPath -Path $keep
   if (-not (Test-Path -LiteralPath $keepPath -PathType Leaf)) {
     if (-not $CheckOnly) {
+      $keepDir = Split-Path -Path $keepPath -Parent
+      if (-not (Test-Path -LiteralPath $keepDir -PathType Container)) {
+        New-Item -ItemType Directory -Path $keepDir -Force | Out-Null
+      }
       Set-Content -Path $keepPath -Encoding UTF8 -Value ""
       $created.Add($keep)
     } else {

@@ -7,7 +7,8 @@ param(
   [string]$ProjectName,
   [string]$ProjectVision,
   [string]$FirstDeliverable,
-  [switch]$CreateInitialCommit
+  [switch]$CreateInitialCommit,
+  [switch]$SkipChecks
 )
 
 $ErrorActionPreference = 'Stop'
@@ -205,7 +206,9 @@ if ($shouldPrepareProjectMetadata) {
   }
 }
 
-Invoke-CheckedScript -ScriptPath $runChecksScript
+if (-not $SkipChecks) {
+  Invoke-CheckedScript -ScriptPath $runChecksScript
+}
 
 if ($CreateInitialCommit) {
   if (-not (Test-Path -LiteralPath $gitDir -PathType Container)) {

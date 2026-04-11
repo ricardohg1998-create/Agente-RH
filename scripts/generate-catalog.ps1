@@ -11,7 +11,7 @@ $skillsRoot = Join-Path $repoRoot '.agent/skills'
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
 
-function Normalize-Eol {
+function ConvertTo-TrimmedEol {
   param([string]$Text)
 
   return ($Text -replace "`r`n", "`n").Trim()
@@ -107,7 +107,7 @@ if ($CheckOnly) {
   }
 
   $current = Read-Utf8File -Path $catalogPath
-  if ((Normalize-Eol -Text $current) -ne (Normalize-Eol -Text $expected)) {
+  if ((ConvertTo-TrimmedEol -Text $current) -ne (ConvertTo-TrimmedEol -Text $expected)) {
     Write-Host 'generate-catalog: desincronizado.' -ForegroundColor Red
     exit 1
   }

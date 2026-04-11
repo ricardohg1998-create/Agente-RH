@@ -42,7 +42,7 @@ Import-Module $brainUtilsPath -Force
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
 
-function Replace-MarkedSection {
+function Set-MarkedSection {
   param(
     [string]$Path,
     [string]$StartMarker,
@@ -56,7 +56,8 @@ function Replace-MarkedSection {
 
   $raw = Read-Utf8File -Path $Path
   $blockId = $StartMarker -replace '<!-- (.*?):START -->', '$1'
-  $updated = Set-BrainBlock -Content $raw -BlockId $blockId -NewBlockContent "`n`n" + $NewBody.Trim() + "`n`n"
+  $wrappedContent = $StartMarker + "`n" + $NewBody.Trim() + "`n" + $EndMarker
+  $updated = Set-BrainBlock -Content $raw -BlockId $blockId -NewBlockContent $wrappedContent
   Write-Utf8File -Path $Path -Content $updated
 }
 
@@ -218,8 +219,8 @@ $stateBody = @"
 - Ejecutar `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1`.
 "@
 
-Replace-MarkedSection -Path $nowPath -StartMarker '<!-- QUICK-NOW:START -->' -EndMarker '<!-- QUICK-NOW:END -->' -NewBody $nowBody
-Replace-MarkedSection -Path $statePath -StartMarker '<!-- QUICK-STATE:START -->' -EndMarker '<!-- QUICK-STATE:END -->' -NewBody $stateBody
+Set-MarkedSection -Path $nowPath -StartMarker '<!-- QUICK-NOW:START -->' -EndMarker '<!-- QUICK-NOW:END -->' -NewBody $nowBody
+Set-MarkedSection -Path $statePath -StartMarker '<!-- QUICK-STATE:START -->' -EndMarker '<!-- QUICK-STATE:END -->' -NewBody $stateBody
 
 $stackParameterNames = @(
   'StackFrontend',
@@ -269,7 +270,7 @@ $(Format-BulletList -Items (Resolve-MergedListParam -ParameterName 'StackVersion
 $(Format-BulletList -Items (Resolve-MergedListParam -ParameterName 'StackCriticalDependencies' -ExistingValue (Get-SectionLines -Body $stackCurrentBody -Heading 'Dependencias criticas') -Fallback @('(sin registros)')))
 "@
 
-  Replace-MarkedSection -Path $stackPath -StartMarker '<!-- QUICK-STACK:START -->' -EndMarker '<!-- QUICK-STACK:END -->' -NewBody $stackBody
+  Set-MarkedSection -Path $stackPath -StartMarker '<!-- QUICK-STACK:START -->' -EndMarker '<!-- QUICK-STACK:END -->' -NewBody $stackBody
 }
 
 $projectParameterNames = @('ProjectVision', 'ProjectGoals', 'ScopeIn', 'ScopeOut')
@@ -306,7 +307,7 @@ $(Format-BulletList -Items $scopeInValue)
 $(Format-BulletList -Items $scopeOutValue)
 "@
 
-  Replace-MarkedSection -Path $projectOverviewPath -StartMarker '<!-- QUICK-PROJECT:START -->' -EndMarker '<!-- QUICK-PROJECT:END -->' -NewBody $projectBody
+  Set-MarkedSection -Path $projectOverviewPath -StartMarker '<!-- QUICK-PROJECT:START -->' -EndMarker '<!-- QUICK-PROJECT:END -->' -NewBody $projectBody
 }
 
 if ($SyncDeepSummary) {

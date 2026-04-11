@@ -4,16 +4,8 @@ param()
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $configPath = Join-Path $repoRoot '.agent/config/skills-sources.json'
-
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
 $config = Get-Content -Path $configPath -Raw | ConvertFrom-Json
 $enabledSessionSource = @($config.sessionSources | Where-Object { $_.enabled -eq $true }).Count -gt 0

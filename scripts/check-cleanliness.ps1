@@ -10,7 +10,7 @@ $excludedDirNames = New-Object System.Collections.Generic.HashSet[string]([Syste
   [void]$excludedDirNames.Add($_)
 }
 
-function Normalize-ComparablePath {
+function ConvertTo-ComparablePath {
   param([string]$Path)
   return $Path.TrimEnd('\', '/').Replace('/', '\')
 }
@@ -21,8 +21,8 @@ function Get-RelativePath {
     [string]$FullPath
   )
 
-  $rootNorm = Normalize-ComparablePath -Path $Root
-  $fullNorm = Normalize-ComparablePath -Path $FullPath
+  $rootNorm = ConvertTo-ComparablePath -Path $Root
+  $fullNorm = ConvertTo-ComparablePath -Path $FullPath
   $prefix = $rootNorm + '\'
 
   if ($fullNorm.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
@@ -33,10 +33,10 @@ function Get-RelativePath {
 }
 
 $excludedAbsolutePaths = @(
-  $(Normalize-ComparablePath -Path (Join-Path $repoRoot '.agent\local'))
+  $(ConvertTo-ComparablePath -Path (Join-Path $repoRoot '.agent\local'))
 )
 
-function Should-SkipDirectory {
+function Test-SkipDirectory {
   param(
     [string]$FullPath,
     [string]$Name
@@ -46,7 +46,7 @@ function Should-SkipDirectory {
     return $true
   }
 
-  $norm = Normalize-ComparablePath -Path $FullPath
+  $norm = ConvertTo-ComparablePath -Path $FullPath
   foreach ($excluded in $excludedAbsolutePaths) {
     if ($norm.Equals($excluded, [System.StringComparison]::OrdinalIgnoreCase)) {
       return $true
@@ -72,7 +72,7 @@ function Get-RepoFiles {
 
     foreach ($entry in $entries) {
       if ($entry.PSIsContainer) {
-        if (-not (Should-SkipDirectory -FullPath $entry.FullName -Name $entry.Name)) {
+        if (-not (Test-SkipDirectory -FullPath $entry.FullName -Name $entry.Name)) {
           $pending.Push($entry.FullName)
         }
         continue
@@ -164,12 +164,12 @@ foreach ($path in $criticalMustNotBeEmpty) {
 }
 
 $docPrefixes = @(
-  $(Normalize-ComparablePath -Path (Join-Path $repoRoot 'brain')),
-  $(Normalize-ComparablePath -Path (Join-Path $repoRoot 'docs'))
+  $(ConvertTo-ComparablePath -Path (Join-Path $repoRoot 'brain')),
+  $(ConvertTo-ComparablePath -Path (Join-Path $repoRoot 'docs'))
 )
 
 foreach ($doc in $allFiles) {
-  $fullNorm = Normalize-ComparablePath -Path $doc.FullName
+  $fullNorm = ConvertTo-ComparablePath -Path $doc.FullName
   $inScope = $false
   foreach ($prefix in $docPrefixes) {
     if ($fullNorm.StartsWith($prefix + '\', [System.StringComparison]::OrdinalIgnoreCase)) {

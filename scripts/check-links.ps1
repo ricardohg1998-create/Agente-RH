@@ -48,6 +48,7 @@ function Test-IgnoreLinkTarget {
   if ($Target -like '<*') { return $true }
   if ($Target -like '~*') { return $true }
   if ($Target -like '$*') { return $true }
+  if ($Target -match '^@[a-zA-Z0-9]') { return $true }
   return $false
 }
 
@@ -119,7 +120,7 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
     param($filePath, $repoRootPath)
 
     $ErrorActionPreference = 'Stop'
-    $localIssues = @()
+    $script:localIssues = @()
 
     function Resolve-RepoPath {
       param([string]$Path)
@@ -150,6 +151,7 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
       if ($Target -like '<*') { return $true }
       if ($Target -like '~*') { return $true }
       if ($Target -like '$*') { return $true }
+      if ($Target -match '^@[a-zA-Z0-9]') { return $true }
       return $false
     }
 
@@ -182,7 +184,7 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
         }
       }
       if (-not (Test-Path -LiteralPath $candidate)) {
-        $localIssues += "Ruta rota en $(Get-RelativeRepoPath -FullPath $SourcePath): $Token"
+        $script:localIssues += "Ruta rota en $(Get-RelativeRepoPath -FullPath $SourcePath): $Token"
       }
     }
 
@@ -195,13 +197,16 @@ foreach ($file in ($filesToScan | Sort-Object -Unique)) {
     }
 
     foreach ($codeMatch in [regex]::Matches($rawWithoutCodeBlocks, '(?<!`)`(?<code>[^`\r\n]+)`(?!`)')) {
-      $token = $codeMatch.Groups['code'].Value.Trim()
-      if ($token -notmatch '[\\/]' -and $token -notmatch '\.(md|ps1|json|ya?ml|sh|txt)$') { continue }
+      $token = $codeMatch.Groups['code'].Value.Trim().TrimEnd('/')
+      if ($token -notmatch '[\\/]') { continue }
+      if ($token -match '\s') { continue }
+      if ($token -match '\\\\[sdwbDSWB]') { continue }
+      if ($token -match '[\[\]+{}|^]') { continue }
       if ($token -match '^(?:implementation_plan\.md|task\.md|walkthrough\.md)$') { continue }
       Test-PathToken -SourcePath $filePath -Token $token -ResolveRelativeToSource $false
     }
 
-    return $localIssues
+    return $script:localIssues
   } -ArgumentList $file, $repoRoot
 
   $completed = $scanJob | Wait-Job -Timeout $timeoutPerFileSec

@@ -7,7 +7,7 @@
 
 ## Acciones Tomadas
 - **Limpieza de template**: Eliminada la skill `social-content` no agnóstica.
-- **Factory Reset**: Modificado `.scripts/init-project.ps1` para vaciar el historial de memoria en instancias futuras, reteniendo la arquitectura en la instancia inicial.
+- **Factory Reset**: Modificado `scripts/init-project.ps1` para vaciar el historial de memoria en instancias futuras, reteniendo la arquitectura en la instancia inicial.
 - **Correcciones de Lint**: Renombrado `Ensure-GitAvailable` a `Assert-GitAvailable` cumpliendo Convenciones de Powershell.
 - **Instalación de Servidor MCP**:
   - Recuperado del historial el archivo `.agent/scripts/install-mcp.ps1`.

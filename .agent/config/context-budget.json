@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": 1,
   "warn": {
@@ -22,7 +22,9 @@
     "docs",
     ".agent/templates",
     ".agent/workflows",
-    ".agent/rules"
+    ".agent/rules",
+    ".agent/skills",
+    ".agent/scripts"
   ],
   "textExtensions": [
     ".md",

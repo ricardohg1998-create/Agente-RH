@@ -12,7 +12,7 @@ function Resolve-RepoPath {
   return (Join-Path $repoRoot $Path)
 }
 
-function Normalize-Eol {
+function ConvertTo-NormalizedEol {
   [CmdletBinding()]
   param([string]$Text)
 
@@ -20,4 +20,4 @@ function Normalize-Eol {
   return ($Text -replace "`r`n", "`n") -replace "`r", "`n"
 }
 
-Export-ModuleMember -Function Resolve-RepoPath, Normalize-Eol
+Export-ModuleMember -Function Resolve-RepoPath, ConvertTo-NormalizedEol

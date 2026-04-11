@@ -5,16 +5,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
 function Get-RelativePath {
   param(
@@ -34,7 +26,7 @@ function Get-RelativePath {
   return $FullPath
 }
 
-function Normalize-Paragraph {
+function ConvertTo-NormalizedParagraph {
   param([string]$Text)
 
   $norm = $Text.ToLowerInvariant()
@@ -59,7 +51,7 @@ function Get-Paragraphs {
   foreach ($part in $parts) {
     if ([string]::IsNullOrWhiteSpace($part)) { continue }
 
-    $norm = Normalize-Paragraph -Text $part
+    $norm = ConvertTo-NormalizedParagraph -Text $part
     if ($norm.Length -lt $MinChars) { continue }
 
     $preview = $norm

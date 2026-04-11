@@ -31,7 +31,8 @@
       "brain/skills-available.md",
       "brain/workflows-index.md",
       "brain/user-instructions.md",
-      "brain/workflow-metrics.md"
+      "brain/workflow-metrics.md",
+      "brain/access.md"
     ],
     "updatePolicy": "if_applies"
   },

@@ -14,7 +14,7 @@ $readmePath = Join-Path $repoRoot 'README.md'
 $dispatchPath = Join-Path $repoRoot '.agent/rules/workflow-dispatch.md'
 $indexPath = Join-Path $repoRoot 'brain/workflows-index.md'
 
-function Normalize-Eol {
+function ConvertTo-TrimmedEol {
   param([string]$Text)
 
   return ($Text -replace "`r`n", "`n").Trim()
@@ -129,7 +129,7 @@ function Format-InlineCode {
   return ('`' + $Text + '`')
 }
 
-function Parse-Workflow {
+function ConvertFrom-WorkflowFile {
   param([System.IO.FileInfo]$File)
 
   $raw = Read-Utf8File -Path $File.FullName
@@ -172,7 +172,7 @@ if (-not (Test-Path -LiteralPath $templatePath -PathType Leaf)) {
 }
 
 $quickLayerSnippet = (Read-Utf8File -Path $templatePath).Trim()
-$workflows = @(Get-ChildItem -Path $workflowDir -Filter *.md -File | Sort-Object Name | ForEach-Object { Parse-Workflow -File $_ })
+$workflows = @(Get-ChildItem -Path $workflowDir -Filter *.md -File | Sort-Object Name | ForEach-Object { ConvertFrom-WorkflowFile -File $_ })
 
 $workflowUpdates = New-Object System.Collections.Generic.List[object]
 foreach ($workflow in $workflows) {
@@ -245,23 +245,23 @@ $indexSourcesBody
 $pending = New-Object System.Collections.Generic.List[string]
 
 foreach ($update in $workflowUpdates) {
-  if ((Normalize-Eol -Text $update.Raw) -ne (Normalize-Eol -Text $update.Updated)) {
+  if ((ConvertTo-TrimmedEol -Text $update.Raw) -ne (ConvertTo-TrimmedEol -Text $update.Updated)) {
     $pending.Add((Get-RelativeRepoPath -FullPath $update.Path))
   }
 }
 
-if ((Normalize-Eol -Text $readmeUpdate.Raw) -ne (Normalize-Eol -Text $readmeUpdate.Updated)) {
+if ((ConvertTo-TrimmedEol -Text $readmeUpdate.Raw) -ne (ConvertTo-TrimmedEol -Text $readmeUpdate.Updated)) {
   $pending.Add('README.md')
 }
 
 $dispatchExpected = $dispatchCriteriaUpdate.Updated
 $dispatchCurrent = Read-Utf8File -Path $dispatchPath
-if ((Normalize-Eol -Text $dispatchCurrent) -ne (Normalize-Eol -Text $dispatchExpected)) {
+if ((ConvertTo-TrimmedEol -Text $dispatchCurrent) -ne (ConvertTo-TrimmedEol -Text $dispatchExpected)) {
   $pending.Add('.agent/rules/workflow-dispatch.md')
 }
 
 $indexCurrent = Read-Utf8File -Path $indexPath
-if ((Normalize-Eol -Text $indexCurrent) -ne (Normalize-Eol -Text $expectedIndex)) {
+if ((ConvertTo-TrimmedEol -Text $indexCurrent) -ne (ConvertTo-TrimmedEol -Text $expectedIndex)) {
   $pending.Add('brain/workflows-index.md')
 }
 
@@ -277,7 +277,7 @@ if ($CheckOnly) {
 }
 
 foreach ($update in $workflowUpdates) {
-  if ((Normalize-Eol -Text $update.Raw) -ne (Normalize-Eol -Text $update.Updated)) {
+  if ((ConvertTo-TrimmedEol -Text $update.Raw) -ne (ConvertTo-TrimmedEol -Text $update.Updated)) {
     Write-Utf8File -Path $update.Path -Content $update.Updated
   }
 }

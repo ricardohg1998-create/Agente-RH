@@ -15,18 +15,10 @@ $psBin = Resolve-PowerShellBinary
 
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
-
-function Normalize-Text {
+function ConvertTo-NormalizedText {
   param([string]$Text)
   $normalized = $Text.ToLowerInvariant()
   $normalized = $normalized -replace '[^a-z0-9\s]', ' '
@@ -61,12 +53,12 @@ if (-not (Test-Path -LiteralPath $target -PathType Leaf)) {
 }
 
 $raw = Read-Utf8File -Path $target
-$normNew = Normalize-Text -Text $Instruction
+$normNew = ConvertTo-NormalizedText -Text $Instruction
 
 $existingMatches = [regex]::Matches($raw, 'texto:\s*(.+)$', [System.Text.RegularExpressions.RegexOptions]::Multiline)
 $alreadyExists = $false
 foreach ($match in $existingMatches) {
-  $normExisting = Normalize-Text -Text $match.Groups[1].Value
+  $normExisting = ConvertTo-NormalizedText -Text $match.Groups[1].Value
   if ($normExisting -eq $normNew) {
     $alreadyExists = $true
     break

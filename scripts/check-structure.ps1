@@ -4,16 +4,8 @@ param()
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $structurePath = Join-Path $repoRoot '.agent/config/repo-structure.json'
-
-function Resolve-RepoPath {
-  param([string]$Path)
-
-  if ([System.IO.Path]::IsPathRooted($Path)) {
-    return $Path
-  }
-
-  return (Join-Path $repoRoot $Path)
-}
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
 if (-not (Test-Path -LiteralPath $structurePath -PathType Leaf)) {
   throw "No existe manifiesto estructural: $structurePath"

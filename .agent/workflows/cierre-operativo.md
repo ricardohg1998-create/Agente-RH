@@ -42,7 +42,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 5. Revisar riesgos residuales y acciones de seguimiento.
 6. Validar checks operativos requeridos.
 7. Eliminar los archivos efímeros o temporales creados durante la sesión que ya hayan cumplido su función y no se necesiten más.
-8. **Automatizacion de Memoria**: Ejecutar el script `.agent/scripts/compact-memory.ps1` (si existe) para que extraiga el diff y context de forma procedimental, eximiendo al agente de redactar los logs/now manualmente.
+8. **Automatizacion de Memoria**: Si existe un script de compactacion de memoria en el repositorio, ejecutarlo para que extraiga el diff y context de forma procedimental, eximiendo al agente de redactar los logs/now manualmente.
 9. Actualizar `brain/workflow-metrics.md` registrando que workflows se usaron en la sesion, con que resultado y satisfaccion.
 
 ## Herramientas sugeridas
