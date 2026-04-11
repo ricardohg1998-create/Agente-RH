@@ -16,8 +16,8 @@
 - brain/skills-available.md | estado: base | resumen: Config en .agent/config/skills-sources.json. | mod: 2026-03-10
 - brain/workflows-index.md | estado: activo | resumen: Autista cafeinado (autista-cafeinado) -> Revision obsesiva, hiper-detallada y profunda del... | mod: 2026-04-11
 - brain/user-instructions.md | estado: activo | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-03-14
-- brain/workflow-metrics.md | estado: activo | resumen: / Workflow / Veces usado / Ultima vez / Satisfaccion / | mod: 2026-04-06
-- brain/access.md | estado: activo | resumen: > [!CAUTION] | mod: 2026-03-21
+- brain/workflow-metrics.md | estado: activo | resumen: / Workflow / Veces usado / Ultima vez / Satisfaccion / | mod: 2026-04-11
+- brain/access.md | estado: activo | resumen: > [!CAUTION] | mod: 2026-04-11
 <!-- QUICK-DEEP:END -->
 
 

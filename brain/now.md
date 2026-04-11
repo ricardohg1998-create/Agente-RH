@@ -15,5 +15,5 @@
 
 ## Cambios recientes
 
-- [2026-04-11 14:54] Actualizacion rapida por agent.
+- [2026-04-11 15:14] Auditoria brain + .agent. Ver [registro detallado](session_logs/2026-04-11_auditoria_brain_agent.md).
 <!-- QUICK-NOW:END -->

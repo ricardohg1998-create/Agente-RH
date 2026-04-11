@@ -41,11 +41,6 @@ Este repo está alineado con Antigravity:
 - Skills workspace en `.agent/skills/`.
 - Workflows documentados para planning mode.
 
-## Extensiones recordatorio
-
-- `ms-python.python`
-- `ms-azuretools.vscode-docker`
-
 ## Herramientas del entorno
 
 - IDE principal: Google Antigravity

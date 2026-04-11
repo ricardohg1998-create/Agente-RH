@@ -7,11 +7,11 @@ version: 1.1.0
 
 # Context Budget Rule
 
-## Goal
+## Objetivo
 
 Reducir deriva de contexto y consumo innecesario de tokens sin perder calidad tecnica.
 
-## Operating policy
+## Politica operativa
 
 - Leer primero la capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 - Expandir a capa profunda solo cuando sea necesario.
@@ -21,19 +21,19 @@ Reducir deriva de contexto y consumo innecesario de tokens sin perder calidad te
 - Evitar duplicar parrafos largos entre multiples documentos.
 - Mantener prompts y salidas accionables, con minimo ruido.
 
-## Enforcement
+## Cumplimiento
 
 Usar checks locales:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-context-budget.ps1`
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1`
 
-## Severity model
+## Modelo de severidad
 
 - `WARN`: exceso de longitud en documentos no criticos.
 - `CRITICAL`: exceso en quick layer o duplicacion fuerte de parrafos.
 
-## Commit behavior
+## Comportamiento en commits
 
 - Los `CRITICAL` bloquean commit local mediante hook.
 - Los `WARN` informan, pero no bloquean.

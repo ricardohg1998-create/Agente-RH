@@ -1,4 +1,4 @@
-﻿# Mapa del cerebro
+# Mapa del cerebro
 
 `brain/` es la memoria operativa del proyecto.
 
@@ -24,6 +24,13 @@
 - `skills-available.md`
 - `workflows-index.md`
 - `user-instructions.md`
+- `workflow-metrics.md`
+- `access.md`
+
+## Subdirectorios
+
+- `session_logs/`: registros detallados de cada sesion de trabajo.
+- `archive/`: contenido historico obsoleto pero util para trazabilidad.
 
 ## Regla operativa
 

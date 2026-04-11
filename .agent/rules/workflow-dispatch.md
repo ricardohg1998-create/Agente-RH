@@ -7,11 +7,11 @@ version: 1.2.0
 
 # Workflow Dispatch Rule
 
-## Goal
+## Objetivo
 
 Seleccionar workflow correcto y mantener salida accionable.
 
-## Workflow map
+## Mapa de workflows
 
 <!-- GENERATED:WORKFLOW-MAP:START -->
 - `Autista cafeinado` (`autista-cafeinado`): Revision obsesiva, hiper-detallada y profunda del proyecto con critica constructiva despiadada y un Implementation Plan completo de mejoras.
@@ -29,7 +29,7 @@ Seleccionar workflow correcto y mantener salida accionable.
 - `Spike de investigacion` (`spike-investigacion`): Explorar tecnologias, evaluar alternativas y tomar decisiones tecnicas informadas antes de comprometerse con una implementacion.
 <!-- GENERATED:WORKFLOW-MAP:END -->
 
-## Dispatch criteria
+## Criterios de dispatch
 
 <!-- GENERATED:WORKFLOW-DISPATCH:START -->
 - Usar `Autista cafeinado` (`autista-cafeinado`) cuando: Antes de release relevante.
@@ -47,7 +47,7 @@ Seleccionar workflow correcto y mantener salida accionable.
 - Usar `Spike de investigacion` (`spike-investigacion`) cuando: Se necesita elegir entre varias tecnologias o librerias.
 <!-- GENERATED:WORKFLOW-DISPATCH:END -->
 
-## Priority and tie-break
+## Prioridad y desempate
 
 - Incidentes siempre priorizan `mr-problem-solver`, aunque exista solicitud secundaria de auditoria.
 - Si hay empate entre `desarrollador-profundidad` e `implementacion-quirurgica`:
@@ -55,7 +55,7 @@ Seleccionar workflow correcto y mantener salida accionable.
   - usar `implementacion-quirurgica` para secuenciar ejecucion tecnica.
 - `autista-cafeinado` queda como auditoria amplia, no como triage primario.
 
-## Memory depth policy
+## Politica de profundidad de memoria
 
 - Siempre leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 - Lectura profunda alta desde inicio para:
@@ -74,7 +74,7 @@ Seleccionar workflow correcto y mantener salida accionable.
   - cambio estructural de alcance o arquitectura
   - evidencia insuficiente para decidir
 
-## Output minimum
+## Output minimo
 
 Cada workflow debe producir:
 
@@ -83,7 +83,7 @@ Cada workflow debe producir:
 - plan de implementacion accionable
 - riesgos y dudas abiertas
 
-## Brain sync
+## Sincronizacion del brain
 
 Tras ejecutar workflow, actualizar:
 
@@ -93,7 +93,7 @@ Tras ejecutar workflow, actualizar:
 - `brain/deep-summary.md` (obligatorio si cambia cualquier archivo de `deepLayer.files`)
 - `brain/workflows-index.md` (si cambia criterio o alcance)
 
-## Context budget
+## Presupuesto de contexto
 
 Ademas del workflow elegido, aplicar siempre la regla `context-budget` para mantener salida concisa y evitar deriva documental.
 
@@ -200,10 +200,4 @@ Sistema de senales para seleccion automatica de workflow con mayor precision. Ca
 - **Senales**: "deploy", "produccion", "release", "lanzar", "staging", "pre-deploy", "checklist", "listo para subir"
 - **Anti-senales**: "investigar", "empezar proyecto", "retrospectiva"
 - **Prioridad base**: 4 (se eleva a 5 si se menciona "produccion" o "staging")
-
-
-
-
-
-
 

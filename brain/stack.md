@@ -25,5 +25,3 @@
 
 - (sin registros)
 <!-- QUICK-STACK:END -->
-
-

@@ -1,8 +1,9 @@
-# Access and Credentials
+# Accesos y Credenciales
 
 > [!CAUTION]
-> Avoid committing real passwords or sensitive API keys here if the repository is public or shared broadly without secret management.
+> Evitar hacer commit de contraseñas reales o claves API sensibles aqui si el repositorio es publico o compartido ampliamente sin gestion de secretos.
 
-- **Environment**: [Define environment boundaries]
-- **Entrypoints**: [SSH, VPN, Database connections...]
-- **Credentials Location**: [Reference to 1Password, Vault, AWS Secrets, or .env]
+- **Entorno**: [Definir limites del entorno]
+- **Puntos de entrada**: [SSH, VPN, conexiones de base de datos...]
+- **Ubicacion de credenciales**: [Referencia a 1Password, Vault, AWS Secrets, o .env]
+

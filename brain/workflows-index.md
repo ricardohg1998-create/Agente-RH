@@ -15,7 +15,6 @@
 - `QA y Pruebas` (`qa-testing`) -> Disenar, implementar y ejecutar pruebas sistematicas para garantizar calidad de codigo y prevenir regresiones.
 - `Retrospectiva` (`retrospectiva`) -> Analizar que funciono, que fallo y que mejorar al cierre de un ciclo de trabajo.
 - `Spike de investigacion` (`spike-investigacion`) -> Explorar tecnologias, evaluar alternativas y tomar decisiones tecnicas informadas antes de comprometerse con una implementacion.
-- context-budget -> control de deriva documental y consumo de contexto.
 
 ## Dispatch rapido
 
@@ -32,7 +31,6 @@
 - `QA y Pruebas` (`qa-testing`) -> Feature nueva que necesita cobertura de tests.
 - `Retrospectiva` (`retrospectiva`) -> Al cerrar un hito, fase o sprint relevante.
 - `Spike de investigacion` (`spike-investigacion`) -> Se necesita elegir entre varias tecnologias o librerias.
-- context-budget acompana siempre al workflow elegido.
 
 ## Uso recomendado
 

@@ -222,12 +222,10 @@ $expectedIndex = @"
 ## Resumen
 
 $indexSummaryBody
-- `context-budget` -> control de deriva documental y consumo de contexto.
 
 ## Dispatch rapido
 
 $indexDispatchBody
-- `context-budget` acompana siempre al workflow elegido.
 
 ## Uso recomendado
 
