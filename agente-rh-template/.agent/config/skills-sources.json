@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "preferredCatalog": {
+    "name": "local-antigravity-awesome-skills",
+    "path": "./CATALOG.md",
+    "enabled": true
+  },
+  "pathOverrides": {
+    "preferredCatalogEnv": "AGENT_SKILLS_CATALOG"
+  },
+  "fallbackCatalogs": [
+    {
+      "name": "workspace-catalog",
+      "path": "./CATALOG.md",
+      "enabled": true
+    }
+  ],
+  "sessionSources": [
+    {
+      "name": "session-available-skills",
+      "type": "runtime",
+      "enabled": true
+    }
+  ],
+  "selectionPolicy": {
+    "oneSkillPerDomain": true,
+    "preferOperationalValue": true,
+    "removeOverlaps": true,
+    "rejectIncompatibleSkills": true
+  }
+}
