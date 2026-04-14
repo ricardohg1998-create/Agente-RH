@@ -43,14 +43,14 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 6. Definir interfaces, contratos y datos que cambian.
 7. Detectar riesgos por paso y mitigaciones.
 8. Definir verificacion tecnica por cada bloque.
-9. Emitir plan de implementacion secuenciado y ejecutarlo.
+9. Emitir plan de implementacion secuenciado utilizando los Artifacts nativos de Antigravity (creando `implementation_plan.md` con `request_feedback=true`) y, tras aprobacion, ejecutarlo marcando el progreso en un `task.md`.
 10. Integrar: Al validar el exito, hacer checkout a main, merge y destruir la rama efimera (`git branch -D`).
 
 ## Herramientas sugeridas
 
 - **Mapear estructura afectada**: `list_dir` para entender la topologia de archivos del alcance y sus dependencias.
-- **Inspeccionar contratos e interfaces**: `view_file` para revisar tipos, interfaces, schemas y puntos de integracion que cambiaran.
-- **Buscar dependencias inversas**: `grep_search` para encontrar todos los consumidores de la funcion/modulo que se va a modificar.
+- **Inspeccionar contratos e interfaces**: `view_file` para revisar tipos, interfaces, schemas y puntos de integracion que cambiaran, preferiblemente apoyado de `mcp_[NombreServidor]-Semantic_analyze_file_ast`.
+- **Buscar dependencias inversas**: SIEMPRE elegir `mcp_[NombreServidor]-Semantic_get_symbol_references` o la herramienta Semantica equivalente ANTES que basarte en `grep_search`. `grep_search` solo como ultimo recurso o para busquedas puramente textuales no ligadas al arbol AST.
 - **Validar por paso**: `run_command` para ejecutar tests/build tras cada bloque atomico y verificar que no se rompe nada.
 - **Investigar patrones**: `search_web` cuando la implementacion requiera una decision tecnica no obvia.
 

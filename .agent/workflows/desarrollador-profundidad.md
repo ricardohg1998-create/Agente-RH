@@ -75,7 +75,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
    - Afecta experiencia de usuario? (medio)
    - Es cosmetico/menor? (bajo)
 10. **Priorizar**: quick wins primero (esfuerzo bajo + impacto alto), luego cambios estructurales.
-11. **Generar Implementation Plan completisimo y detallado**:
+11. **Generar Implementation Plan completisimo y detallado** a traves de los Artifacts de Antigravity (crear `implementation_plan.md` con `request_feedback=true`):
     - Descripcion exacta de que implementar en cada punto.
     - Archivos afectados y cambios esperados.
     - Dependencias entre tareas.
@@ -86,8 +86,8 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 
 - **Detectar CTAs sin destino**: `grep_search` con patrones: `onClick={() => {}}`, `onClick={() => null}`, `href="#"`, `href="javascript:void`, `// TODO`, `// implement`.
 - **Detectar placeholders y contenido vacio**: `grep_search` con: `Lorem ipsum`, `Coming soon`, `placeholder`, `dummy`, `example`, `TODO`, `TBD`, `sample data`.
-- **Detectar handlers vacios**: `grep_search` con: `() => {}`, `function() {}`, `async () => {}`, `// noop`.
-- **Verificar rutas existentes**: `grep_search` para mapear definiciones de rutas vs enlaces en componentes y detectar rutas huerfanas.
+- **Detectar handlers vacios**: USAR Semantic MCP (`mcp_[NombreServidor]-Semantic...`) para listar funciones y encontrar resoluciones vacias, o en su defecto `grep_search` con: `() => {}`, `function() {}`, `async () => {}`, `// noop`.
+- **Verificar rutas existentes**: `grep_search` para mapear definiciones de rutas, combinando con Semantic MCP para trazar dependencias relacionales de manera estructural y exacta.
 - **Navegar la app visualmente**: `browser_subagent` para recorrer todos los flujos de usuario, buscar estados vacios, formularios sin validacion, navegacion sin retorno.
 - **Mapear estructura completa**: `list_dir` recursivo para entender la topologia del proyecto y detectar areas no conectadas.
 - **Inspeccion de componentes**: `view_file` para verificar que cada componente tiene manejo de loading, error y empty states.
@@ -104,7 +104,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 8. **Lista de flujos rotos** (flujo, donde se rompe, como deberia funcionar).
 9. **Quick wins** (esfuerzo bajo, impacto alto — hacer primero).
 10. **Cambios estructurales necesarios** (requieren mas trabajo pero son fundamentales).
-11. **Implementation Plan detallado por fases** (ENTREGABLE PRINCIPAL):
+11. **Implementation Plan detallado por fases** en un Artifact nativo de Antigravity (`implementation_plan.md`):
     - Cada tarea con descripcion precisa de que hacer.
     - Archivos involucrados y cambios esperados.
     - Dependencias claras entre tareas.

@@ -6,7 +6,7 @@
 |----------|-------------|------------|--------------|
 | autista-cafeinado | 4 | 2026-04-11 | Alta — detecto 5 criticos + 7 importantes, todos corregidos. Bug deploy detectado. |
 | implementacion-quirurgica | 2 | 2026-04-06 | Alta — Genero arquitectura V4 de manera impecable |
-| cierre-operativo | 4 | 2026-04-11 | Alta — Scripts automatizados funcionan perfectamente |
+| cierre-operativo | 5 | 2026-04-14 | Alta — Usado para asentar la migración general de workflows |
 | code-review | 1 | 2026-04-03 | Alta |
 | retrospectiva | 0 | - | - |
 | desarrollador-profundidad | 0 | - | - |

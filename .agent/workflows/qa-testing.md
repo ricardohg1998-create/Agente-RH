@@ -53,7 +53,7 @@ Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, 
 
 ## Herramientas sugeridas
 
-- **Buscar funciones sin test**: `grep_search` buscando `export function`, `export const`, `export default` y cruzar con archivos `.test.` o `.spec.` existentes.
+- **Buscar funciones sin test**: USAR servidor Semantico MCP (`mcp_[NombreServidor]-Semantic_analyze_file_ast`) para listar exports exactos de modulos TS/JS y cruzar con archivos `.test.` o `.spec.`. Solo usar `grep_search` si MCP no esta disponible o como ultimo recurso.
 - **Ejecutar tests**: `run_command` con el test runner del stack (`npm test`, `pytest`, `go test`, etc.).
 - **Verificar cobertura**: `run_command` con flags de cobertura (`--coverage`, `--cov`, etc.) para obtener metricas.
 - **Inspeccionar codigo a testear**: `view_file` para entender la logica antes de disenar tests.
@@ -65,7 +65,7 @@ Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, 
 
 1. **Diagnostico de cobertura actual** (que areas tienen tests, cuales no).
 2. **Mapa de riesgo** (areas criticas sin cobertura priorizadas).
-3. **Test plan** por capas (unit, integration, e2e, visual).
+3. **Test plan** por capas (unit, integration, e2e, visual). Debe emitirse formalmente mediante un Artifact nativo de ruteo de Antigravity (`implementation_plan.md` con `request_feedback=true`).
 4. **Tests implementados** (cuantos, de que tipo, que cubren).
 5. **Resultados de ejecucion** (tests pasados, fallidos, skipped).
 6. **Metricas de cobertura** (porcentaje por modulo si el runner lo soporta).

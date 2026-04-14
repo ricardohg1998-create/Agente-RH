@@ -8,7 +8,7 @@
 
 ## Siguiente accion recomendada
 
-- Aplicar estos cambios a los demás repos, asegurándose de que al usar Antigravity lea conscientemente los prefijos del servidor MCP y priorice `mcp_*` antes de su instinto de fall-back a `grep_search`.
+- Comenzar a utilizar los workflows refactorizados (ahora dotados de The Agent Artifacts y Semantic MCP) para las nuevas tareas o sprints de desarrollo.
 
 ## Bloqueos activos
 
@@ -16,6 +16,7 @@
 
 ## Cambios recientes
 
+- [2026-04-14 10:55] Integración total de Semantic MCP y the Artifacts nativos de Antigravity en los 9 workflows principales. Ver [registro detallado](session_logs/2026-04-14_actualizacion_workflows.md).
 - [2026-04-13] **Parche anti-grep**: Actualizado `SKILL.md` (v1.1.1) y `core.md` con advertencias enérgicas y explícitas sobre cómo invocar las herramientas de MCP y por qué evitar usar grep de forma automática.
 - [2026-04-13 11:53] Instrucciones del agente alineadas con servidor MCP y ecosistema local. Ver [registro detallado](session_logs/2026-04-13_alineacion_mcp_skills.md).
 - [2026-04-11 15:14] Auditoria brain + .agent. Ver [registro detallado](session_logs/2026-04-11_auditoria_brain_agent.md).

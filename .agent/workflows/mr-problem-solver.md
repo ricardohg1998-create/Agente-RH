@@ -49,7 +49,7 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 - **Reproducir el error**: `run_command` para ejecutar el comando o test que falla y capturar output exacto.
 - **Buscar trazas del error**: `grep_search` con el mensaje de error, stack trace, o codigo de error para encontrar origen y apariciones.
 - **Monitorear procesos**: `command_status` para seguir la ejecucion de comandos largos y capturar output en tiempo real.
-- **Inspeccionar codigo sospechoso**: `view_file` para analizar la funcion o modulo donde se origina el fallo.
+- **Inspeccionar codigo sospechoso**: `view_file` para analizar la funcion o modulo donde se origina el fallo. Emplear EXCLUSIVAMENTE dependencias Semanticas MCP (`mcp_[NombreServidor]-Semantic...`) para seguir la traza del error en codigo TypeScript/JS, evitando busquedas ciegas con `grep_search` si el MCP esta disponible.
 - **Verificar cambios recientes**: `run_command` con `git log -n 10 --oneline` y `git diff` para correlacionar con cambios recientes.
 - **Reproducir visualmente**: `browser_subagent` si el error es de UI/UX para capturar el comportamiento roto.
 - **Buscar errores conocidos**: `search_web` con el mensaje de error para encontrar soluciones documentadas.
@@ -62,7 +62,7 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 4. Hipotesis priorizadas.
 5. Causa raiz probable o confirmada.
 6. Contencion inmediata recomendada.
-7. Fix propuesto con orden de ejecucion.
+7. Fix propuesto con orden de ejecucion generado a traves de la capacidad nativa de Artifacts de Antigravity (creando `implementation_plan.md` con `request_feedback=true`).
 8. Plan de validacion post-fix.
 9. Riesgos residuales y monitoreo.
 10. Dudas abiertas.

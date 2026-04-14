@@ -36,7 +36,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 
 1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 2. Expandir a capa profunda solo si hay gatillos de cierre.
-3. Confirmar mediante revisión exhaustiva que se ha implementado TODO lo mencionado en el Implementation Plan (si aplicase), de forma correcta y sin omisiones.
+3. Confirmar mediante revisión exhaustiva que se ha implementado TODO lo mencionado en el Artifact oficial `implementation_plan.md` (si el Planning Mode ha sido instanciado por The Agent), de forma correcta y sin omisiones, asegurando que `task.md` está actualizado.
 4. Analizar de forma profunda el estado resultante del repositorio para garantizar que es excelente, sin puntos de fricción ni errores (compilación, linting o coherencia).
 5. Enumerar entregables y pendientes reales.
 5. Revisar riesgos residuales y acciones de seguimiento.
@@ -51,7 +51,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 - **Detectar archivos temporales**: `list_dir` para auditar el repo y encontrar archivos efimeros (`.tmp`, `.bak`, `.log`, carpetas de build).
 - **Verificar entregables**: `view_file` para confirmar que los archivos modificados tienen el contenido esperado.
 - **Validar compilacion/build**: `run_command` con el build command del stack para asegurar que todo compila limpio.
-- **Verificar Implementation Plan**: `view_file` del plan original para cruzar cada punto con lo implementado.
+- **Verificar Artifact de Planning**: `view_file` del `implementation_plan.md` original y su respectiva checklist `task.md` para cruzar cada punto con lo implementado.
 
 ## Output obligatorio
 

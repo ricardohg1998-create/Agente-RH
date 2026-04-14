@@ -52,11 +52,12 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - **Investigar alternativas**: `search_web` para buscar comparativas, benchmarks, opiniones de la comunidad y documentacion oficial.
 - **Leer documentacion**: `read_url_content` para extraer contenido relevante de paginas de documentacion, READMEs de GitHub, articulos tecnicos.
 - **PoC rapido**: `run_command` para instalar dependencias, ejecutar scripts de prueba, medir rendimiento o validar compatibilidad.
-- **Verificar compatibilidad**: `grep_search` para buscar en el proyecto actual patrones que puedan entrar en conflicto con la nueva tecnologia.
+- **Verificar compatibilidad**: PRIORIZAR la consulta del AST mediante `mcp_[NombreServidor]-Semantic...` para evaluar dependencias estructurales en TS/JS, y usar `grep_search` unicamente para encontrar patrones de configuracion global o busquedas textuales planas.
 - **Inspeccionar librerias candidatas**: `view_file` para revisar codigo fuente de dependencias si hay dudas de calidad.
 - **Comparar visualmente**: `browser_subagent` si la investigacion incluye herramientas con interfaz web o demos online.
 
 ## Output obligatorio
+*(Todo el volcado debera articularse en un Artifact nativo de tipo "research_notes" o similar, asegurando compatibilidad con Antigravity)*
 
 1. **Pregunta de investigacion** definida con precision.
 2. **Criterios de evaluacion** ponderados.

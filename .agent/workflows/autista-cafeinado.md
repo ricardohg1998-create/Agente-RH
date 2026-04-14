@@ -51,13 +51,14 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 7. **Identificar oportunidades de mejora profundas**: no solo bugs, sino "esto podria ser mucho mejor si..." — mejoras de DX, automatizacion, simplificacion.
 8. **Buscar incoherencias de producto**: features que se contradicen, flujos que no tienen sentido juntos, prioridades desalineadas.
 9. **Priorizar por impacto/esfuerzo** con justificacion tecnica defendible.
-10. **Generar Implementation Plan completo** por fases, accionable y secuenciado.
+10. **Generar Implementation Plan completo** por fases, accionable y secuenciado utilizando la capacidad nativa de Artifacts de Antigravity (creando `implementation_plan.md` con `request_feedback=true`).
 
 ## Herramientas sugeridas
 
 - **Mapeo de estructura**: `list_dir` para recorrer el arbol completo del proyecto y detectar archivos huerfanos, convenciones de naming rotas o carpetas sin sentido.
+- **Deteccion de dependencias ocultas o resolucion AST**: USAR SIEMPRE servidor MCP Semantico (`mcp_[NombreServidor]-Semantic_analyze_file_ast` / `get_symbol_references`) frente a `grep_search` cuando se busquen integraciones de TypeScript.
 - **Deteccion de secrets y credenciales**: `grep_search` con patrones: `AKIA`, `sk-`, `ghp_`, `password\s*=`, `secret`, `token`, `apiKey`, archivos `.env` fuera de `.gitignore`.
-- **Deteccion de dead code y deuda**: `grep_search` con `TODO`, `FIXME`, `HACK`, `XXX`, `console.log`, `debugger`, `// eslint-disable`.
+- **Deteccion de dead code y deuda textuaL**: `grep_search` con `TODO`, `FIXME`, `HACK`, `XXX`, `console.log`, `debugger`, `// eslint-disable`.
 - **Inspeccion de archivos concretos**: `view_file` para revisar logica, imports sin usar, complejidad ciclomatica y anti-patrones.
 - **Validacion visual de UX/UI**: `browser_subagent` para navegar la app localmente y detectar estados rotos, layouts descuadrados, flujos incompletos.
 - **Investigacion de buenas practicas**: `search_web` cuando se detecte un patron dudoso y haga falta contrastar con el estado del arte.
@@ -74,7 +75,7 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 7. **Deuda tecnica cuantificada** (estimacion de impacto por item).
 8. **Oportunidades de mejora profundas** (lo que podria ser mucho mejor).
 9. **Propuesta priorizada** con justificacion tecnica.
-10. **Implementation Plan completo por fases** (ENTREGABLE PRINCIPAL):
+10. **Implementation Plan completo por fases** en un Artifact nativo de Antigravity (`implementation_plan.md`):
     - Descripcion detallada de cada cambio.
     - Archivos afectados.
     - Dependencias entre tareas.
