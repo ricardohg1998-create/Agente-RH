@@ -6,14 +6,31 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { Project, Node } from "ts-morph";
 import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+// Resolucion segura de rutas para no escanear C: por error
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const repoRoot = path.resolve(__dirname, "../../../../");
+
+let projectName = "agente-rh-semantic-server";
+try {
+  const pkg = JSON.parse(fs.readFileSync(path.join(repoRoot, "package.json"), "utf-8"));
+  if (pkg.name) projectName = pkg.name + "-semantic";
+} catch (e) {
+  // Fallback
+}
 
 // Inicializamos ts-morph de forma generica
-// Para un entorno real, aqui podriamos cargar el tsconfig raiz del repositorio original
-const project = new Project();
+// Usamos cache y configuracion basica
+const project = new Project({
+  skipFileDependencyResolution: true, // Mas ligero
+});
 
 const server = new Server(
   {
-    name: "agente-rh-semantic-server",
+    name: projectName,
     version: "1.0.0",
   },
   {
@@ -72,11 +89,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === "analyze_file_ast") {
       const filePath = String(args.filePath);
-      project.addSourceFileAtPathIfExists(filePath);
-      const sourceFile = project.getSourceFile(filePath);
+      const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(repoRoot, filePath);
+      project.addSourceFileAtPathIfExists(absolutePath);
+      const sourceFile = project.getSourceFile(absolutePath);
       
       if (!sourceFile) {
-         return { content: [{ type: "text", text: `["ERROR"] Archivo no existe o no pudo ser interpretado: ${filePath}` }] };
+         return { content: [{ type: "text", text: `["ERROR"] Archivo no existe o no pudo ser interpretado: ${absolutePath}` }] };
       }
       
       const exports = Array.from(sourceFile.getExportedDeclarations().keys());
@@ -93,11 +111,36 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       
       // Cargamos todo el codigo fuente de manera tosca para buscar referencias completas
       // En un entorno extremo esto puede tardar unos segundos la primera vez
-      project.addSourceFilesAtPaths("../../**/*.ts?(x)"); 
+      // Solo cargamos si no tenemos archivos ya
+      if (project.getSourceFiles().length === 0) {
+        // Ignoramos librerias y archivos pesados para que resuelva rapido
+        project.addSourceFilesAtPaths([
+          path.join(repoRoot, "src/**/*.ts?(x)"),
+          path.join(repoRoot, "app/**/*.ts?(x)"),
+          path.join(repoRoot, "components/**/*.ts?(x)"),
+          path.join(repoRoot, "lib/**/*.ts?(x)")
+        ]);
+      }
       
-      const sourceFile = project.getSourceFile(filePath) || project.addSourceFileAtPath(filePath);
-      const exportedDecl = sourceFile.getExportedDeclarations().get(symbolName);
+      const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(repoRoot, filePath);
+      const sourceFile = project.getSourceFile(absolutePath) || project.addSourceFileAtPath(absolutePath);
+      let exportedDecl = sourceFile.getExportedDeclarations().get(symbolName);
       
+      if (!exportedDecl || exportedDecl.length === 0) {
+        // Fallback: si el simbolo no es el identificador exportado (ej. es 'default'), 
+        // buscamos si el identificador local de alguna exportacion coincide con el nombre pedido
+        const allExports = sourceFile.getExportedDeclarations();
+        for (const [exportName, decls] of allExports.entries()) {
+           for (const decl of decls) {
+              if ("getName" in decl && typeof (decl as any).getName === "function" && (decl as any).getName() === symbolName) {
+                 exportedDecl = [decl];
+                 break;
+              }
+           }
+           if (exportedDecl && exportedDecl.length > 0) break;
+        }
+      }
+
       if (!exportedDecl || exportedDecl.length === 0) {
          return { content: [{ type: "text", text: `["ERROR"] Simbolo no exportado o inexistente: ${symbolName}` }] };
       }

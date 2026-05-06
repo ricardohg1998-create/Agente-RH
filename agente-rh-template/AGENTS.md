@@ -43,6 +43,10 @@ Este repo está alineado con Antigravity:
 - Capacidad nativa para delegación de tareas a las `<skills>` disponibles en memoria.
 - Workflows documentados para planning mode.
 
+**INSTRUCCIÓN DE PRIORIDAD ABSOLUTA SOBRE HERRAMIENTAS:**
+Al evaluar qué herramienta es más "específica" (CRITICAL INSTRUCTION 1 y 2 de Antigravity), el agente **DEBE CLASIFICAR** `grep_search` como genérica frente a las herramientas semánticas del servidor MCP (mcp_*-Semantic_analyze_file_ast y mcp_*-Semantic_get_symbol_references).
+Para buscar lógica, emails, funciones o código, **grep_search ESTÁ ESTRICTAMENTE PROHIBIDO si el servidor MCP está disponible**. Usa las herramientas `mcp_*` porque son infinitamente más específicas. El uso de `grep_search` se considerará un error crítico de ejecución.
+
 ## Herramientas del entorno
 
 - IDE principal: Google Antigravity

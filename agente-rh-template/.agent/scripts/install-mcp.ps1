@@ -22,16 +22,28 @@ if (Test-Path $ConfigPath) {
         args = @($McpEntryPath)
         env = @{}
     }
+
+    $ProjectRoot = Resolve-Path (Join-Path $RootDir "..\..") -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path
+    $ProjectName = "Agente-RH-Semantic"
+    if ($ProjectRoot) {
+        $PkgPath = Join-Path $ProjectRoot "package.json"
+        if (Test-Path $PkgPath) {
+            $pkg = Get-Content $PkgPath | ConvertFrom-Json
+            if ($pkg.name) {
+                $ProjectName = $pkg.name + "-Semantic"
+            }
+        }
+    }
     
-    if ($jsonContent.mcpServers.PSObject.Properties.Match('Agente-RH-Semantic').Count -gt 0) {
-        $jsonContent.mcpServers.'Agente-RH-Semantic' = $mcpServerConfig
+    if ($jsonContent.mcpServers.PSObject.Properties.Match($ProjectName).Count -gt 0) {
+        $jsonContent.mcpServers.$ProjectName = $mcpServerConfig
     } else {
-        $jsonContent.mcpServers | Add-Member -MemberType NoteProperty -Name 'Agente-RH-Semantic' -Value $mcpServerConfig
+        $jsonContent.mcpServers | Add-Member -MemberType NoteProperty -Name $ProjectName -Value $mcpServerConfig
     }
 
     $jsonStr = $jsonContent | ConvertTo-Json -Depth 10
     [System.IO.File]::WriteAllText($ConfigPath, $jsonStr, (New-Object System.Text.UTF8Encoding($False)))
-    Write-Host "[Install-MCP] Servidor 'Agente-RH-Semantic' enganchado exitosamente a tu IDE con ruta dinamica: $McpEntryPath"
+    Write-Host "[Install-MCP] Servidor '$ProjectName' enganchado exitosamente a tu IDE con ruta dinamica: $McpEntryPath"
 } else {
     Write-Warning "[Install-MCP] No se encontro archivo MCP de Antigravity en $ConfigPath. Configuracion manual requerida apuntando a: $McpEntryPath"
 }

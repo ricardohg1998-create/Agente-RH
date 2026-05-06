@@ -34,22 +34,21 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 
 ## Pasos internos
 
-1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
-2. Leer `.agent/config/skills-sources.json`.
-3. Revisar skills disponibles en sesion.
-4. Revisar `CATALOG.md` preferente (si existe).
-5. Leer `SKILL.md` de candidatas.
-6. Eliminar solapes/incompatibilidades.
-7. Seleccionar core minimo + opcionales.
-8. Instalar y validar.
+1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`).
+2. Analizar el bloque nativo `<skills>` inyectado por Antigravity en las instrucciones de sistema.
+3. Filtrar cuáles de esas skills disponibles aplican al stack técnico y dominio del negocio actual.
+4. Revisar `CATALOG.md` preferente (si el template lo ofrece) por si hubiera skills personalizadas o cerradas.
+5. Usar `view_file` para leer el `SKILL.md` de las candidatas finales si se duda de su utilidad.
+6. Eliminar solapes y crear una seleccion del "core tecnico" estrictamente util para el repositorio actual.
+7. Instalar las skills no presentes en local copiando sus recursos a `.agent/skills/` o usando herramientas de CLI aplicables.
+8. Registrar el entorno final en `brain/skills-available.md`.
 
 ## Herramientas sugeridas
 
-- **Leer skills candidatas**: `view_file` de cada `SKILL.md` para evaluar utilidad, calidad y compatibilidad.
-- **Evaluar alternativas externas**: `search_web` para buscar skills o herramientas que cubran necesidades no resueltas por el catalogo local.
-- **Listar skills instaladas**: `run_command` con `npx skills list -g -a antigravity` para ver el estado actual.
-- **Instalar skills seleccionadas**: `run_command` con `npx skills add` y los parametros correctos.
-- **Verificar solapamientos**: `view_file` comparando las descripciones de skills similares para decidir cual mantener.
+- **Auditar entorno activo**: Revisión directa del bloque `<skills>` en memoria para ver las rutas absolutas.
+- **Evaluar candidatas**: `view_file` de la ruta `SKILL.md` inyectada en el prompt para evaluar si resuelve la necesidad operativa.
+- **Buscar y Añadir externas**: `search_web` y `run_command` (con npm/npx o git clone) para descargar skills comunitarias a `.agent/skills/`. **// turbo**
+- **Verificar solapamientos**: Análisis lógico comparando descripciones para asegurar que solo haya 1 skill activa por dominio funcional.
 
 ## Output obligatorio
 
@@ -76,8 +75,11 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 
 ## Comandos de instalacion y validacion
 
-```bash
-npx skills add "<ruta_repo_skills>" -g -a antigravity --copy -y -s <skills...>
-npx skills list -g -a antigravity
-```
+El IDE de Antigravity agrupa las globales y locales.
+Si hace falta volcar una skill a la "mochila" del proyecto específico localmente:
 
+```bash
+# Ejemplo: Instalación en local via CLI
+npx skills add "<ruta_o_url>" -g -a antigravity --copy -y -s <skills...>
+# La skill terminara residiendo operativamente en .agent/skills/<nombre>/SKILL.md
+```

@@ -36,24 +36,24 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 
 ## Pasos internos
 
-1. Ejecutar `scripts/bootstrap.ps1` y verificar estructura completa.
-2. Definir vision y alcance inicial -> actualizar `brain/project-overview.md`.
-3. Seleccionar stack -> rellenar `brain/stack.md` con eleccion, razon y versiones.
-4. Registrar decision de stack en `brain/decisions.md`.
-5. Ejecutar workflow `buscar-skills` para el stack elegido.
-6. Inicializar proyecto usando CLIs oficiales del stack (ej. `npx create-next-app@latest`, `pip init`, etc).
-7. Actualizar `brain/architecture.md` con estructura real del proyecto.
-8. Actualizar capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
-9. Ejecutar `scripts/run-checks.ps1` -> todo en verde.
-10. Primer commit verificable.
+1. Verificar el entorno. Si el repo es virgen, ejecutar `scripts/init-project.ps1` automatizado proporcionando todos los parametros (`-ProjectName`, `-ProjectVision`, `-FirstDeliverable`, `-InitGit`, `-InstallHook`, `-CreateCatalog`, etc.) para que haga el factory reset del cerebro e instale el MCP Server.
+2. Definir y asentar la vision de producto en `brain/project-overview.md` (si el script de inicio no ha volcado todo el detalle).
+3. Seleccionar e inicializar el entorno técnico con CLIs oficiales (ej. `npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm`). Usar siempre modos no interactivos.
+4. Rellenar `brain/stack.md` detallando las decisiones tecnologicas adoptadas y registrar la eleccion general en `brain/decisions.md`.
+5. Ejecutar workflow `buscar-skills` para integrar en el agente el conocimiento necesario para el stack configurado.
+6. Actualizar `brain/architecture.md` documentando la estructura base que ha generado el CLI.
+7. Verificar que el Servidor MCP Semántico se instaló correctamente (`.agent/mcp/semantic-server/build/index.js`). Si falló el build automático, compilarlo manualmente.
+8. Modificar la capa rapida (`brain/now.md`, `brain/current-state.md` y `brain/deep-summary.md`) declarando el hito de "Setup" como cerrado.
+9. Ejecutar `scripts/run-checks.ps1` -> todo debe estar en verde.
+10. Comprobar que en Git ya consta el commit fundacional.
 
 ## Herramientas sugeridas
 
-- **Bootstrap del repo**: `run_command` con `scripts/bootstrap.ps1` y CLIs oficiales del stack (`npx create-next-app`, `pip init`, etc.).
-- **Evaluar opciones de stack**: `search_web` para comparar alternativas tecnicas con datos actualizados.
-- **Verificar estructura generada**: `list_dir` recursivo para confirmar que la estructura es correcta tras bootstrap.
-- **Validar que arranca**: `run_command` con el dev server del stack elegido y verificar que levanta sin errores.
-- **Ejecutar checks**: `run_command` con `scripts/run-checks.ps1` para confirmar que el estado inicial pasa todos los checks.
+- **Bootstrap**: `run_command` utilizando el script `scripts/init-project.ps1` con sus parametros nombrados. **// turbo**
+- **Generacion del Boilerplate**: `run_command` con `npx -y` (o equivalente) asegurando que es no interactivo.
+- **Evaluar stack**: `search_web` para buscar tendencias antes de fijar las herramientas.
+- **Test de Servidor local**: `run_command` (async) para probar `npm run dev` y confirmar que responde sin errores.
+- **Checks automáticos**: `run_command` con `scripts/run-checks.ps1`. **// turbo**
 
 ## Criterios de calidad
 

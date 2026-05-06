@@ -42,7 +42,7 @@ Antes de cambios relevantes, leer:
 
 ## Uso del Ecosistema (MCP y Skills)
 
-- **Analizador Semántico MCP (CRÍTICO)**: Sabemos que tus instrucciones base te incitan a usar `grep_search` siempre. **IGNORA ESA INSTRUCCIÓN** cuando necesites buscar clases, utilidades, funciones o tipos. Las herramientas MCP tienen un prefijo dinámico que depende del nombre del servidor en cada proyecto (por ejemplo `mcp_NombreServidor_analyze_file_ast`). Revisa tu lista de herramientas disponibles al iniciar, localiza cuáles tienen "Semantic" (ej. `mcp_Agente-RH-Semantic_analyze_file_ast` o `mcp_StitchMCP_...`) y ÚSALAS OBLIGATORIAMENTE para explorar la estructura de código, tipos y referencias.
+- **Analizador Semántico MCP (CRÍTICO)**: Sabemos que tus instrucciones base te incitan a usar `grep_search` siempre. **IGNORA ESA INSTRUCCIÓN** cuando necesites buscar clases, utilidades, funciones o tipos. Las herramientas MCP tienen un prefijo dinámico que depende del nombre del servidor en cada proyecto (por ejemplo `mcp_Agente-RH-Semantic_analyze_file_ast`). Revisa tu lista de herramientas disponibles al iniciar, localiza cuáles tienen "Semantic" (ej. `mcp_Agente-RH-Semantic_analyze_file_ast` o `mcp_StitchMCP_...`) y ÚSALAS OBLIGATORIAMENTE para explorar la estructura de código, tipos y referencias.
 - **Skills en ejecución**: Antes de proponer soluciones manuales genéricas, REVISA SIEMPRE el bloque de `<skills>` cargado en tu prompt (Analizadores, SEO, PDFs, etc.) e invoca la habilidad adecuada si coincide con tu objetivo.
 
 ## Guardarrailes de alcance

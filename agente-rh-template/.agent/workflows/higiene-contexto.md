@@ -40,7 +40,7 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 4. Identificar contenido obsoleto, redundante o sin accion.
 5. Proponer consolidacion y destino (mantener, archivar, borrar).
 6. Verificar alineacion con `context-budget` y `repo-hygiene`.
-7. Emitir plan de limpieza priorizado.
+7. Emitir plan de limpieza priorizado usando la capacidad nativa de Artifacts de Antigravity (creando `implementation_plan.md` y esperando confirmacion con `request_feedback=true`).
 
 ## Herramientas sugeridas
 
@@ -58,7 +58,7 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 4. Propuesta de consolidacion por documento.
 5. Propuesta de archivado/borrado con motivo.
 6. Impacto esperado en contexto y mantenibilidad.
-7. Plan por fases de limpieza.
+7. Plan por fases de limpieza (en formato oficial Artifact `implementation_plan.md`).
 8. Riesgos y dudas abiertas.
 
 ## Criterios de calidad

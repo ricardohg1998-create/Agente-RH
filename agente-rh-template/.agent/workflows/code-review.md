@@ -69,12 +69,12 @@ Revision tecnica de codigo — desde un archivo o componente concreto hasta el r
 - **Verificar .gitignore y archivos sensibles**: `view_file` del `.gitignore` + `grep_search` buscando `.env` commiteados o archivos de config con credenciales.
 - **Validar CORS**: `grep_search` con `Access-Control-Allow-Origin`, `cors(`, `origin: '*'` en contexto de CORS.
 - **Dependencias vulnerables**: `run_command` con `npm audit` (Node.js), `pip audit` (Python) o equivalente del stack.
-- **Inspeccion de codigo fuente**: `view_file` para revisar funciones criticas (auth, pagos, cifrado, sanitizacion de inputs).
+- **Inspeccion de codigo fuente**: `view_file` para revisar funciones criticas (auth, pagos, cifrado, sanitizacion de inputs), empleando siempre el servidor Semantico MCP (`mcp_[NombreServidor]-Semantic_analyze_file_ast` / `get_symbol_references`) para rastrear el uso y definicion en TS/JS con estricta precision en vez de `grep_search`.
 - **Verificar configuraciones de produccion**: `grep_search` con `NODE_ENV`, `DEBUG=true`, `verbose`, configuraciones por defecto inseguras.
 
 ## Output obligatorio
 
-1. **Resumen ejecutivo**: veredicto general (aprobado / aprobado con observaciones / requiere cambios / bloqueado por seguridad).
+1. **Resumen ejecutivo**: veredicto general (aprobado / con observaciones / requiere cambios / bloqueado). Generar y emitir este repote completo preferiblemente a traves de un Artifact nativo de Antigravity (e.g. `implementation_plan.md` si deviene en correcciones).
 2. **Nivel de riesgo de seguridad**: alto / medio / bajo / ninguno detectado.
 3. **Seccion de seguridad dedicada**: todos los hallazgos de seguridad agrupados con detalle.
 4. **Hallazgos criticos** (con archivo, linea, contexto y fix propuesto).

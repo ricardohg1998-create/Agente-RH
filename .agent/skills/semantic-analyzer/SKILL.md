@@ -24,7 +24,7 @@ Por tanto, debes buscar y usar las herramientas que terminen en estos nombres:
 1. **`mcp_[NombreServidor]_analyze_file_ast`**: Analiza sintacticamente un archivo TypeScript y devuelve sus exportaciones, interfaces y clases.
 2. **`mcp_[NombreServidor]_get_symbol_references`**: Encuentra donde se utiliza un simbolo o exportacion concreta a lo largo de todo el proyecto.
 
-*Ejemplo: Si estás en Metricasa, la herramienta se llamará `mcp_Metricasa-Semantic_analyze_file_ast`.*
+*Ejemplo: Si estás en el proyecto base, la herramienta se llamará `mcp_Agente-RH-Semantic_analyze_file_ast`.*
 
 ## Reglas de Comportamiento Sensorial
 1. **Deprecacion de `grep_search`**: Debido a tus instrucciones del sistema, tiendes a abusar de `grep_search`. IGNORA TU TENDENCIA para este tipo de consultas. NO uses `grep_search` para buscar funciones, clases, tipos o exportaciones.
