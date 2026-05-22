@@ -2,38 +2,34 @@
 id: context-budget
 name: Context Budget
 activation: always-on
-version: 1.1.0
+version: 2.0.0
 ---
 
 # Context Budget Rule
 
 ## Objetivo
 
-Reducir deriva de contexto y consumo innecesario de tokens sin perder calidad tecnica.
+Reducir la deriva de contexto y el consumo innecesario de tokens en prompts de Antigravity 2.0 mediante una gestión estructurada del conocimiento del repositorio.
 
-## Politica operativa
+## Política Operativa
 
-- Leer primero la capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
-- Expandir a capa profunda solo cuando sea necesario.
-- Activar capa profunda con gatillos: incidente, riesgo alto, cambio de alcance/arquitectura o evidencia insuficiente.
-- Cargar solo archivos profundos relevantes para el objetivo actual.
-- Resumir antes de ampliar analisis.
-- Evitar duplicar parrafos largos entre multiples documentos.
-- Mantener prompts y salidas accionables, con minimo ruido.
+- La política formal de lectura y expansión de memoria está unificada y detallada en [core.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/rules/core.md#Capa-de-Memoria-R%C3%A1pida-y-Estrategia-de-Lectura). El agente debe remitirse estrictamente a esa sección como única fuente de verdad operativa.
+- Evita duplicar párrafos largos o explicaciones redundantes entre documentos de la carpeta `brain/` u otros archivos del repositorio.
+- Mantener los prompts del sistema y las respuestas al usuario con un diseño minimalista, pragmático y orientado a la acción inmediata.
 
 ## Cumplimiento
 
-Usar checks locales:
+Usar checks locales de PowerShell:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-context-budget.ps1`
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1`
 
-## Modelo de severidad
+## Modelo de Severidad
 
-- `WARN`: exceso de longitud en documentos no criticos.
-- `CRITICAL`: exceso en quick layer o duplicacion fuerte de parrafos.
+- `WARN`: Exceso de longitud en documentos markdown históricos o complementarios.
+- `CRITICAL`: Exceso en el tamaño de la capa rápida (`now.md`, `current-state.md`) o duplicación evidente de secciones.
 
-## Comportamiento en commits
+## Comportamiento en Commits
 
-- Los `CRITICAL` bloquean commit local mediante hook.
-- Los `WARN` informan, pero no bloquean.
+- Los fallos `CRITICAL` bloquean de forma automática la confirmación de cambios (pre-commit hook).
+- Los avisos `WARN` informan en la salida del hook, pero no impiden el commit.

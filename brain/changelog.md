@@ -2,6 +2,7 @@
 
 ## Registros
 
+- **2026-05-22**: Migración a Antigravity 2.0 & Swarm Core v2.0 — Adaptación y blindaje quirúrgico completo del repositorio para compatibilidad con Gemini 3.5 Flash y Antigravity 2.0 en Windows 11. Refactorización de todos los workflows de desarrollo para soportar enjambres asíncronos en workspaces concurrentes. Corrección de falsos positivos en `check-links.ps1` con rutas de URI `file:///` decodificadas nativamente mediante `[System.Uri]`. Creación de plantillas DX e higienización de artefactos efímeros en la exportación virgen del template. 22/22 tests de integración Pester verdes.
 - **2026-04-13**: Alineación de herramientas e instrucciones — Modificados `AGENTS.md` y `.agent/rules/core.md` para hacer mandatory el uso del servidor MCP Semántico nativo frente a grep y obligar al agente a usar la sección oculta `<skills>` aportada por el environment (Antigravity). Actualizado `brain/skills-available.md`.
 - **2026-04-11**: Auditoría Autista Cafeinado completada — 22/22 tests Pester verdes. 6 bugs críticos resueltos (sync-brain marcadores/parsing, check-links scoping/filtros, bootstrap directorio padre, init-project hang). Renombrado `Normalize-Eol` a `ConvertTo-NormalizedEol` en módulo exportado. Deuda técnica documentada exhaustivamente.
 - **2026-04-10**: Saneamiento MCP y Factory Reset — Eliminada contaminación de dominio (`social-content`). Factory Reset en `init-project.ps1` para clones limpios. Servidor Semántico MCP integrado (`ts-morph`) con autoinstalación. Corregido encoding UTF-8 BOM en `install-mcp.ps1`.

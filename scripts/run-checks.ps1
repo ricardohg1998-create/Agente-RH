@@ -1,5 +1,8 @@
 [CmdletBinding()]
-param()
+param(
+  [switch]$Fast,
+  [switch]$SkipTests
+)
 
 $ErrorActionPreference = 'Stop'
 $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
@@ -18,6 +21,10 @@ $checks = @(
   @{ Name = 'check-context-budget'; Script = (Join-Path $PSScriptRoot 'check-context-budget.ps1') },
   @{ Name = 'test-scripts'; Script = (Join-Path $PSScriptRoot 'test-scripts.ps1') }
 )
+
+if ($Fast -or $SkipTests) {
+  $checks = $checks | Where-Object { $_.Name -ne 'test-scripts' }
+}
 
 $failed = $false
 

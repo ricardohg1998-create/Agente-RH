@@ -2,7 +2,7 @@
 id: cierre-operativo
 name: Cierre operativo
 description: Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
-version: 1.1.0
+version: 2.0.0
 modes: [planning, execution]
 ---
 
@@ -32,37 +32,33 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 - Expandir a capa profunda solo si hay dudas de trazabilidad, riesgos residuales o dependencias abiertas.
 - Limitar lectura profunda a backlog/changelog/milestones segun necesidad.
 
-## Pasos internos
+## Pasos internos (Swarm Core v2.0)
 
-1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
-2. Expandir a capa profunda solo si hay gatillos de cierre.
-3. Confirmar mediante revisión exhaustiva que se ha implementado TODO lo mencionado en el Artifact oficial `implementation_plan.md` (si el Planning Mode ha sido instanciado por The Agent), de forma correcta y sin omisiones, asegurando que `task.md` está actualizado.
-4. Analizar de forma profunda el estado resultante del repositorio para garantizar que es excelente, sin puntos de fricción ni errores (compilación, linting o coherencia).
-5. Enumerar entregables y pendientes reales.
-5. Revisar riesgos residuales y acciones de seguimiento.
-6. Validar checks operativos requeridos.
-7. Eliminar los archivos efímeros o temporales creados durante la sesión que ya hayan cumplido su función y no se necesiten más.
-8. **Automatizacion de Memoria**: Si existe un script de compactacion de memoria en el repositorio, ejecutarlo para que extraiga el diff y context de forma procedimental, eximiendo al agente de redactar los logs/now manualmente.
-9. Actualizar `brain/workflow-metrics.md` registrando que workflows se usaron en la sesion, con que resultado y satisfaccion.
+1. **Revisión del Orquestador**: Confirmar que se ha implementado TODO lo especificado en el artefacto interactivo oficial `implementation_plan.md` y que la checklist en `task.md` está completamente marcada.
+2. **Generación del Walkthrough**: El Orquestador redacta el artefacto `walkthrough.md` en el directorio de la sesión resumiendo los entregables, tests unitarios ejecutados y diffs.
+3. **Delegación de Cierre**: El Orquestador define e invoca en background al subagente especialista **`CleanlinessGuardian`** (en workspace `inherit`) pasándole el Context Payload correspondiente.
+4. **Ejecución del Guardian**: El `CleanlinessGuardian` ejecuta de forma 100% automatizada:
+   * **Auditoría de Calidad**: Ejecuta `scripts/run-checks.ps1` en background. Si falla, reporta los errores inmediatamente al Orquestador para su triage.
+   * **Higiene Física**: Identifica y elimina cualquier residuo efímero de la sesión (`*.tmp`, `.bak`, `.log`, y metadatos del editor/subagentes).
+   * **Registro Histórico**: Compacta el walkthrough en una entrada impecable de historial permanente bajo `brain/session_logs/` en formato de fecha y hora actual `YYYY-MM-DD_HH-MM_registro_cambios_sesion.md`.
+   * **Compactación de Memoria Rápida**: Actualiza con precisión milimétrica `brain/now.md`, `brain/current-state.md` y `brain/deep-summary.md` vinculando al log histórico creado.
+5. **Reporte Final**: El Guardian envía el callback `[COMPLETED]` con el reporte final de cierre. El Orquestador valida la higiene y ofrece el handoff limpio al desarrollador.
 
 ## Herramientas sugeridas
 
-- **Ejecutar checks del repo**: `run_command` con `scripts/run-checks.ps1` para validar estado final.
-- **Detectar archivos temporales**: `list_dir` para auditar el repo y encontrar archivos efimeros (`.tmp`, `.bak`, `.log`, carpetas de build).
-- **Verificar entregables**: `view_file` para confirmar que los archivos modificados tienen el contenido esperado.
-- **Validar compilacion/build**: `run_command` con el build command del stack para asegurar que todo compila limpio.
-- **Verificar Artifact de Planning**: `view_file` del `implementation_plan.md` original y su respectiva checklist `task.md` para cruzar cada punto con lo implementado.
+- **Delegación**: `define_subagent` e `invoke_subagent` asignando el rol `CleanlinessGuardian` en `inherit`.
+- **Comunicación**: `send_message` para recibir el reporte final.
+- **Checks manuales alternativos**: `run_command` con `scripts/run-checks.ps1` en caso de fallo del subagente.
 
-## Output obligatorio
+## Output obligatorio (Swarm Core v2.0)
 
-1. Estado final de la tarea.
-2. Entregables completados.
-3. Pendientes reales con prioridad.
-4. Riesgos residuales.
-5. Resultado de validaciones/checks.
-6. Eliminación confirmada de archivos basura secundarios.
-7. Registro creado en `brain/session_logs` (con el walkthrough completo de la sesión).
-8. Proximos pasos recomendados.
+1. Checklist `task.md` completamente resuelta (`[x]`).
+2. Artefacto `walkthrough.md` nativo del editor generado con el resumen del sprint.
+3. Subagente `CleanlinessGuardian` invocado y completado con éxito.
+4. Historial permanente actualizado en `brain/session_logs/` sin duplicidad.
+5. Memoria rápida (`now.md`, `current-state.md` y `deep-summary.md`) en verde y sincronizada.
+6. Eliminación de todos los archivos residuales o temporales del editor.
+
 
 ## Criterios de calidad
 

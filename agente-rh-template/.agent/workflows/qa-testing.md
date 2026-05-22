@@ -2,7 +2,7 @@
 id: qa-testing
 name: QA y Pruebas
 description: Disenar, implementar y ejecutar pruebas sistematicas para garantizar calidad de codigo y prevenir regresiones.
-version: 1.0.0
+version: 2.0.0
 modes: [planning, execution]
 ---
 
@@ -35,21 +35,13 @@ Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, 
 - Expandir a `brain/architecture.md` para entender la topologia y priorizar areas criticas.
 - Revisar `brain/pitfalls-and-errors.md` para cubrir errores conocidos con tests.
 
-## Pasos internos
+## Pasos internos (Swarm Core v2.0 - Topología de QA)
 
-1. Leer capa rapida y expandir si hay gatillos de contexto.
-2. **Auditar cobertura actual**: detectar que areas tienen tests y cuales no.
-3. **Identificar areas criticas sin cobertura**: logica de negocio, integraciones, flujos de usuario core, edge cases conocidos.
-4. **Disenar test plan por capas**:
-   - Unit: funciones puras, utilidades, transformaciones de datos.
-   - Integration: interaccion entre modulos, API endpoints, base de datos.
-   - E2E: flujos completos de usuario criticos.
-   - Visual: regresion visual en componentes UI clave.
-5. **Priorizar** por riesgo: que es mas probable que falle y que impacto tendria.
-6. **Implementar tests prioritarios** siguiendo el plan.
-7. **Ejecutar suite completa** y documentar resultados.
-8. **Reportar cobertura** con metricas y areas pendientes.
-9. **Definir umbral minimo** de cobertura para CI si no existe.
+1. **Diseño de Estrategia**: El Orquestador Principal lee la capa rápida, audita la cobertura actual identificando áreas críticas sin testear (con el apoyo de herramientas semánticas) y diseña el Test Plan por capas en un artefacto `implementation_plan.md`.
+2. **Invocación del Especialista QA**: Tras recibir feedback del usuario, el Orquestador define e invoca en background al subagente especialista **`QASpecialist`** en modo de workspace **`share`** (para poder acceder directamente al código en desarrollo e implementar tests en paralelo).
+3. **Escritura e Implementación de Tests**: El `QASpecialist` implementa de forma 100% aislada la suite de pruebas unitarias, de integración o e2e (según lo acordado en el plan), y ejecuta el test runner de forma continua.
+4. **Callback de Resultados**: El `QASpecialist` devuelve el callback `[COMPLETED]` inyectando el reporte exacto de ejecución (tests pasados, fallidos, cobertura y cualquier regresión detectada).
+5. **Consolidación y Cierre**: El Orquestador consolida los tests en la rama principal, ejecuta los tests de integración globales, actualiza las métricas y delega el Cierre Operativo e higiene final al subagente `CleanlinessGuardian`.
 
 ## Herramientas sugeridas
 

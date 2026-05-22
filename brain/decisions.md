@@ -14,6 +14,18 @@
   - Malo: que hemos cedido (deuda tecnica).
 -->
 
+## [2026-05-22] Adopción de Swarm Core v2.0 y Orquestación Asíncrona Concurrente
+
+- **Contexto**: El repositorio necesitaba adaptarse al nuevo stack tecnológico (Antigravity 2.0 y Gemini 3.5 Flash). Gemini 3.5 Flash destaca por su alta velocidad de procesamiento, pero requiere un modelo de trabajo asíncrono y paralelo para maximizar su rendimiento.
+- **Alternativas Estudiadas**:
+  - Opción A: Mantener el desarrollo secuencial monoproceso (más simple pero subóptimo en cuanto a tiempos).
+  - Opción B: Transicionar a un esquema de enjambre descentralizado (Swarm Core v2.0) donde el Orquestador principal delega tareas en background a subagentes especialistas que corren sobre `Workspace: inherit` (potente, veloz, libre de bloqueos de Git/Windows).
+- **Decision Adoptada**:
+  - Opción B. Se adaptaron las reglas (`core.md`, `swarm-orchestration.md`), workflows (`cierre-operativo.md`, `implementacion-quirurgica.md`) y scripts para admitir la coordinación asíncrona de subagentes especialistas (CodebaseAuditor, FeatureDeveloper, QASpecialist, CleanlinessGuardian).
+- **Consecuencias Esperadas**:
+  - Bueno: Reducción drástica del consumo de contexto y los tiempos de ejecución. Capacidad para resolver tareas complejas de forma concurrente.
+  - Malo: Requiere un control riguroso de sincronización y memoria por parte del Orquestador principal, además de evitar la coordinación anidada por parte de los especialistas (resuelto mediante directiva de contención).
+
 ## [2026-04-05] Acoplamiento directo de workflows con Antigravity
 
 - **Contexto**: Los workflows referencian herramientas de forma generica. Se evaluo si hacer los pasos portables a otros IDEs o acoplarlos directamente con las herramientas de Antigravity.

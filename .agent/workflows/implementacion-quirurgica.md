@@ -2,7 +2,7 @@
 id: implementacion-quirurgica
 name: Implementacion quirurgica
 description: Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, sin saltos de complejidad.
-version: 1.1.0
+version: 2.0.0
 modes: [planning, execution]
 ---
 
@@ -33,18 +33,15 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 - Expandir a capa profunda por gatillo: dependencia no clara, impacto arquitectonico o evidencia insuficiente.
 - Mantener enfoque en archivos profundos directamente implicados en el objetivo.
 
-## Pasos internos
+## Pasos internos (Swarm Core v2.0)
 
-1. Leer capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
-2. Expandir a capa profunda solo si hay gatillos de contexto.
-3. Definir alcance operativo y criterio de exito.
-4. Aislar entorno: Ejecutar `git checkout -b feature/[nombre-tarea]` para asilar el riesgo espacialmente.
-5. Descomponer en unidades atomicas por dependencia real.
-6. Definir interfaces, contratos y datos que cambian.
-7. Detectar riesgos por paso y mitigaciones.
-8. Definir verificacion tecnica por cada bloque.
-9. Emitir plan de implementacion secuenciado utilizando los Artifacts nativos de Antigravity (creando `implementation_plan.md` con `request_feedback=true`) y, tras aprobacion, ejecutarlo marcando el progreso en un `task.md`.
-10. Integrar: Al validar el exito, hacer checkout a main, merge y destruir la rama efimera (`git branch -D`).
+1. **Diseño de Plan y Aprobación**: El Orquestador Principal diseña el plan técnico y emite el artefacto `implementation_plan.md` (con `request_feedback=true`) junto con la checklist de tareas `task.md`.
+2. **Definición e Invocación de Desarrolladores**: Tras recibir la aprobación del usuario, el Orquestador define e invoca en background al subagente especialista **`FeatureDeveloper`** en modo de workspace **`share`** (para desarrollo aislado de componentes). Le inyecta el Context Payload detallado delimitando el alcance de los archivos a modificar.
+3. **Definición e Invocación de QA**: De manera paralela o secuencial según el alcance, el Orquestador define e invoca en background al subagente **`QASpecialist`** en modo **`share`**. Le inyecta el Context Payload para que escriba las pruebas unitarias y de integración del componente en paralelo.
+4. **Callbacks de Sincronización**: El Orquestador monitorea de forma reactiva y asíncrona los callbacks `[READY]` -> `[IN_PROGRESS]` -> `[COMPLETED]` de ambos subagentes.
+5. **Consolidación y Verificación**: El Orquestador revisa los diffs de código de `FeatureDeveloper`, los fusiona de manera segura y ejecuta las pruebas de `QASpecialist` para verificar el 100% de éxito.
+6. **Cierre de Ciclo**: Emite el `walkthrough.md` consolidando los entregables y delega el Cierre Operativo al subagente `CleanlinessGuardian`.
+
 
 ## Herramientas sugeridas
 

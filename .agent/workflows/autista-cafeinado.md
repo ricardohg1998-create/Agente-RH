@@ -34,24 +34,18 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 - Por ser auditoria amplia, expandir desde inicio a capa profunda relevante.
 - Priorizar `brain/architecture.md`, `brain/technical-debt.md` y `brain/pitfalls-and-errors.md`.
 
-## Pasos internos
+## Pasos internos (Swarm Core v2.0 - Topología de Auditoría)
 
-1. Leer capa rapida y expandir a capa profunda relevante.
-2. **Mapear el alcance completo**: cada archivo, cada ruta, cada componente, cada flujo. No dejar nada sin revisar.
-3. **Revision obsesiva por capas** (de lo macro a lo micro):
-   - **Arquitectura**: estructura del proyecto, separacion de responsabilidades, patrones usados vs optimos.
-   - **Codigo**: correctitud, edge cases, manejo de errores, anti-patrones, dead code, imports sin usar.
-   - **UX/UI**: coherencia visual, estados faltantes, flujos incompletos, feedback al usuario.
-   - **Datos**: modelos, validaciones, integridad, queries ineficientes, migraciones pendientes.
-   - **Seguridad**: credenciales hardcodeadas, tokens expuestos, endpoints sin auth, inyecciones, CORS.
-   - **Rendimiento**: cargas innecesarias, re-renders, assets sin optimizar, bundles pesados.
-4. **Detectar inconsistencias tecnicas y de producto**: naming incoherente, patrones mixtos, convenciones rotas, comportamiento contradictorio.
-5. **Caza de micro-detalles**: typos, TODOs abandonados, comentarios obsoletos, estilos huerfanos, logs de debug olvidados, configuraciones por defecto inseguras.
-6. **Cuantificar deuda tecnica**: estimar impacto por cada elemento de deuda (bloquea, ralentiza, molesta, es cosmetico).
-7. **Identificar oportunidades de mejora profundas**: no solo bugs, sino "esto podria ser mucho mejor si..." — mejoras de DX, automatizacion, simplificacion.
-8. **Buscar incoherencias de producto**: features que se contradicen, flujos que no tienen sentido juntos, prioridades desalineadas.
-9. **Priorizar por impacto/esfuerzo** con justificacion tecnica defendible.
-10. **Generar Implementation Plan completo** por fases, accionable y secuenciado utilizando la capacidad nativa de Artifacts de Antigravity (creando `implementation_plan.md` con `request_feedback=true`).
+1. **Mapeo de Alcance y Despliegue**: El Orquestador Principal analiza la estructura general del repositorio y lo divide en sectores o áreas de foco (ej. código core, seguridad/tokens, UI/UX, configuración).
+2. **Invocación de Investigadores en Paralelo**: El Orquestador define e invoca en background a **múltiples subagentes especialistas `CodebaseResearcher` en paralelo** (usando workspace `inherit`). Les inyecta el Context Payload delimitándoles el directorio exacto a auditar:
+   * **`CodebaseResearcher-1 (Core)`**: Audita la lógica y arquitectura en `/src` o directorios funcionales.
+   * **`CodebaseResearcher-2 (Security)`**: Realiza barrido estricto de secretos, tokens y dependencias vulnerables.
+   * **`CodebaseResearcher-3 (Scripts & DX)`**: Evalúa la salud de automatizaciones y DX locales en `/scripts`.
+3. **Callbacks de Hallazgos**: Los investigadores auditan su sector de forma autónoma empleando las herramientas MCP semánticas locales y devuelven reportes sintéticos de hallazgos mediante sus callbacks `[COMPLETED]`.
+4. **Consolidación Crítica**: El Orquestador Principal recopila los reportes de los subagentes, analiza discrepancias de arquitectura y redacta un diagnóstico consolidado despiadado pero extremadamente útil.
+5. **Emisión de Plan**: Redacta el artefacto `implementation_plan.md` y `task.md` detallando las fases del plan de correcciones y mejoras priorizadas por impacto/esfuerzo.
+6. **Cierre de Auditoría**: El Orquestador delega el cierre operativo y almacenamiento permanente del walkthrough al subagente `CleanlinessGuardian`.
+
 
 ## Herramientas sugeridas
 

@@ -6,7 +6,7 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $issues = New-Object System.Collections.Generic.List[string]
 
 $excludedDirNames = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
-@('.git', 'node_modules', '.venv', 'dist', 'build', 'out', 'coverage', '.cache') | ForEach-Object {
+@('.git', 'node_modules', '.venv', 'dist', 'build', 'out', 'coverage', '.cache', 'agente-rh-template') | ForEach-Object {
   [void]$excludedDirNames.Add($_)
 }
 

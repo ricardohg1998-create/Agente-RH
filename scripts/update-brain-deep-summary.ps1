@@ -140,9 +140,14 @@ foreach ($file in $deepFiles) {
     throw "Archivo profundo faltante: $file"
   }
 
-  $raw = [System.IO.File]::ReadAllText($deepFileFullPath, $utf8NoBom)
-  $summary = Get-DeepSummary -Raw $raw
-  $state = Get-DeepState -Raw $raw -Summary $summary
+  if ($file -replace '\\\\', '/' -eq 'brain/access.md') {
+    $summary = 'Acceso restringido (credenciales seguras)'
+    $state = 'activo'
+  } else {
+    $raw = [System.IO.File]::ReadAllText($deepFileFullPath, $utf8NoBom)
+    $summary = Get-DeepSummary -Raw $raw
+    $state = Get-DeepState -Raw $raw -Summary $summary
+  }
   $mod = (Get-Item -LiteralPath $deepFileFullPath).LastWriteTime.ToString('yyyy-MM-dd')
   $lines.Add("- $file | estado: $state | resumen: $summary | mod: $mod")
 }

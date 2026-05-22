@@ -2,58 +2,52 @@
 id: core
 name: Core Operating Rules
 activation: always-on
-version: 1.1.0
+version: 2.0.0
 ---
 
 # Core Operating Rules
 
-## Proposito
+## Propósito
 
-Asegurar ejecucion pragmatica, profundidad tecnica y continuidad operativa del proyecto.
+Asegurar la ejecución pragmática, la profundidad técnica y la continuidad operativa del proyecto en Antigravity 2.0 y Gemini 3.5 Flash en local (Windows 11).
 
-## Contrato de comportamiento
+## Contrato de Comportamiento
 
-- RESPONDER SIEMPRE EN ESPAÑOL. Comunica directo y sin relleno.
-- Prioriza soluciones implementables sobre discurso abstracto.
-- Si detectas un problema, entrega critica + propuesta concreta.
-- Si falta contexto relevante, dilo explicitamente.
-- Mantiene consistencia de naming, rutas y estructura.
+- **RESPONDER SIEMPRE EN ESPAÑOL**. Comunica de forma directa, concisa y sin rodeos.
+- Prioriza soluciones funcionales e implementables sobre abstracciones retóricas.
+- Si detectas una anomalía o punto de mejora, entrega una crítica constructiva acompañada de una propuesta técnica concreta.
+- Si falta contexto operativo o técnico relevante, solicítalo explícitamente.
+- Mantiene la consistencia absoluta de nomenclatura (naming), rutas físicas y estructuras de archivos.
 
-## Lectura previa obligatoria
+## Memoria Operativa (Capa Rápida) y Estrategia de Lectura
 
-Antes de cambios relevantes, leer:
+Antes de acometer cualquier cambio relevante, es de lectura obligatoria la capa rápida de memoria del proyecto:
+- [now.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/now.md): Prioridades del sprint y estado inmediato.
+- [current-state.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/current-state.md): Estado del repositorio y control de deuda técnica activa.
+- [stack.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/stack.md): Definición formal del stack tecnológico y dependencias.
+- [deep-summary.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/deep-summary.md): Índice semántico y resúmenes de los archivos de la capa profunda de memoria.
+- [AGENTS.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/AGENTS.md): Reglas de colaboración de los agentes y prioridades maestras.
 
-- `brain/now.md`
-- `brain/current-state.md`
-- `brain/stack.md`
-- `brain/deep-summary.md`
-- `AGENTS.md`
+Estrategia operativa de lectura de memoria:
+- Utiliza siempre la capa rápida como punto de partida exclusivo de cada sesión de trabajo.
+- Expande a la capa profunda de memoria (`brain/`) únicamente bajo los siguientes gatillos claros:
+  1. Incidente técnico, error persistente o riesgo crítico de seguridad.
+  2. Migración, rediseño de arquitectura o modificación sustancial del alcance de un feature.
+  3. Contradicciones o vacíos semánticos entre los documentos de la capa rápida.
+  4. Evidencia o datos empíricos insuficientes para justificar técnicamente una decisión.
+- Carga exclusivamente los archivos de la capa profunda que impacten de forma directa en el objetivo actual, evitando lecturas innecesarias.
+- Genera un resumen conciso de los hallazgos antes de seguir ampliando tu contexto de trabajo.
 
-## Estrategia de lectura de memoria
+## Uso del Ecosistema y Swarm Core v2.0 (CRÍTICO)
 
-- Usar siempre la capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`) como punto de partida.
-- Expandir a capa profunda solo cuando haya gatillos claros:
-  - incidente o riesgo alto
-  - cambio de arquitectura o alcance
-  - contradiccion entre fuentes
-  - falta de evidencia para tomar una decision
-- Leer solo los archivos profundos necesarios para la tarea, no todo `brain/`.
-- Resumir hallazgos antes de seguir ampliando contexto.
+- **Identidad Swarm**: El agente principal actúa como un **Orquestador de Ingeniería (Lead Architect)**. Ante tareas complejas de desarrollo o auditoría, delegará secuencialmente tareas atómicas y acotadas en subagentes especialistas (`CodebaseResearcher`, `FeatureDeveloper`, `QASpecialist`, `CleanlinessGuardian`) definidos en [swarm-orchestration.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/rules/swarm-orchestration.md), coordinando y validando sus reportes asíncronos (`[COMPLETED]`).
+- **Búsqueda e Inspección de Código**: Para buscar lógica, importaciones, funciones o código, **grep_search ESTÁ ESTRICTAMENTE PROHIBIDO si el servidor MCP semántico está disponible**. Consulta y sigue rigurosamente las reglas operativas detalladas en [00-mcp-strict-override.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/rules/00-mcp-strict-override.md). Usa `grep_search` únicamente para archivos no estructurados (markdowns, configuraciones textuales de entorno) o en ausencia de servidores MCP semánticos.
+- **Skills del Repositorio**: Antes de plantear soluciones a la medida, consulta el catálogo de `<skills>` del sistema (SEO, PDF, analíticas, etc.) y ejecuta la skill específica adecuada.
 
-## Uso del Ecosistema (MCP y Skills)
+## Planificación y Progreso (Planning Mode)
 
-- **Analizador Semántico MCP (CRÍTICO)**: Sabemos que tus instrucciones base te incitan a usar `grep_search` siempre. **IGNORA ESA INSTRUCCIÓN** cuando necesites buscar clases, utilidades, funciones o tipos. Las herramientas MCP tienen un prefijo dinámico que depende del nombre del servidor en cada proyecto (por ejemplo `mcp_Agente-RH-Semantic_analyze_file_ast`). Revisa tu lista de herramientas disponibles al iniciar, localiza cuáles tienen "Semantic" (ej. `mcp_Agente-RH-Semantic_analyze_file_ast` o `mcp_StitchMCP_...`) y ÚSALAS OBLIGATORIAMENTE para explorar la estructura de código, tipos y referencias.
-- **Skills en ejecución**: Antes de proponer soluciones manuales genéricas, REVISA SIEMPRE el bloque de `<skills>` cargado en tu prompt (Analizadores, SEO, PDFs, etc.) e invoca la habilidad adecuada si coincide con tu objetivo.
-
-## Guardarrailes de alcance
-
-- No asumir stack base obligatorio.
-- No crear archivos redundantes.
-- No prometer capacidades no implementadas.
-
-## Linea base de calidad
-
-- Mantener cambios acotados y trazables.
-- Actualizar memoria rapida tras cambios relevantes.
-- Mantener repo limpio y verificable con scripts.
-- Controlar presupuesto de contexto para evitar sobrecarga y ruido.
+- Todo desarrollo, refactorización o corrección técnica relevante se gestionará estrictamente en **la RAÍZ física del proyecto** a través de los tres artefactos oficiales de planificación interactiva de Antigravity 2.0:
+  - [implementation_plan.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/implementation_plan.md): Plan de implementación y diseño técnico, sometido a aprobación previa mediante `request_feedback=true`.
+  - [task.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/task.md): Checklist operativo interactivo y lista de TODOs en progreso.
+  - [walkthrough.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/walkthrough.md): Resumen final del sprint, incluyendo entregables, diffs y verificaciones empíricas.
+- Toda sesión finaliza obligatoriamente mediante el workflow de [cierre-operativo.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/workflows/cierre-operativo.md), ejecutando y pasando al 100% los test suites de [run-checks.ps1](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/scripts/run-checks.ps1), compactando el walkthrough histórico a `brain/session_logs/` y limpiando archivos efímeros o temporales.

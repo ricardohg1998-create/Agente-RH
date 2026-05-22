@@ -59,6 +59,16 @@ if (Test-Path $exportArchiveLogs) {
     Get-ChildItem -Path $exportArchiveLogs -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
+# Eliminar artefactos de planificación o de sesión que se hayan copiado accidentalmente
+$artifactsToClean = @('implementation_plan.md', 'task.md', 'walkthrough.md')
+foreach ($art in $artifactsToClean) {
+    $artPath = Join-Path $targetDir $art
+    if (Test-Path $artPath) {
+        Remove-Item -LiteralPath $artPath -Force -ErrorAction SilentlyContinue
+    }
+    Get-ChildItem -Path $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
+}
+
 # The generated brain must be very clean and we should erase actual project specific things if any.
 # Let's ensure the user instructions remain logic but specific. Also replace now.md with an empty placeholder.
 $nowPath = Join-Path $targetDir 'brain/now.md'

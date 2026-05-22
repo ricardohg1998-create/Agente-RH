@@ -93,9 +93,24 @@ Tras ejecutar workflow, actualizar:
 - `brain/deep-summary.md` (obligatorio si cambia cualquier archivo de `deepLayer.files`)
 - `brain/workflows-index.md` (si cambia criterio o alcance)
 
-## Presupuesto de contexto
+## Topologías de Swarm Recomendadas (Swarm Core v2.0)
 
-Ademas del workflow elegido, aplicar siempre la regla `context-budget` para mantener salida concisa y evitar deriva documental.
+El despachador, al seleccionar un workflow, sugerirá e instanciará una de las siguientes **Topologías de Enjambre** para maximizar la velocidad local en Gemini 3.5 Flash:
+
+### A. Topología de Auditoría (Investigación Intensiva)
+* **Workflows**: `autista-cafeinado`, `spike-investigacion`, `code-review`.
+* **Especialistas**: `CodebaseResearcher` (1 o más instancias en paralelo en `inherit`) + `CleanlinessGuardian` (secuencial terminal).
+* **Flujo**: El Orquestador Principal delega la exploración densa y búsquedas a los investigadores y consolida el reporte final.
+
+### B. Topología de Desarrollo (Feature Sprint)
+* **Workflows**: `implementacion-quirurgica`, `qa-testing`, `desarrollador-profundidad`.
+* **Especialistas**: `FeatureDeveloper` (en `share` o `branch`) + `QASpecialist` (en `share` en paralelo) + `CleanlinessGuardian` (en `inherit` secuencial al final).
+* **Flujo**: Desarrollo y testing ocurren de forma asíncrona y paralela en sandbox. El Orquestador valida diffs e integra al final.
+
+### C. Topología de Cierre y Mantenimiento
+* **Workflows**: `cierre-operativo`, `higiene-contexto`, `retrospectiva`.
+* **Especialistas**: `CleanlinessGuardian` (en `inherit` secuencial).
+* **Flujo**: El Orquestador Principal delega el 100% de la limpieza física y actualización documental al guardián, quien ejecuta checks locales en background.
 
 ## Cadenas predefinidas
 

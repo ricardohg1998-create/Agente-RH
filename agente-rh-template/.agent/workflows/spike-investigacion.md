@@ -2,7 +2,7 @@
 id: spike-investigacion
 name: Spike de investigacion
 description: Explorar tecnologias, evaluar alternativas y tomar decisiones tecnicas informadas antes de comprometerse con una implementacion.
-version: 1.0.0
+version: 2.0.0
 modes: [planning, execution]
 ---
 
@@ -35,17 +35,15 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - Expandir a `brain/stack.md` y `brain/decisions.md` para verificar decisiones previas y evitar re-evaluar lo ya decidido.
 - Si hay arquitectura relevante, leer `brain/architecture.md`.
 
-## Pasos internos
+## Pasos internos (Swarm Core v2.0 - Topología de Investigación)
 
-1. Leer capa rapida y verificar que no hay decision previa que cubra la pregunta.
-2. **Definir pregunta de investigacion** con precision: que se quiere resolver, que NO se quiere resolver.
-3. **Definir criterios de evaluacion** ponderados: rendimiento, DX, comunidad, madurez, compatibilidad con stack actual, coste, curva de aprendizaje.
-4. **Investigar estado del arte**: `search_web` + `read_url_content` para recoger alternativas, benchmarks, opiniones y documentacion oficial.
-5. **Construir matriz de comparacion** con pros/cons/fit para cada alternativa evaluada contra los criterios definidos.
-6. **PoC minimo aislado** si aplica: crear siempre una rama temporal (`git checkout -b spike/[tema]`) para implementar la validacion sin ensuciar main, destruyendola al acabar.
-7. **Evaluar riesgo de cada alternativa**: lockin, mantenibilidad, longevidad del proyecto, dependencias transitivas.
-8. **Formular recomendacion** con justificacion tecnica defendible.
-9. **Registrar decision** en `brain/decisions.md` con contexto, alternativas evaluadas y razon de la eleccion.
+1. **Análisis de Pregunta y Aprobación**: El Orquestador Principal lee la capa rápida y verifica que no haya una decisión previa que cubra la pregunta. Define la pregunta de investigación precisa y los criterios de evaluación ponderados (rendimiento, DX, comunidad, madurez, compatibilidad con stack actual).
+2. **Invocación de Investigadores en Paralelo**: El Orquestador define e invoca en background a **subagentes especialistas `CodebaseResearcher`** en paralelo (usando workspace `inherit` o `branch` si requiere instalar paquetes de prueba). Les inyecta el Context Payload detallando la alternativa específica a analizar y probar.
+   * **`CodebaseResearcher-1 (Alternativa A)`**: Realiza la investigación de la alternativa A, lee documentación oficial y construye un PoC mínimo aislado.
+   * **`CodebaseResearcher-2 (Alternativa B)`**: Investiga la alternativa B en paralelo de manera aislada, analizando la viabilidad de integración.
+3. **Callbacks de Hallazgos**: Los investigadores devuelven sus reportes sintéticos de viabilidad, matriz de pros/contras y riesgos de lock-in a través de sus callbacks `[COMPLETED]`.
+4. **Consolidación de Matriz**: El Orquestador Principal unifica los reportes de los subagentes, construye la matriz de comparación (tabla de alternativas vs criterios) y formula la recomendación final.
+5. **Registro de Decisión y Cierre**: Registra la decisión definitiva en `brain/decisions.md` y delega el Cierre Operativo y la higiene al subagente `CleanlinessGuardian`.
 
 ## Herramientas sugeridas
 
