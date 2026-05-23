@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Implementacion quirurgica
 
-## Proposito
+## Propósito
 
 Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, sin saltos de complejidad.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Se pide desglose de implementacion paso a paso.
 - Hay dependencias tecnicas y riesgo de orden incorrecto.
@@ -25,7 +25,7 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 - Restricciones (tiempo, compatibilidad, deuda, riesgo).
 - Estado actual disponible en `brain/current-state.md`.
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -68,7 +68,7 @@ Transformar un objetivo en un plan tecnico atomico, ejecutable y verificable, si
 - El orden debe ser defendible por dependencias reales.
 - La verificacion debe ser objetiva y repetible.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: ejecucion del plan, `code-review`, `qa-testing`.
 - **Suele seguir a**: `autista-cafeinado`, `desarrollador-profundidad`, `mr-problem-solver`, `spike-investigacion`.

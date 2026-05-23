@@ -21,4 +21,3 @@
 ## Patrones detectados
 
 ## Ajustes pendientes
-

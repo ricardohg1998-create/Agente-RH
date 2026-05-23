@@ -7,7 +7,8 @@ function Get-BrainBlock {
     [string]$BlockId
   )
 
-  $pattern = "(?s)<!-- ${BlockId}:START -->.*?<!-- ${BlockId}:END -->"
+  $escapedBlockId = [regex]::Escape($BlockId)
+  $pattern = "(?s)<!-- ${escapedBlockId}:START -->.*?<!-- ${escapedBlockId}:END -->"
   $match = [regex]::Match($Content, $pattern)
   if ($match.Success) {
     return $match.Value
@@ -23,11 +24,9 @@ function Set-BrainBlock {
     [string]$NewBlockContent
   )
 
-  $pattern = "(?s)<!-- ${BlockId}:START -->.*?<!-- ${BlockId}:END -->"
-  if ($Content -match $pattern) {
-    return $Content -replace $pattern, $NewBlockContent
-  }
-  return $Content
+  $escapedBlockId = [regex]::Escape($BlockId)
+  $pattern = "(?s)<!-- ${escapedBlockId}:START -->.*?<!-- ${escapedBlockId}:END -->"
+  return $Content -replace $pattern, $NewBlockContent
 }
 
 function Resolve-MergedValue {
@@ -70,11 +69,12 @@ function Resolve-MergedList {
     return @()
   }
 
-  $pattern = "(?s)## ${RegexHeader}\s*\n(.*?)(?=\n## |\n<!-- |$)"
+  $escapedHeader = [regex]::Escape($RegexHeader)
+  $pattern = "(?s)## ${escapedHeader}\s*\n(.*?)(?=\n## |\n<!-- |$)"
   $match = [regex]::Match($CurrentBlock, $pattern)
 
   if ($match.Success) {
-    $lines = $match.Groups[1].Value -split "`n"
+    $lines = $match.Groups[1].Value -split '\r?\n'
     $list = New-Object System.Collections.Generic.List[string]
     foreach ($line in $lines) {
       if ($line -match '^\s*-\s+(.+)$') {

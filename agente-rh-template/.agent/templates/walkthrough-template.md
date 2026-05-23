@@ -16,8 +16,8 @@
 
 | Ruta del Archivo | Acción | Descripción del Cambio | Enlace a Archivo |
 | :--- | :---: | :--- | :--- |
-| `[Ruta del archivo 1]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/[Ruta]) |
-| `[Ruta del archivo 2]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/[Ruta]) |
+| `[Ruta del archivo 1]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](../../[Ruta]) |
+| `[Ruta del archivo 2]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](../../[Ruta]) |
 
 ---
 

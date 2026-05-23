@@ -1,5 +1,9 @@
 [CmdletBinding()]
-param()
+param(
+  [switch]$Fast,
+  [switch]$SkipTests,
+  [switch]$KeepGoing
+)
 
 $ErrorActionPreference = 'Stop'
 $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
@@ -19,7 +23,11 @@ $checks = @(
   @{ Name = 'test-scripts'; Script = (Join-Path $PSScriptRoot 'test-scripts.ps1') }
 )
 
-$failed = $false
+if ($Fast -or $SkipTests) {
+  $checks = $checks | Where-Object { $_.Name -ne 'test-scripts' }
+}
+
+$failedChecks = New-Object System.Collections.Generic.List[string]
 
 foreach ($check in $checks) {
   Write-Host "run-checks: ejecutando $($check.Name)..." -ForegroundColor Cyan
@@ -31,13 +39,15 @@ foreach ($check in $checks) {
   $exitCode = $LASTEXITCODE
   if ($exitCode -ne 0) {
     Write-Host "run-checks: fallo en $($check.Name) (exit=$exitCode)" -ForegroundColor Red
-    $failed = $true
-    break
+    $failedChecks.Add($check.Name)
+    if (-not $KeepGoing) {
+      break
+    }
   }
 }
 
-if ($failed) {
-  Write-Host 'run-checks: FALLA' -ForegroundColor Red
+if ($failedChecks.Count -gt 0) {
+  Write-Host "run-checks: FALLARON los siguientes chequeos: $($failedChecks -join ', ')" -ForegroundColor Red
   exit 1
 }
 

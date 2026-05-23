@@ -3,6 +3,8 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
+Import-Module $utf8IoPath -Force
 $targetDir = Join-Path $repoRoot 'agente-rh-template'
 
 Write-Host "Iniciando empaquetado del template virgen en: $targetDir" -ForegroundColor Cyan
@@ -39,6 +41,11 @@ $robocopyArgs = @(
 & robocopy $robocopyArgs
 $rc = $LASTEXITCODE
 
+if ($null -eq $rc) {
+    Write-Host "Error crítico: No se pudo determinar el código de salida de Robocopy." -ForegroundColor Red
+    exit 1
+}
+
 # robocopy exit code < 8 means success (1=files copied, 2=extra files, 3=both, 0=no change)
 if ($rc -ge 8) {
     Write-Host "Fallo copiando archivos (exit code: $rc)" -ForegroundColor Red
@@ -48,25 +55,42 @@ if ($rc -ge 8) {
 # robocopy /XD no soporta bien rutas con subdirectorios.
 # Limpiamos session_logs post-copia para asegurar que no se filtren.
 $exportSessionLogs = Join-Path $targetDir 'brain/session_logs'
-if (Test-Path $exportSessionLogs) {
-    Get-ChildItem -Path $exportSessionLogs -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
-    if (-not (Test-Path (Join-Path $exportSessionLogs '.gitkeep'))) {
-        Set-Content -Path (Join-Path $exportSessionLogs '.gitkeep') -Value '' -Force
+if (Test-Path -LiteralPath $exportSessionLogs) {
+    Get-ChildItem -LiteralPath $exportSessionLogs -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $exportSessionLogs -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+    if (-not (Test-Path -LiteralPath (Join-Path $exportSessionLogs '.gitkeep'))) {
+        Write-Utf8File -Path (Join-Path $exportSessionLogs '.gitkeep') -Content ''
     }
 }
 $exportArchiveLogs = Join-Path $targetDir 'brain/archive/session_logs'
-if (Test-Path $exportArchiveLogs) {
-    Get-ChildItem -Path $exportArchiveLogs -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+if (Test-Path -LiteralPath $exportArchiveLogs) {
+    Get-ChildItem -LiteralPath $exportArchiveLogs -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $exportArchiveLogs -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # Eliminar artefactos de planificación o de sesión que se hayan copiado accidentalmente
 $artifactsToClean = @('implementation_plan.md', 'task.md', 'walkthrough.md')
 foreach ($art in $artifactsToClean) {
     $artPath = Join-Path $targetDir $art
-    if (Test-Path $artPath) {
+    if (Test-Path -LiteralPath $artPath) {
         Remove-Item -LiteralPath $artPath -Force -ErrorAction SilentlyContinue
     }
-    Get-ChildItem -Path $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
+}
+
+# Eliminar scripts de deploy/update específicos del repositorio maestro que no deben estar en el clon
+$scriptsToClean = @('scripts/deploy.ps1', 'scripts/update-template.ps1')
+foreach ($scr in $scriptsToClean) {
+    $scrPath = Join-Path $targetDir $scr
+    if (Test-Path -LiteralPath $scrPath) {
+        Remove-Item -LiteralPath $scrPath -Force -ErrorAction SilentlyContinue
+    }
+}
+
+# Eliminar PDFs de documentación histórica específica del proyecto maestro
+$pdfPath = Join-Path $targetDir 'brain/archive/Análisis de estructura IDE.pdf'
+if (Test-Path -LiteralPath $pdfPath) {
+    Remove-Item -LiteralPath $pdfPath -Force -ErrorAction SilentlyContinue
 }
 
 # The generated brain must be very clean and we should erase actual project specific things if any.
@@ -77,7 +101,7 @@ $statePath = Join-Path $targetDir 'brain/current-state.md'
 if (Test-Path -LiteralPath $nowPath) {
     $nowContent = @"
 # Now
-
+ 
 <!-- QUICK-NOW:START -->
 ## Estado actual
 
@@ -96,7 +120,7 @@ if (Test-Path -LiteralPath $nowPath) {
 - Generada desde deploy.
 <!-- QUICK-NOW:END -->
 "@
-    Set-Content -Path $nowPath -Value $nowContent -Force
+    Write-Utf8File -Path $nowPath -Content $nowContent
 }
 
 if (Test-Path -LiteralPath $statePath) {
@@ -119,7 +143,7 @@ if (Test-Path -LiteralPath $statePath) {
 - Confirmar variables operativas.
 <!-- QUICK-STATE:END -->
 "@
-    Set-Content -Path $statePath -Value $stateContent -Force
+    Write-Utf8File -Path $statePath -Content $stateContent
 }
 
 # --- Reset de capa profunda del brain ---
@@ -134,7 +158,7 @@ if (Test-Path -LiteralPath $changelogPath) {
 ## Registros
 
 "@
-    Set-Content -Path $changelogPath -Value $changelogContent -Force
+    Write-Utf8File -Path $changelogPath -Content $changelogContent
 }
 
 $decisionsPath = Join-Path $targetDir 'brain/decisions.md'
@@ -157,7 +181,7 @@ if (Test-Path -LiteralPath $decisionsPath) {
 -->
 
 "@
-    Set-Content -Path $decisionsPath -Value $decisionsContent -Force
+    Write-Utf8File -Path $decisionsPath -Content $decisionsContent
 }
 
 $techDebtPath = Join-Path $targetDir 'brain/technical-debt.md'
@@ -172,7 +196,7 @@ if (Test-Path -LiteralPath $techDebtPath) {
 ## Riesgos de deuda futura
 
 "@
-    Set-Content -Path $techDebtPath -Value $techDebtContent -Force
+    Write-Utf8File -Path $techDebtPath -Content $techDebtContent
 }
 
 $pitfallsPath = Join-Path $targetDir 'brain/pitfalls-and-errors.md'
@@ -183,7 +207,7 @@ if (Test-Path -LiteralPath $pitfallsPath) {
 ## Registros
 
 "@
-    Set-Content -Path $pitfallsPath -Value $pitfallsContent -Force
+    Write-Utf8File -Path $pitfallsPath -Content $pitfallsContent
 }
 
 $metricsPath = Join-Path $targetDir 'brain/workflow-metrics.md'
@@ -214,7 +238,7 @@ if (Test-Path -LiteralPath $metricsPath) {
 ## Ajustes pendientes
 
 "@
-    Set-Content -Path $metricsPath -Value $metricsContent -Force
+    Write-Utf8File -Path $metricsPath -Content $metricsContent
 }
 
 $deepSummaryPath = Join-Path $targetDir 'brain/deep-summary.md'
@@ -243,7 +267,7 @@ if (Test-Path -LiteralPath $deepSummaryPath) {
 <!-- QUICK-DEEP:END -->
 
 "@
-    Set-Content -Path $deepSummaryPath -Value $deepSummaryContent -Force
+    Write-Utf8File -Path $deepSummaryPath -Content $deepSummaryContent
 }
 
 Write-Host "deploy: OK. Template virgen exportado correctamente en 'agente-rh-template'." -ForegroundColor Green

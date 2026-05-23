@@ -82,7 +82,8 @@ if ($AffectsNow) {
 
   $changelogPath = Resolve-RepoPath -Path 'brain/changelog.md'
   if (Test-Path -LiteralPath $changelogPath -PathType Leaf) {
-    Add-Content -Path $changelogPath -Encoding UTF8 -Value "- $today | Instruccion persistente agregada: $Instruction"
+    $changelogContent = Read-Utf8File -Path $changelogPath
+    Write-Utf8File -Path $changelogPath -Content ($changelogContent.TrimEnd() + "`n- $today | Instruccion persistente agregada: $Instruction`n")
   }
 }
 

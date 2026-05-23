@@ -150,17 +150,17 @@ if ($shouldPrepareProjectMetadata) {
 
   if (Test-Path $sessionLogsDir) {
     Get-ChildItem -Path $sessionLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
-    Set-Content -Path "$sessionLogsDir\.gitkeep" -Value "" -Encoding UTF8
+    [System.IO.File]::WriteAllText("$sessionLogsDir\.gitkeep", "", [System.Text.UTF8Encoding]::new($false))
   }
   if (Test-Path $archiveLogsDir) {
     Get-ChildItem -Path $archiveLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
-    Set-Content -Path "$archiveLogsDir\.gitkeep" -Value "" -Encoding UTF8
+    [System.IO.File]::WriteAllText("$archiveLogsDir\.gitkeep", "", [System.Text.UTF8Encoding]::new($false))
   }
 
   $nowPath = Join-Path $repoRoot 'brain/now.md'
   if (Test-Path $nowPath) {
     $nowResetContent = "# Now`n`n<!-- QUICK-NOW:START -->`n## Estado actual`n`n- Memoria reseteada para nuevo proyecto.`n`n## Siguiente accion recomendada`n- Definir base arquitectónica.`n<!-- QUICK-NOW:END -->`n"
-    Set-Content -Path $nowPath -Value $nowResetContent -Encoding UTF8 -Force
+    [System.IO.File]::WriteAllText($nowPath, $nowResetContent, [System.Text.UTF8Encoding]::new($false))
   }
 
   $syncParams = @{
@@ -179,30 +179,80 @@ if ($shouldPrepareProjectMetadata) {
 
   # Automatización de instalación del MCP Semantic Server
   if (Get-Command npm -ErrorAction SilentlyContinue) {
-    Write-Host "init-project: Detectado Node.js. Autoinstalando y compilando el MCP Semantic Server en background..." -ForegroundColor Magenta
+    Write-Host "init-project: Detectado Node.js. Autoinstalando y compilando el MCP Semantic Server..." -ForegroundColor Magenta
     
     $mcpDir = Join-Path $repoRoot ".agent\mcp\semantic-server"
     $installMcpScript = Join-Path $repoRoot ".agent\scripts\install-mcp.ps1"
     
     if (Test-Path $mcpDir) {
-      Push-Location $mcpDir
       try {
-        Write-Host "  -> npm install..."
-        & npm install --silent | Out-Null
-        Write-Host "  -> compilando (tsc)..."
-        & npm run build --silent | Out-Null
-      } finally {
-        Pop-Location
-      }
-      
-      if (Test-Path $installMcpScript) {
-        Write-Host "  -> enlazando el cliente MCP con el IDE..."
-        Invoke-CheckedScript -ScriptPath $installMcpScript
-        Write-Host "init-project: Semantic Server instalado en silencio y enganchado con éxito." -ForegroundColor Green
+        Push-Location $mcpDir
+        try {
+          Write-Host "  -> npm install..."
+          & npm install --silent | Out-Null
+          Write-Host "  -> compilando (tsc)..."
+          & npm run build --silent | Out-Null
+        } finally {
+          Pop-Location
+        }
+        
+        if (Test-Path $installMcpScript) {
+          Write-Host "  -> enlazando el cliente MCP con el IDE..."
+          Invoke-CheckedScript -ScriptPath $installMcpScript
+          Write-Host "init-project: Semantic Server instalado y enganchado con exito." -ForegroundColor Green
+        }
+      } catch {
+        Write-Warning "init-project: La autoinstalacion o prueba de humo del Semantic Server ha fallado: $_"
+        
+        # Desenganche seguro para evitar dejar un servidor roto registrado
+        $ConfigPath = "$env:USERPROFILE\.gemini\antigravity\mcp_config.json"
+        if (Test-Path $ConfigPath) {
+          try {
+            $json = Get-Content -Path $ConfigPath -Raw | ConvertFrom-Json
+            $cleanProjectName = "Agente-RH-Semantic"
+            $pkgPath = Join-Path $repoRoot "package.json"
+            if (Test-Path $pkgPath) {
+              $pkg = Get-Content $pkgPath | ConvertFrom-Json
+              if ($pkg.name) { $cleanProjectName = $pkg.name + "-Semantic" }
+            }
+            if ($json.mcpServers.PSObject.Properties.Match($cleanProjectName).Count -gt 0) {
+              $json.mcpServers.PSObject.Properties.Remove($cleanProjectName)
+              $jsonStr = $json | ConvertTo-Json -Depth 10
+              [System.IO.File]::WriteAllText($ConfigPath, $jsonStr, (New-Object System.Text.UTF8Encoding($False)))
+              Write-Host "init-project: Removido registro MCP corrupto de mcp_config.json para higiene." -ForegroundColor Yellow
+            }
+          } catch {
+            Write-Warning "init-project: No se pudo limpiar mcp_config.json de forma segura."
+          }
+        }
+        
+        # Declarar el servidor inactivo en brain/stack.md
+        $stackPath = Join-Path $repoRoot 'brain/stack.md'
+        if (Test-Path $stackPath) {
+          try {
+            $stackContent = Get-Content -Path $stackPath -Raw
+            if ($stackContent -match '`semantic_server_active`:\s*true') {
+              $stackContent = $stackContent -replace '`semantic_server_active`:\s*true', '`semantic_server_active`: false'
+              [System.IO.File]::WriteAllText($stackPath, $stackContent, (New-Object System.Text.UTF8Encoding($False)))
+              Write-Host "init-project: Desactivado flag semantic_server_active en brain/stack.md." -ForegroundColor Yellow
+            }
+          } catch {
+             Write-Warning "init-project: No se pudo actualizar brain/stack.md."
+          }
+        }
       }
     }
   } else {
-    Write-Host "init-project: (Aviso) No se detectó 'npm'. El servidor MCP semántico no pudo compilarse automáticamente." -ForegroundColor Yellow
+    Write-Host "init-project: (Aviso) No se detecto 'npm'. El servidor MCP semantico no pudo compilarse automaticamente." -ForegroundColor Yellow
+    # Declarar el servidor inactivo en brain/stack.md si no hay npm
+    $stackPath = Join-Path $repoRoot 'brain/stack.md'
+    if (Test-Path $stackPath) {
+      $stackContent = Get-Content -Path $stackPath -Raw
+      if ($stackContent -match '`semantic_server_active`:\s*true') {
+        $stackContent = $stackContent -replace '`semantic_server_active`:\s*true', '`semantic_server_active`: false'
+        [System.IO.File]::WriteAllText($stackPath, $stackContent, (New-Object System.Text.UTF8Encoding($False)))
+      }
+    }
   }
 }
 

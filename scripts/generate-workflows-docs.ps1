@@ -66,13 +66,38 @@ function Get-MarkedSectionUpdate {
   }
 }
 
+function Get-AccentInsensitiveRegex {
+  param([string]$Text)
+
+  $escaped = [regex]::Escape($Text)
+  $result = New-Object System.Text.StringBuilder
+  for ($i = 0; $i -lt $escaped.Length; $i++) {
+    $char = $escaped[$i]
+    switch -casesensitive ($char) {
+      'a' { [void]$result.Append('[a\u00E1]') }
+      'e' { [void]$result.Append('[e\u00E9]') }
+      'i' { [void]$result.Append('[i\u00ED]') }
+      'o' { [void]$result.Append('[o\u00F3]') }
+      'u' { [void]$result.Append('[u\u00FA]') }
+      'A' { [void]$result.Append('[A\u00C1]') }
+      'E' { [void]$result.Append('[E\u00C9]') }
+      'I' { [void]$result.Append('[I\u00CD]') }
+      'O' { [void]$result.Append('[O\u00D3]') }
+      'U' { [void]$result.Append('[U\u00DA]') }
+      default { [void]$result.Append($char) }
+    }
+  }
+
+  return $result.ToString()
+}
+
 function Get-SectionBody {
   param(
     [string]$Body,
     [string]$Heading
   )
 
-  $escapedHeading = [regex]::Escape($Heading)
+  $escapedHeading = Get-AccentInsensitiveRegex -Text $Heading
   $pattern = "(?ms)^##\s+$escapedHeading\s*(?<content>.*?)(?=^\s*##\s+|\z)"
   $match = [regex]::Match($Body, $pattern)
   if (-not $match.Success) {
@@ -172,7 +197,7 @@ if (-not (Test-Path -LiteralPath $templatePath -PathType Leaf)) {
 }
 
 $quickLayerSnippet = (Read-Utf8File -Path $templatePath).Trim()
-$workflows = @(Get-ChildItem -Path $workflowDir -Filter *.md -File | Sort-Object Name | ForEach-Object { ConvertFrom-WorkflowFile -File $_ })
+$workflows = @(Get-ChildItem -LiteralPath $workflowDir -Filter *.md -File | Sort-Object Name | ForEach-Object { ConvertFrom-WorkflowFile -File $_ })
 
 $workflowUpdates = New-Object System.Collections.Generic.List[object]
 foreach ($workflow in $workflows) {
@@ -203,41 +228,29 @@ try {
   Remove-Item -LiteralPath $dispatchTempPath -Force -ErrorAction SilentlyContinue
 }
 
-$indexSummaryBody = ($workflows | ForEach-Object {
-  '- ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + ') -> ' + $_.Summary.TrimEnd('.') + '.'
+$indexTableBody = ($workflows | ForEach-Object {
+  '| **' + $_.Name + '** | `' + $_.Id + '` | ' + $_.Trigger + ' | [Ver Guía](../' + $_.RelativePath + ') |'
 }) -join "`n"
-
-$indexDispatchBody = ($workflows | ForEach-Object {
-  '- ' + (Format-InlineCode -Text $_.Name) + ' (' + (Format-InlineCode -Text $_.Id) + ') -> ' + $_.Trigger + '.'
-}) -join "`n"
-
-$indexSourcesBody = @(
-  $workflows | ForEach-Object { '- ' + (Format-InlineCode -Text $_.RelativePath) }
-  '- ' + (Format-InlineCode -Text '.agent/rules/context-budget.md')
-) -join "`r`n"
 
 $expectedIndex = @"
-# Workflows Index
+# Índice de Workflows Operativos
 
-## Resumen
+Este documento sirve como mapa relacional y de navegación rápido para los workflows de la suite operativa del agente. El registro maestro, los criterios de despacho automáticos, las topologías de Swarm y las señales de desempate están centralizados en la **única fuente de verdad** (SSoT): [Workflow Dispatch Rule](../.agent/rules/workflow-dispatch.md).
 
-$indexSummaryBody
+## Catálogo de Despacho Rápido
 
-## Dispatch rapido
+| Workflow | Identificador | Cuándo Utilizar (Señal Rápida) | Guía Detallada |
+| :--- | :--- | :--- | :--- |
+$indexTableBody
 
-$indexDispatchBody
+---
 
-## Uso recomendado
+## Directiva de Uso Recomendado
 
-1. Definir alcance.
-2. Seleccionar workflow por objetivo.
-3. Ejecutar con output obligatorio.
-4. Actualizar capa rapida de `brain/` (`now.md`, `current-state.md`, `stack.md` si aplica).
-5. Si cambia memoria profunda, sincronizar `deep-summary.md` en la misma tarea.
-
-## Ubicacion fuente
-
-$indexSourcesBody
+1. **Definir Alcance:** Determina qué cambio o feature vas a acometer.
+2. **Seleccionar el Workflow:** Consulta la tabla anterior y dirígete a [Workflow Dispatch](../.agent/rules/workflow-dispatch.md) para alinearte con las topologías de Swarm recomendadas.
+3. **Ejecutar e Integrar:** Genera la salida estructurada solicitada por el workflow seleccionado.
+4. **Cierre Higiénico:** Finaliza siempre la sesión utilizando la secuencia del workflow de [Cierre Operativo](../.agent/workflows/cierre-operativo.md).
 "@
 
 $pending = New-Object System.Collections.Generic.List[string]

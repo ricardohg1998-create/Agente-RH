@@ -25,3 +25,7 @@
 
 - (sin registros)
 <!-- QUICK-STACK:END -->
+
+## Parámetros de Entorno de Desarrollo (IDE)
+
+- `semantic_server_active`: true

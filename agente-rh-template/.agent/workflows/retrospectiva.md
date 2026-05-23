@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Retrospectiva
 
-## Proposito
+## Propósito
 
-Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente del `cierre-operativo` (que cierra una tarea puntual) — esto mira el panorama general de un sprint, fase o proyecto completo. Revisa el proceso, las herramientas, las decisiones tomadas y propone ajustes concretos para mejorar el siguiente ciclo.
+Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente del `cierre-operativo` (que cierra una tarea puntual) â€” esto mira el panorama general de un sprint, fase o proyecto completo. Revisa el proceso, las herramientas, las decisiones tomadas y propone ajustes concretos para mejorar el siguiente ciclo.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Al cerrar un hito, fase o sprint relevante.
 - Despues de un periodo de trabajo intenso con resultados mixtos.
@@ -27,7 +27,7 @@ Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente 
 - Percepcion general del resultado (fue bien, fue mal, mixto).
 - Areas de interes especifico (opcional).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -82,10 +82,10 @@ Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente 
 
 - **Honestidad sin drama**: identificar problemas reales sin exagerar ni minimizar.
 - **Ajustes accionables**: cada propuesta debe ser especifica y ejecutable.
-- **Balance**: incluir lo positivo y lo negativo — la retrospectiva no es solo buscar fallos.
+- **Balance**: incluir lo positivo y lo negativo â€” la retrospectiva no es solo buscar fallos.
 - **Sin culpas**: foco en procesos y decisiones, no en personas.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `higiene-contexto`, ajustes de proceso.
 - **Suele seguir a**: cierre de hito, sprint o proyecto; `cierre-operativo`.

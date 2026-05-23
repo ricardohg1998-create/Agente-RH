@@ -4,7 +4,7 @@ param()
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $testsPath = Join-Path $repoRoot 'tests/Pester'
-$testScripts = @(Get-ChildItem -Path $testsPath -Filter *.Tests.ps1 -File | Select-Object -ExpandProperty FullName)
+$testScripts = @(Get-ChildItem -LiteralPath $testsPath -Filter *.Tests.ps1 -File | Select-Object -ExpandProperty FullName)
 
 if ($testScripts.Count -eq 0) {
   throw 'No se encontraron tests en tests/Pester.'

@@ -65,7 +65,7 @@ function Format-InlineCode {
 
 $skillFiles = @()
 if (Test-Path -LiteralPath $skillsRoot -PathType Container) {
-  $skillFiles = @(Get-ChildItem -Path $skillsRoot -Filter SKILL.md -Recurse -File | Sort-Object FullName)
+  $skillFiles = @(Get-ChildItem -LiteralPath $skillsRoot -Filter SKILL.md -Recurse -File | Sort-Object FullName)
 }
 
 $skillLines = New-Object System.Collections.Generic.List[string]

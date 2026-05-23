@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Inicio de proyecto
 
-## Proposito
+## Propósito
 
 Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, con estado verificable y cerebro actualizado.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Repo recien clonado con esqueleto base.
 - Inicio de proyecto nuevo sobre la plantilla.
@@ -25,7 +25,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 - Alcance del primer entregable.
 - Restricciones (tiempo, equipo, entorno).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -61,7 +61,7 @@ Guiar desde repo clonado hasta proyecto inicializado y listo para desarrollar, c
 - Toda decision de stack debe estar justificada y registrada.
 - El cerebro debe reflejar el estado real del proyecto, no el estado plantilla.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `buscar-skills`, `implementacion-quirurgica`.
 - **Suele seguir a**: clonado de repo o arranque de proyecto nuevo.

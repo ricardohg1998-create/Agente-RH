@@ -10,6 +10,24 @@ if (-not $McpEntryPath) {
     exit 1
 }
 
+# --- Prueba de Humo Dinamica (Smoke Test) ---
+Write-Host "[Install-MCP] Iniciando prueba de humo dinamica del servidor MCP..." -ForegroundColor Cyan
+try {
+    $process = Start-Process node -ArgumentList "`"$McpEntryPath`"" -NoNewWindow -PassThru -ErrorAction Stop
+    Start-Sleep -Milliseconds 1200
+    if ($process.HasExited) {
+        Write-Error "[Install-MCP] El servidor MCP termino abruptamente con exit code $($process.ExitCode). Runtime o dependencias invalidas."
+        exit 1
+    } else {
+        # Sigue vivo, excelente. Lo detenemos limpiamente.
+        $process.Kill()
+        Write-Host "[Install-MCP] Prueba de humo exitosa. Servidor levantado correctamente." -ForegroundColor Green
+    }
+} catch {
+    Write-Error "[Install-MCP] Error critico ejecutando la prueba de humo con node: $_"
+    exit 1
+}
+
 if (Test-Path $ConfigPath) {
     $jsonContent = Get-Content -Path $ConfigPath -Raw | ConvertFrom-Json
     

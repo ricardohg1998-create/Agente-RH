@@ -13,4 +13,3 @@
   - Bueno: que hemos ganado.
   - Malo: que hemos cedido (deuda tecnica).
 -->
-

@@ -55,3 +55,7 @@ data/
 dev.db
 *.sqlite
 *.sqlite3
+
+# Swarm efímero
+brain/swarm/*
+!brain/swarm/.gitkeep

@@ -1,4 +1,3 @@
 # Pitfalls and Errors
 
 ## Registros
-

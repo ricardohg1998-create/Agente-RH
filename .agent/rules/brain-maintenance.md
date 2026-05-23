@@ -2,7 +2,7 @@
 id: brain-maintenance
 name: Brain Maintenance
 activation: always-on
-version: 1.1.0
+version: 2.0.0
 ---
 
 # Brain Maintenance Rule

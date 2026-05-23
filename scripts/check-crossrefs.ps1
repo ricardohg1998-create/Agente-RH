@@ -26,7 +26,7 @@ function Get-RelativeRepoPath {
 function Get-WorkflowMetadata {
   param([System.IO.FileInfo]$File)
 
-  $raw = Get-Content -Path $File.FullName -Raw
+  $raw = Get-Content -LiteralPath $File.FullName -Raw
   $idMatch = [regex]::Match($raw, '(?m)^id:\s*(.+?)\s*$')
   $nameMatch = [regex]::Match($raw, '(?m)^name:\s*(.+?)\s*$')
 
@@ -70,7 +70,7 @@ function Invoke-CheckOnlyGenerator {
   }
 }
 
-$workflowFiles = Get-ChildItem -Path (Join-Path $repoRoot '.agent/workflows') -Filter *.md -File | Sort-Object Name
+$workflowFiles = Get-ChildItem -LiteralPath (Join-Path $repoRoot '.agent/workflows') -Filter *.md -File | Sort-Object Name
 $workflows = @($workflowFiles | ForEach-Object { Get-WorkflowMetadata -File $_ })
 $workflowIds = @($workflows | ForEach-Object { $_.Id })
 $workflowPaths = @($workflows | ForEach-Object { $_.RelativePath })
@@ -79,7 +79,7 @@ if (($workflowIds | Select-Object -Unique).Count -ne $workflowIds.Count) {
   $issues.Add('Hay ids de workflows duplicados en .agent/workflows/.')
 }
 
-$repoStructure = Get-Content -Path (Join-Path $repoRoot '.agent/config/repo-structure.json') -Raw | ConvertFrom-Json
+$repoStructure = Get-Content -LiteralPath (Join-Path $repoRoot '.agent/config/repo-structure.json') -Raw | ConvertFrom-Json
 $requiredFiles = @($repoStructure.requiredFiles)
 $requiredWorkflowPaths = @($requiredFiles | Where-Object { $_ -like '.agent/workflows/*.md' })
 Add-MissingAndExtraIssues -Expected $workflowPaths -Actual $requiredWorkflowPaths -ContextLabel 'repo-structure.json (workflows)'
@@ -95,7 +95,7 @@ $managedFiles = @(
 $actualStackFiles = @()
 $stacksRoot = Join-Path $repoRoot 'tools/stacks'
 if (Test-Path -LiteralPath $stacksRoot -PathType Container) {
-  $actualStackFiles = @(Get-ChildItem -Path $stacksRoot -Recurse -File | ForEach-Object { Get-RelativeRepoPath -FullPath $_.FullName })
+  $actualStackFiles = @(Get-ChildItem -LiteralPath $stacksRoot -Recurse -File | ForEach-Object { Get-RelativeRepoPath -FullPath $_.FullName })
 }
 
 $expectedManagedFiles = @($managedFiles + $actualStackFiles | Sort-Object -Unique)
@@ -104,9 +104,9 @@ $actualManagedFiles = @($requiredFiles | Where-Object {
 })
 Add-MissingAndExtraIssues -Expected $expectedManagedFiles -Actual $actualManagedFiles -ContextLabel 'repo-structure.json (managed files)'
 
-$readmeRaw = Get-Content -Path (Join-Path $repoRoot 'README.md') -Raw
-$indexRaw = Get-Content -Path (Join-Path $repoRoot 'brain/workflows-index.md') -Raw
-$dispatchRaw = Get-Content -Path (Join-Path $repoRoot '.agent/rules/workflow-dispatch.md') -Raw
+$readmeRaw = Get-Content -LiteralPath (Join-Path $repoRoot 'README.md') -Raw
+$indexRaw = Get-Content -LiteralPath (Join-Path $repoRoot 'brain/workflows-index.md') -Raw
+$dispatchRaw = Get-Content -LiteralPath (Join-Path $repoRoot '.agent/rules/workflow-dispatch.md') -Raw
 
 $readmePaths = @([regex]::Matches($readmeRaw, '\.agent/workflows/[a-z0-9-]+\.md') | ForEach-Object { $_.Value } | Select-Object -Unique)
 $indexPaths = @([regex]::Matches($indexRaw, '\.agent/workflows/[a-z0-9-]+\.md') | ForEach-Object { $_.Value } | Select-Object -Unique)
@@ -140,8 +140,8 @@ foreach ($workflow in $workflows) {
 }
 
 $ruleIds = @(
-  Get-ChildItem -Path (Join-Path $repoRoot '.agent/rules') -Filter *.md -File | ForEach-Object {
-    $raw = Get-Content -Path $_.FullName -Raw
+  Get-ChildItem -LiteralPath (Join-Path $repoRoot '.agent/rules') -Filter *.md -File | ForEach-Object {
+    $raw = Get-Content -LiteralPath $_.FullName -Raw
     $match = [regex]::Match($raw, '(?m)^id:\s*(.+?)\s*$')
     if ($match.Success) {
       $match.Groups[1].Value.Trim()

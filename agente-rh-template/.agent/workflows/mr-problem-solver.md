@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Mr Problem Solver
 
-## Proposito
+## Propósito
 
 Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con contencion y validacion.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Hay errores, caidas, regresiones o comportamiento inestable.
 - Se necesita priorizar por severidad e impacto real.
@@ -25,7 +25,7 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 - Impacto en usuario/negocio.
 - Restricciones de disponibilidad o despliegue.
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -73,7 +73,7 @@ Resolver incidentes de forma sistematica: del sintoma a la causa raiz, con conte
 - Toda accion debe estar justificada por evidencia.
 - Incluir contencion y solucion de fondo.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica` (fix estructural), `code-review` (validar el fix).
 - **Suele seguir a**: incidente detectado por usuario o sistema.

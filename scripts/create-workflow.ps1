@@ -108,7 +108,10 @@ Write-Host "Workflow '$Id' generado exitosamente en $workflowFile." -ForegroundC
 if ($UpdateDocs) {
   $updateScript = Join-Path $PSScriptRoot 'generate-workflows-docs.ps1'
   if (Test-Path -LiteralPath $updateScript -PathType Leaf) {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $updateScript
+    $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
+    . $resolvePsBinPath
+    $psBin = Resolve-PowerShellBinary
+    & $psBin -NoProfile -ExecutionPolicy Bypass -File $updateScript
   }
 }
 exit 0

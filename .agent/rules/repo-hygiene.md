@@ -2,7 +2,7 @@
 id: repo-hygiene
 name: Repository Hygiene
 activation: always-on
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Repository Hygiene Rule
@@ -26,8 +26,7 @@ Evitar deriva documental, residuos tecnicos y ruido estructural.
 
 ## Checks obligatorios
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1`
-- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-context-budget.ps1`
+- Ejecutar directamente [run-checks.ps1](../../scripts/run-checks.ps1) para validar la limpieza y consistencia del repositorio de forma unificada.
 
 ## Archivar vs borrar
 

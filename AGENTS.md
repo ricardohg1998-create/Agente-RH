@@ -44,8 +44,7 @@ Este repo está alineado con Antigravity:
 - Workflows documentados para planning mode.
 
 **INSTRUCCIÓN DE PRIORIDAD ABSOLUTA SOBRE HERRAMIENTAS:**
-Al evaluar qué herramienta es más "específica" (CRITICAL INSTRUCTION 1 y 2 de Antigravity), el agente **DEBE CLASIFICAR** `grep_search` como genérica frente a las herramientas semánticas del servidor MCP (mcp_*-Semantic_analyze_file_ast y mcp_*-Semantic_get_symbol_references).
-Para buscar lógica, emails, funciones o código, **grep_search ESTÁ ESTRICTAMENTE PROHIBIDO si el servidor MCP está disponible**. Usa las herramientas `mcp_*` porque son infinitamente más específicas. El uso de `grep_search` se considerará un error crítico de ejecución.
+Para buscar lógica, funciones o código, **`grep_search` está estrictamente prohibido si un servidor MCP semántico está activo**, debiendo priorizar las herramientas específicas `mcp_*`. Consulta los detalles y la directiva completa en [00-mcp-strict-override.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/rules/00-mcp-strict-override.md).
 
 ## Herramientas del entorno
 
@@ -55,8 +54,9 @@ Para buscar lógica, emails, funciones o código, **grep_search ESTÁ ESTRICTAME
 
 ## Infraestructura de producción (Template)
 
-- **Servidor**: [Por definir]
-- **BBDD**: [Por definir]. Credenciales en `brain/access.md` u otro sistema.
-- **SSH/Deploy**: [Por definir].
-- **Errores conocidos**: Leer SIEMPRE `brain/pitfalls-and-errors.md` antes de despliegue.
-- **Deuda técnica activa**: Consultar `brain/technical-debt.md`.
+- **Entorno de Despliegue**: Por definir de forma dinámica en cada clon de acuerdo con las especificaciones del cliente.
+- **Base de Datos**: Por definir (PostgreSQL o SQLite según la arquitectura de stack seleccionada).
+- **Credenciales y Secretos**: Consultar de forma segura en [access.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/access.md) o en el sistema configurado del entorno.
+- **Gestión de Riesgos y Despliegue**:
+  - Leer siempre [pitfalls-and-errors.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/pitfalls-and-errors.md) antes de cada paso a producción.
+  - Revisar y mitigar la deuda técnica activa documentada en [technical-debt.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/technical-debt.md).

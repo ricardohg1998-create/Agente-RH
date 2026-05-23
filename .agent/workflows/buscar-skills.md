@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Buscar skills
 
-## Proposito
+## Propósito
 
 Seleccionar e instalar el conjunto minimo util de skills para el stack real del proyecto, sin ruido ni redundancias.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Inicio de proyecto nuevo.
 - Cambio de stack o dominio.
@@ -24,7 +24,7 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 - Restricciones de entorno.
 - Fuentes de catalogo configuradas.
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -62,7 +62,7 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 - Mantener maximo una skill por dominio cuando haya overlap.
 - Evitar repetir busquedas largas si ya hay catalogo local util.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica`.
 - **Suele seguir a**: `inicio-proyecto`, cambio de stack.
