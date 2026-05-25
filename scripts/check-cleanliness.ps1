@@ -108,7 +108,7 @@ $ephemeralFiles = @('implementation_plan.md', 'task.md', 'walkthrough.md')
 foreach ($ephemeral in $ephemeralFiles) {
   $fullPath = Join-Path $repoRoot $ephemeral
   if (Test-Path -LiteralPath $fullPath -PathType Leaf) {
-    $issues.Add("Artefacto efimero activo (recomendacion: archivar en brain/session_logs o borrar antes del cierre): $ephemeral")
+    Write-Host " [WARN] Artefacto efimero activo (recomendacion: archivar en brain/session_logs o borrar antes del cierre): $ephemeral" -ForegroundColor Yellow
   }
 }
 
