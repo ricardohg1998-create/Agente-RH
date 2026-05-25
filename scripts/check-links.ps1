@@ -51,6 +51,8 @@ function Test-IgnoreLinkTarget {
   if ($Target -match '^@[a-zA-Z0-9]') { return $true }
   if ($Target -match '(?i)[/\\](?:implementation_plan|task|walkthrough)\.md$') { return $true }
   if ($Target -match '(?i)^(?:implementation_plan|task|walkthrough)\.md$') { return $true }
+  if ($Target -match '(?i)\.vscode[/\\]') { return $true }
+  if ($Target -match '(?i)semantic-server[/\\]build[/\\]') { return $true }
   return $false
 }
 
@@ -155,6 +157,8 @@ $scanBlock = {
     if ($Target -match '^@[a-zA-Z0-9]') { return $true }
     if ($Target -match '(?i)[/\\](?:implementation_plan|task|walkthrough)\.md$') { return $true }
     if ($Target -match '(?i)^(?:implementation_plan|task|walkthrough)\.md$') { return $true }
+    if ($Target -match '(?i)\.vscode[/\\]') { return $true }
+    if ($Target -match '(?i)semantic-server[/\\]build[/\\]') { return $true }
     return $false
   }
 
