@@ -20,7 +20,7 @@ $ProjectName = $DirName.ToLower() -replace '\s+', '-' -replace '[^a-z0-9\-]', ''
 Write-Host "[Auto-Init] Detectado nuevo clon '$DisplayName'. Parametrizando plantilla..." -ForegroundColor Cyan
 
 # 3. Update package.json
-$PkgPath = Join-Path $RootDir "package.json"
+$PkgPath = Join-Path $RootDir ".agent\mcp\semantic-server\package.json"
 if (Test-Path $PkgPath) {
     $json = Get-Content $PkgPath -Raw | ConvertFrom-Json
     $OldName = $json.name

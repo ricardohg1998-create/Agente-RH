@@ -51,7 +51,13 @@ Write-Host "Skill '$Id' generada exitosamente en $skillFile." -ForegroundColor G
 if ($GenerateCatalog) {
   $catalogScript = Join-Path $PSScriptRoot 'generate-catalog.ps1'
   if (Test-Path -LiteralPath $catalogScript -PathType Leaf) {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $catalogScript
+    $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
+    . $resolvePsBinPath
+    $psBin = Resolve-PowerShellBinary
+    & $psBin -NoProfile -ExecutionPolicy Bypass -File $catalogScript
+    if ($LASTEXITCODE -ne 0) {
+      throw "Error al regenerar el catálogo tras crear la skill."
+    }
   }
 }
 exit 0

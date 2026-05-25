@@ -73,7 +73,7 @@ if (-not (Test-Path -LiteralPath $configFullPath -PathType Leaf)) {
   throw "No existe config: $ConfigPath"
 }
 
-$config = Get-Content -Path $configFullPath -Raw | ConvertFrom-Json
+$config = Get-Content -LiteralPath $configFullPath -Raw | ConvertFrom-Json
 
 $warnMaxLines = [int]$config.warn.maxLines
 $warnMaxChars = [int]$config.warn.maxChars
@@ -106,7 +106,7 @@ foreach ($scanPath in $config.scanPaths) {
       continue
     }
 
-    $raw = Get-Content -Path $item.FullName -Raw
+    $raw = Get-Content -LiteralPath $item.FullName -Raw
     $relative = Get-RelativePath -Root $repoRoot -FullPath $item.FullName
     $relative = $relative -replace '\\', '/'
     $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }
@@ -122,11 +122,11 @@ foreach ($scanPath in $config.scanPaths) {
 
   if (-not (Test-Path -LiteralPath $scanFullPath -PathType Container)) { continue }
 
-  Get-ChildItem -Path $scanFullPath -Recurse -File | Where-Object {
-    $extensionSet.Contains($_.Extension)
+  Get-ChildItem -LiteralPath $scanFullPath -Recurse -File | Where-Object {
+    $extensionSet.Contains($_.Extension) -and $_.FullName -notmatch 'brain[\\/]swarm'
   } | ForEach-Object {
     $full = $_.FullName
-    $raw = Get-Content -Path $full -Raw
+    $raw = Get-Content -LiteralPath $full -Raw
     $relative = Get-RelativePath -Root $repoRoot -FullPath $full
     $relative = $relative -replace '\\', '/'
     $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }

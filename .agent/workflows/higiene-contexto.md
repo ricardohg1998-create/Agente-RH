@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Higiene de contexto
 
-## Proposito
+## Propósito
 
 Reducir deriva documental y consumo innecesario de contexto manteniendo la memoria operativa util y compacta.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Se detecta ruido, duplicidad o documentos largos sin accion.
 - El presupuesto de contexto marca warnings o riesgo de criticals.
@@ -24,7 +24,7 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 - Restricciones de preservacion historica.
 - Estado de checks actuales (si existe).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -67,7 +67,7 @@ Reducir deriva documental y consumo innecesario de contexto manteniendo la memor
 - Priorizar claridad operativa sobre volumen de texto.
 - No borrar historial con valor tecnico sin alternativa.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `cierre-operativo`.
 - **Suele seguir a**: `retrospectiva`, `autista-cafeinado`.

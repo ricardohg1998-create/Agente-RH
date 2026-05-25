@@ -31,12 +31,23 @@ function Get-DeepSummary {
   $placeholderRegex = '(?i)\(sin registros\)|\(pendiente definir\)|\(sin definir\)|\(sin novedades\)|\bsin registros\b|\bpendiente definir\b|\bsin definir\b'
 
   $lines = @()
+  $inComment = $false
   foreach ($line in ($Raw -split "`r?`n")) {
     $clean = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
+    if ($clean.StartsWith('<!--')) {
+      if (-not $clean.EndsWith('-->')) {
+        $inComment = $true
+      }
+      continue
+    }
+    if ($clean.EndsWith('-->') -or $clean -match '-->') {
+      $inComment = $false
+      continue
+    }
+    if ($inComment) { continue }
     if ($clean.StartsWith('#')) { continue }
     if ($clean -eq '---') { continue }
-    if ($clean.StartsWith('<!--')) { continue }
     if ($clean.StartsWith('```')) { continue }
 
     $item = $clean -replace '^\s*[-*+]\s+', ''

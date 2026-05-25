@@ -7,7 +7,7 @@
 
 - **Sesión ID**: `[ID de Conversación]`
 - **Fecha de Ejecución**: `YYYY-MM-DD`
-- **Orquestador**: Antigravity Desktop 2.0
+- **Orquestador**: Antigravity 2.0 (Gemini 3.5 Flash)
 - **Estado de Cierre**: ✅ Verde (100% Validado) | ⚠️ Con Advertencias
 
 ---
@@ -16,8 +16,8 @@
 
 | Ruta del Archivo | Acción | Descripción del Cambio | Enlace a Archivo |
 | :--- | :---: | :--- | :--- |
-| `[Ruta del archivo 1]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | `[Ruta relativa desde la raíz]` |
-| `[Ruta del archivo 2]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | `[Ruta relativa desde la raíz]` |
+| `[Ruta del archivo 1]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](../../[Ruta]) |
+| `[Ruta del archivo 2]` | `[MODIFY/NEW/DELETE]` | Breve justificación técnica de la modificación | [Ver archivo](../../[Ruta]) |
 
 ---
 

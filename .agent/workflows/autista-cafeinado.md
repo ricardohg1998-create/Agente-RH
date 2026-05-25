@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Autista cafeinado
 
-## Proposito
+## Propósito
 
 Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de una parte especifica si se indica en el prompt). Funciona como lo haria un friki autista sobreexcitado de cafeina: analisis de altas capacidades que busca hasta el mas minimo detalle, critica constructiva despiadada pero util, y nada se le escapa. El objetivo final es generar un **Implementation Plan completo de mejoras** priorizado y accionable.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Antes de release relevante.
 - Proyecto con sintomas de fragilidad, deuda acumulada o falta de calidad.
@@ -26,7 +26,7 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 - Objetivo de calidad o area de foco preferente (opcional).
 - Restricciones (tiempo, riesgo, compatibilidad).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -84,7 +84,7 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 - **Critica constructiva**: ser despiadado con los problemas, pero siempre proponer solucion concreta.
 - **Implementation Plan ejecutable**: debe poder ejecutarse sin ambiguedad, sin preguntas pendientes, sin decisiones ocultas.
 
-## Modos de operacion
+## Modos de operación
 
 ### Modo archivo/componente (alcance < 5 archivos)
 - Saltar pasos de mapeo global (paso 2).
@@ -103,7 +103,7 @@ Ejecutar una revision obsesiva, hiper-detallada y profunda del proyecto (o de un
 - Output completo con Implementation Plan por fases.
 - Priorizacion por impacto/esfuerzo obligatoria.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica`, `code-review`.
 - **Suele seguir a**: solicitud directa del usuario o sospecha de fragilidad.

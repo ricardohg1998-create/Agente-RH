@@ -9,8 +9,10 @@ function New-TestWorkspace {
   $workspace = Join-Path $env:TEMP ('agente-rh-tests-' + [guid]::NewGuid().ToString())
   New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 
+  $excludeList = @('.git', 'node_modules', '.venv', 'dist', 'build', 'out', 'agente-rh-template')
+
   Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
-    $IncludeGit -or $_.Name -ne '.git'
+    ($IncludeGit -or $_.Name -ne '.git') -and ($_.Name -notin $excludeList)
   } | ForEach-Object {
     Copy-Item -LiteralPath $_.FullName -Destination $workspace -Recurse -Force
   }
@@ -41,11 +43,19 @@ function Invoke-WorkspaceScript {
     [Environment]::SetEnvironmentVariable($key, [string]$Environment[$key], 'Process')
   }
 
+  $psBin = 'powershell'
+  foreach ($candidate in @('pwsh', 'powershell')) {
+    if (Get-Command $candidate -ErrorAction SilentlyContinue) {
+      $psBin = $candidate
+      break
+    }
+  }
+
   try {
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-      $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
+      $output = & $psBin -NoProfile -ExecutionPolicy Bypass -File $scriptPath @Arguments 2>&1
       $exitCode = $LASTEXITCODE
     } catch {
       $output = @($_)
@@ -110,7 +120,7 @@ function Get-WorkspaceFileRaw {
     [string]$RelativePath
   )
 
-  return Get-Content -Path (Join-Path $Workspace $RelativePath) -Raw
+  return Get-Content -LiteralPath (Join-Path $Workspace $RelativePath) -Raw
 }
 
 function Set-WorkspaceFileRaw {
@@ -120,5 +130,5 @@ function Set-WorkspaceFileRaw {
     [string]$Content
   )
 
-  Set-Content -Path (Join-Path $Workspace $RelativePath) -Encoding UTF8 -Value $Content
+  Set-Content -LiteralPath (Join-Path $Workspace $RelativePath) -Encoding UTF8 -Value $Content
 }

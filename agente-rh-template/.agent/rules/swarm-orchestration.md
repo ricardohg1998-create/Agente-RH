@@ -114,3 +114,19 @@ Los subagentes estructurarán su ciclo de vida y retroalimentación al Orquestad
    * Walkthrough del subagente.
    * Enlaces a los archivos creados o modificados.
    * Resultado de validaciones locales aplicadas.
+
+---
+
+## 5. Control de Conflictos de Git y Planificación Centralizada (Mitigación de Riesgos)
+
+### A. Protocolo de Fusión de Git y Escape ante Conflictos
+* **Principio de No Destrucción**: Ante fusiones automatizadas de ramas o directorios `share`/`branch` de especialistas, si surge cualquier tipo de conflicto de Git (`merge conflict`), el Orquestador Principal **tiene prohibido forzar la sobreescritura (`force push`, `git checkout --ours`, etc.)** de forma autónoma.
+* **Acción Correctiva**:
+  1. Suspender inmediatamente el flujo de integración automatizado.
+  2. Preservar intactas las ramas locales del enjambre con el trabajo de los subagentes.
+  3. Generar un informe estructurado de handoff para el desarrollador humano detallando las líneas en conflicto y las opciones de resolución lógicas.
+  4. Ceder el control al desarrollador humano para la resolución segura del merge.
+
+### B. Gestión de Planificación e Interactividad en `inherit`
+* **Centralización de Artefactos**: Los tres documentos interactivos de planificación de Antigravity (`implementation_plan.md`, `task.md` y `walkthrough.md`) pertenecen al ciclo de vida global de la sesión.
+* **Restricción de Workspace**: **Deben leerse y escribirse única y exclusivamente en el workspace principal `inherit`**. Los especialistas que operen en sandbox (`share`/`branch`) no deben intentar replicar, bifurcar o generar archivos de planificación parciales dentro de sus espacios aislados, previniendo incoherencias lógicas severas al consolidar.

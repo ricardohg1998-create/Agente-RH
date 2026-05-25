@@ -140,7 +140,7 @@ foreach ($size in $sizeBuckets.Keys) {
   if ($bucket.Count -lt 2) { continue }
 
   foreach ($fullPath in $bucket) {
-    $hash = (Get-FileHash -Path $fullPath -Algorithm SHA256).Hash
+    $hash = (Get-FileHash -LiteralPath $fullPath -Algorithm SHA256).Hash
     if (-not $hashBuckets.ContainsKey($hash)) {
       $hashBuckets[$hash] = New-Object System.Collections.Generic.List[string]
     }
@@ -193,7 +193,7 @@ foreach ($doc in $allFiles) {
 
   if (-not $inScope) { continue }
 
-  $raw = Get-Content -Path $doc.FullName -Raw
+  $raw = Get-Content -LiteralPath $doc.FullName -Raw
   if ($raw -match '\[OBSOLETO\]' -or $raw -match 'STATUS:\s*DEPRECATED') {
     $relative = Get-RelativePath -Root $repoRoot -FullPath $doc.FullName
     $issues.Add("Contenido obsoleto marcado (recomendacion: archivar o limpiar): $relative")

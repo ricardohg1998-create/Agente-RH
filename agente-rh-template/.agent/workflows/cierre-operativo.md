@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Cierre operativo
 
-## Proposito
+## Propósito
 
 Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Al terminar una tarea tecnica o documental.
 - Antes de handoff entre agentes/personas.
@@ -24,7 +24,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 - Cambios realizados o previstos.
 - Restricciones de cierre (tiempo, riesgos, dependencias externas).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -38,8 +38,8 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 2. **Generación del Walkthrough**: El Orquestador redacta el artefacto `walkthrough.md` en el directorio de la sesión resumiendo los entregables, tests unitarios ejecutados y diffs.
 3. **Delegación de Cierre**: El Orquestador define e invoca en background al subagente especialista **`CleanlinessGuardian`** (en workspace `inherit`) pasándole el Context Payload correspondiente.
 4. **Ejecución del Guardian**: El `CleanlinessGuardian` ejecuta de forma 100% automatizada:
-   * **Auditoría de Calidad**: Ejecuta `scripts/run-checks.ps1` en background. Si falla, reporta los errores inmediatamente al Orquestador para su triage.
-   * **Higiene Física**: Identifica y elimina cualquier residuo efímero de la sesión (`*.tmp`, `.bak`, `.log`, y metadatos del editor/subagentes).
+   * **Auditoría de Calidad**: Ejecuta `scripts/run-checks.ps1 -Fast` en background para evitar la suite de tests interactiva de Pester 3.4 (la cual cuelga la ejecución asíncrona en Windows 11/PowerShell 5.1). Si falla, reporta los errores de inmediato al Orquestador.
+   * **Higiene Física**: Identifica y elimina cualquier residuo efímero de la sesión (`*.tmp`, `.bak`, `.log`). Si se utilizó un enjambre, **elimina físicamente todos los archivos efímeros de `brain/swarm/`** (`system-prompt-*.md`, `task-*.md`, `bootstrap-payload.json`), respetando y dejando únicamente el archivo `.gitkeep`.
    * **Registro Histórico**: Compacta el walkthrough en una entrada impecable de historial permanente bajo `brain/session_logs/` en formato de fecha y hora actual `YYYY-MM-DD_HH-MM_registro_cambios_sesion.md`.
    * **Compactación de Memoria Rápida**: Actualiza con precisión milimétrica `brain/now.md`, `brain/current-state.md` y `brain/deep-summary.md` vinculando al log histórico creado.
 5. **Reporte Final**: El Guardian envía el callback `[COMPLETED]` con el reporte final de cierre. El Orquestador valida la higiene y ofrece el handoff limpio al desarrollador.
@@ -65,7 +65,7 @@ Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y c
 - Diferenciar claramente hecho vs pendiente.
 - No cerrar con riesgos criticos sin visibilidad.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: handoff, commit final, fin de sesion.
 - **Suele seguir a**: `code-review`, `pre-release`, `implementacion-quirurgica`, `qa-testing`.

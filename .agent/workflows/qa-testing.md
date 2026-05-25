@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: QA y Pruebas
 
-## Proposito
+## Propósito
 
 Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, implementar tests prioritarios, ejecutar y reportar resultados. Cubrir desde unit tests hasta validacion visual end-to-end. El objetivo es construir una red de seguridad que prevenga regresiones y aumente la confianza en cada deploy.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Feature nueva que necesita cobertura de tests.
 - Se detecta falta de tests en areas criticas.
@@ -27,7 +27,7 @@ Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, 
 - Stack de testing actual (si existe).
 - Areas criticas o con historial de bugs.
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -71,7 +71,7 @@ Garantizar calidad mediante testing sistematico. Disenar estrategia de pruebas, 
 - **Tests mantenibles**: naming claro, setup minimo, sin acoplamiento a implementacion interna.
 - **Evidencia de ejecucion**: no basta con escribir tests, hay que ejecutarlos y reportar resultados.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `pre-release`, `cierre-operativo`.
 - **Suele seguir a**: `implementacion-quirurgica`, `desarrollador-profundidad`, `code-review`.

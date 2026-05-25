@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Spike de investigacion
 
-## Proposito
+## Propósito
 
 Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o enfoques arquitectonicos mediante analisis comparativo y PoC minimos. Producir una decision documentada y defendible que evite retrabajo posterior.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Se necesita elegir entre varias tecnologias o librerias.
 - Hay incertidumbre tecnica que bloquea una decision de implementacion.
@@ -27,7 +27,7 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - Restricciones conocidas (tiempo, presupuesto, compatibilidad, equipo).
 - Criterios de decision (que factores importan mas: rendimiento, DX, comunidad, coste, etc.).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -38,9 +38,9 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 ## Pasos internos (Swarm Core v2.0 - Topología de Investigación)
 
 1. **Análisis de Pregunta y Aprobación**: El Orquestador Principal lee la capa rápida y verifica que no haya una decisión previa que cubra la pregunta. Define la pregunta de investigación precisa y los criterios de evaluación ponderados (rendimiento, DX, comunidad, madurez, compatibilidad con stack actual).
-2. **Invocación de Investigadores en Paralelo**: El Orquestador define e invoca en background a **subagentes especialistas `CodebaseResearcher`** en paralelo (usando workspace `inherit` o `branch` si requiere instalar paquetes de prueba). Les inyecta el Context Payload detallando la alternativa específica a analizar y probar.
-   * **`CodebaseResearcher-1 (Alternativa A)`**: Realiza la investigación de la alternativa A, lee documentación oficial y construye un PoC mínimo aislado.
-   * **`CodebaseResearcher-2 (Alternativa B)`**: Investiga la alternativa B en paralelo de manera aislada, analizando la viabilidad de integración.
+2. **Invocación de Investigadores en Paralelo**: El Orquestador define e invoca en background a **subagentes especialistas `CodebaseResearcher`** en paralelo (modo `inherit`) para investigación semántica y lectura de documentación. Si el spike requiere construir PoCs activos o instalar paquetes de prueba, invoca en su lugar a subagentes de tipo **`FeatureDeveloper`** en entornos aislados (modo `branch` o `share`).
+   * **`Subagente 1 (Alternativa A)`**: Realiza el análisis semántico de la alternativa A (Researcher) o construye un PoC mínimo aislado (FeatureDeveloper).
+   * **`Subagente 2 (Alternativa B)`**: Analiza la viabilidad de integración de la alternativa B en paralelo.
 3. **Callbacks de Hallazgos**: Los investigadores devuelven sus reportes sintéticos de viabilidad, matriz de pros/contras y riesgos de lock-in a través de sus callbacks `[COMPLETED]`.
 4. **Consolidación de Matriz**: El Orquestador Principal unifica los reportes de los subagentes, construye la matriz de comparación (tabla de alternativas vs criterios) y formula la recomendación final.
 5. **Registro de Decisión y Cierre**: Registra la decisión definitiva en `brain/decisions.md` y delega el Cierre Operativo y la higiene al subagente `CleanlinessGuardian`.
@@ -73,7 +73,7 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - **Evidencia sobre opinion**: cada recomendacion debe estar respaldada por datos, benchmarks o documentacion, no por preferencia personal.
 - **Decision registrada**: un spike sin decision documentada es trabajo perdido.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica`, `inicio-proyecto`, `buscar-skills`.
 - **Suele seguir a**: bloqueo tecnico detectado por `mr-problem-solver` o necesidad emergida de `autista-cafeinado`.

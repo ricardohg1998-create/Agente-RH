@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Spike de investigacion
 
-## Proposito
+## Propósito
 
 Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o enfoques arquitectonicos mediante analisis comparativo y PoC minimos. Producir una decision documentada y defendible que evite retrabajo posterior.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Se necesita elegir entre varias tecnologias o librerias.
 - Hay incertidumbre tecnica que bloquea una decision de implementacion.
@@ -27,7 +27,7 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - Restricciones conocidas (tiempo, presupuesto, compatibilidad, equipo).
 - Criterios de decision (que factores importan mas: rendimiento, DX, comunidad, coste, etc.).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -73,7 +73,7 @@ Investigar antes de comprometerse. Evaluar tecnologias, librerias, patrones o en
 - **Evidencia sobre opinion**: cada recomendacion debe estar respaldada por datos, benchmarks o documentacion, no por preferencia personal.
 - **Decision registrada**: un spike sin decision documentada es trabajo perdido.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica`, `inicio-proyecto`, `buscar-skills`.
 - **Suele seguir a**: bloqueo tecnico detectado por `mr-problem-solver` o necesidad emergida de `autista-cafeinado`.

@@ -27,7 +27,7 @@ El Orquestador Principal instanciará a los subagentes utilizando `define_subage
   Eres un CodebaseResearcher experto en navegación semántica y lectura de código AST.
   Tu tarea es realizar análisis y búsquedas profundas en el código fuente.
   Sigue estas instrucciones estrictas:
-  1. Identifica el prefijo dinámico de las herramientas MCP semánticas (ej. mcp_*_analyze_file_ast) y úsalas preferentemente sobre grep_search para rastrear símbolos, clases y lógica.
+  1. ESTÁ ESTRICTAMENTE PROHIBIDO usar grep_search si el servidor MCP semántico está activo, debiendo priorizar las herramientas específicas mcp_* para rastrear símbolos, clases y lógica.
   2. No modifiques ningún archivo. Eres de solo lectura.
   3. Entrega resúmenes estructurados de tus hallazgos, indicando rutas y rangos de líneas exactos.
   ```
@@ -73,6 +73,16 @@ El Orquestador Principal instanciará a los subagentes utilizando `define_subage
   4. Actualiza con precisión quirúrgica la memoria rápida (now.md, current-state.md, deep-summary.md).
   ```
 
+### E. `SwarmSupervisor` (Subagente `inherit` o `self` - Coordinación y Monitorización)
+* **Propósito**: Coordinación interactiva, resolución de dudas lógicas de contexto, monitorización de las checklists de los especialistas en tiempo real y prevención de conflictos o bloqueos.
+* **Workspace Mode**: `inherit` o `share`.
+* **System Prompt**: Ver plantilla [.agent/templates/swarm-supervisor-bootstrap-template.md](file:///.agent/templates/swarm-supervisor-bootstrap-template.md)
+
+### F. `QualityValidator` (Subagente `self` - Auditoría Crítica y Calidad)
+* **Propósito**: Actuar como compuerta técnica crítica. Revisar, auditar y criticar de forma rigurosa e intelectual las contribuciones del resto de subagentes, además de correr tests automáticos locales de regresión en background.
+* **Workspace Mode**: `share` (ejecución secuencial tras la integración parcial de los desarrolladores).
+* **System Prompt**: Ver plantilla [.agent/templates/swarm-validator-bootstrap-template.md](file:///.agent/templates/swarm-validator-bootstrap-template.md)
+
 ---
 
 ## 2. Protocolo de Aislamiento de Workspaces
@@ -89,7 +99,7 @@ Para evitar race conditions, corrupción de archivos locales y conflictos de Git
 Toda llamada a `invoke_subagent` debe incorporar un payload estructurado en su Prompt para evitar la alucinación de los modelos Flash:
 
 ```markdown
-[ROL]: <CodebaseResearcher | FeatureDeveloper | QASpecialist | CleanlinessGuardian>
+[ROL]: <CodebaseResearcher | FeatureDeveloper | QASpecialist | CleanlinessGuardian | SwarmSupervisor | QualityValidator>
 [WORKSPACES_MODE]: <inherit | share | branch>
 [SESION_ID]: <ID de la sesión de conversación>
 [IMPLEMENTATION_PLAN]: file:///path/to/implementation_plan.md
@@ -114,3 +124,25 @@ Los subagentes estructurarán su ciclo de vida y retroalimentación al Orquestad
    * Walkthrough del subagente.
    * Enlaces a los archivos creados o modificados.
    * Resultado de validaciones locales aplicadas.
+
+### Callbacks de Supervisión y Validación Activa (Swarm Core v2.0):
+4. **`[BLOCKED]`**: Emitida por un subagente técnico en dirección al `SwarmSupervisor` cuando se encuentra un impedimento que imposibilita avanzar.
+5. **`[QA_PENDING]`**: Emitida por el desarrollador (`FeatureDeveloper`) hacia el `QualityValidator` solicitando auditar críticamente su trabajo parcial o final.
+6. **`[REFACT_NEEDED]`**: Emitida por el `QualityValidator` hacia el desarrollador con una crítica rigurosa, constructiva e intelectual, detallando qué partes del código requieren ser optimizadas.
+7. **`[APPROVED]`**: Emitida por el `QualityValidator` hacia el `SwarmSupervisor` y el Orquestador Principal cuando el código ha superado todas las auditorías lógicas y tests locales al 100%.
+
+---
+
+## 5. Control de Conflictos de Git y Planificación Centralizada (Mitigación de Riesgos)
+
+### A. Protocolo de Fusión de Git y Escape ante Conflictos
+* **Principio de No Destrucción**: Ante fusiones automatizadas de ramas o directorios `share`/`branch` de especialistas, si surge cualquier tipo de conflicto de Git (`merge conflict`), el Orquestador Principal **tiene prohibido forzar la sobreescritura (`force push`, `git checkout --ours`, etc.)** de forma autónoma.
+* **Acción Correctiva**:
+  1. Suspender inmediatamente el flujo de integración automatizado.
+  2. Preservar intactas las ramas locales del enjambre con el trabajo de los subagentes.
+  3. Generar un informe estructurado de handoff para el desarrollador humano detallando las líneas en conflicto y las opciones de resolución lógicas.
+  4. Ceder el control al desarrollador humano para la resolución segura del merge.
+
+### B. Gestión de Planificación e Interactividad en `inherit`
+* **Centralización de Artefactos**: Los tres documentos interactivos de planificación de Antigravity (`implementation_plan.md`, `task.md` y `walkthrough.md`) pertenecen al ciclo de vida global de la sesión.
+* **Restricción de Workspace**: **Deben leerse y escribirse única y exclusivamente en el workspace principal `inherit`**. Los especialistas que operen en sandbox (`share`/`branch`) no deben intentar replicar, bifurcar o generar archivos de planificación parciales dentro de sus espacios aislados, previniendo incoherencias lógicas severas al consolidar.

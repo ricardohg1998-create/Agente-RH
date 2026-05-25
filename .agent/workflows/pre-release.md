@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Pre-lanzamiento
 
-## Proposito
+## Propósito
 
 Validacion exhaustiva antes de deploy a produccion. Combina checks automaticos del repo, security review focalizado, validacion de build, verificacion de configuracion de entorno y smoke test visual. Funciona como gate final que bloquea o autoriza el deploy con evidencia objetiva.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Antes de deploy a produccion o staging.
 - Antes de entregar version final a cliente.
@@ -26,7 +26,7 @@ Validacion exhaustiva antes de deploy a produccion. Combina checks automaticos d
 - Cambios incluidos en el release (changelog o lista de PRs/commits).
 - Criterios de bloqueo especificos del proyecto (si existen).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -81,7 +81,7 @@ Validacion exhaustiva antes de deploy a produccion. Combina checks automaticos d
 - **Evidencia objetiva**: cada item del checklist debe tener evidencia verificable, no opinion subjetiva.
 - **Veredicto binario**: LISTO o BLOQUEADO, sin zonas grises. Si hay dudas, es BLOQUEADO hasta que se resuelvan.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: deploy (ejecucion de `scripts/deploy.ps1`) y `cierre-operativo`.
 - **Suele seguir a**: `qa-testing`, `code-review`, `desarrollador-profundidad`.

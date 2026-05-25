@@ -8,11 +8,11 @@ modes: [planning, execution]
 
 # Workflow: Desarrollador de profundidad
 
-## Proposito
+## Propósito
 
 Detectar falta de profundidad real en la experiencia de usuario y la funcionalidad del proyecto. Busca sistematicamente: botones que no llevan a ningun sitio, secciones sin desarrollar, paginas incompletas, funciones por implementar, estados vacios sin manejar y flujos rotos. El objetivo final es generar un **Implementation Plan completisimo y detallado** que defina exactamente que implementar, donde y en que orden para completar todo lo que falta.
 
-## Cuando usarlo
+## Cuándo usarlo
 
 - Producto parece incompleto o superficial.
 - Hay CTAs sin destino o pantallas no rematadas.
@@ -27,7 +27,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 - Restricciones tecnicas y temporales.
 - Estado actual (si existe en `brain/current-state.md`).
 
-## Politica de lectura de memoria
+## Política de lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
@@ -102,7 +102,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 6. **Lista de funciones por implementar** (archivo, linea, que deberia hacer).
 7. **Lista de estados UX sin manejar** (componente, que estado falta, como deberia verse).
 8. **Lista de flujos rotos** (flujo, donde se rompe, como deberia funcionar).
-9. **Quick wins** (esfuerzo bajo, impacto alto — hacer primero).
+9. **Quick wins** (esfuerzo bajo, impacto alto â€” hacer primero).
 10. **Cambios estructurales necesarios** (requieren mas trabajo pero son fundamentales).
 11. **Implementation Plan detallado por fases** en un Artifact nativo de Antigravity (`implementation_plan.md`):
     - Cada tarea con descripcion precisa de que hacer.
@@ -118,7 +118,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 - **Implementation Plan ejecutable sin ambiguedad**: un desarrollador (o agente) debe poder coger el plan y ejecutarlo de principio a fin sin necesitar contexto adicional.
 - **Priorizacion accionable** con dependencias reales, no teoricas.
 
-## Modos de operacion
+## Modos de operación
 
 ### Modo archivo/componente (alcance < 5 archivos)
 - Focalizar en completitud del componente especifico: estados UX, handlers, validaciones.
@@ -136,7 +136,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 - Output completo con Implementation Plan detallado por fases.
 - Mapa de zonas superficiales/rotas como visualizacion principal.
 
-## Composicion
+## Composición
 
 - **Suele preceder a**: `implementacion-quirurgica`, `qa-testing`.
 - **Suele seguir a**: `autista-cafeinado`, `inicio-proyecto`.
