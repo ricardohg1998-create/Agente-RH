@@ -131,7 +131,7 @@ Hook opcional pre-commit:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-hook.ps1
 ```
 
-Guia de higiene: `docs/repo-hygiene.md`.
+Guia de higiene: `.agent/rules/repo-hygiene.md`.
 
 ## Superpoderes Semánticos (MCP Server)
 

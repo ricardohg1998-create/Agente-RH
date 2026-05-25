@@ -59,7 +59,7 @@ if (Test-Path -LiteralPath $configDir -PathType Container) {
     try {
       Get-Content -Path $_.FullName -Raw | ConvertFrom-Json | Out-Null
     } catch {
-      $relative = $_.FullName.Replace($repoRoot + [System.IO.Path]::DirectorySeparatorChar, '')
+      $relative = $_.FullName -replace [regex]::Escape($repoRoot + [System.IO.Path]::DirectorySeparatorChar), ''
       $relative = $relative -replace '\\', '/'
       $errors.Add("JSON invalido: $relative")
     }

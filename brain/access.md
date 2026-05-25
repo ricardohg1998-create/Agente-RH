@@ -1,9 +1,9 @@
 # Accesos y Credenciales
 
-> [!CAUTION]
-> Evitar hacer commit de contraseñas reales o claves API sensibles aqui si el repositorio es publico o compartido ampliamente sin gestion de secretos.
+> [!NOTE]
+> Al tratarse de un repositorio de uso estrictamente personal en tu entorno local (Windows 11), no es necesario registrar ni comitear credenciales en este archivo. La gestión de variables de entorno sensibles se realiza a través de archivos locales `.env` (excluidos en `.gitignore`) o el almacén de credenciales del sistema operativo.
 
-- **Entorno**: [Definir limites del entorno]
-- **Puntos de entrada**: [SSH, VPN, conexiones de base de datos...]
-- **Ubicacion de credenciales**: [Referencia a 1Password, Vault, AWS Secrets, o .env]
+- **Entorno**: Local (Windows 11)
+- **Puntos de entrada**: Consola interactiva local / IDE Antigravity Desktop
+- **Ubicación de credenciales**: Archivos `.env` locales / Entorno de desarrollo seguro
 

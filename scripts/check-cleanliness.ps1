@@ -16,21 +16,16 @@ function ConvertTo-ComparablePath {
   return $Path.TrimEnd('\', '/').Replace('/', '\')
 }
 
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
+
 function Get-RelativePath {
   param(
     [string]$Root,
     [string]$FullPath
   )
 
-  $rootNorm = ConvertTo-ComparablePath -Path $Root
-  $fullNorm = ConvertTo-ComparablePath -Path $FullPath
-  $prefix = $rootNorm + '\'
-
-  if ($fullNorm.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return $fullNorm.Substring($prefix.Length)
-  }
-
-  return $fullNorm
+  return Get-RelativeRepoPath -FullPath $FullPath -RepoRoot $Root
 }
 
 $excludedAbsolutePaths = @(
@@ -73,6 +68,10 @@ function Get-RepoFiles {
 
     foreach ($entry in $entries) {
       if ($entry.PSIsContainer) {
+        # Omitir Reparse Points (Symlinks / Junction Points) para evitar bucles de recursion
+        if ($entry.Attributes -match 'ReparsePoint') {
+          continue
+        }
         if (-not (Test-SkipDirectory -FullPath $entry.FullName -Name $entry.Name)) {
           $pending.Push($entry.FullName)
         }

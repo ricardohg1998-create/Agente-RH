@@ -155,5 +155,6 @@ function Set-WorkspaceFileRaw {
     [string]$Content
   )
 
-  Set-Content -LiteralPath (Join-Path $Workspace $RelativePath) -Encoding UTF8 -Value $Content
+  $path = Join-Path $Workspace $RelativePath
+  [System.IO.File]::WriteAllText($path, $Content, [System.Text.UTF8Encoding]::new($false))
 }

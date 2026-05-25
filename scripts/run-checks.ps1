@@ -18,7 +18,7 @@ $checks = @(
   @{ Name = 'check-links'; Script = (Join-Path $PSScriptRoot 'check-links.ps1') },
   @{ Name = 'check-skills-catalog'; Script = (Join-Path $PSScriptRoot 'check-skills-catalog.ps1') },
   @{ Name = 'check-cleanliness'; Script = (Join-Path $PSScriptRoot 'check-cleanliness.ps1') },
-  @{ Name = 'check-brain-deep-summary-sync'; Script = (Join-Path $PSScriptRoot 'check-brain-deep-summary-sync.ps1') },
+  @{ Name = 'check-brain-deep-summary-sync'; Script = (Join-Path $PSScriptRoot 'update-brain-deep-summary.ps1'); Arguments = @('-CheckOnly') },
   @{ Name = 'check-context-budget'; Script = (Join-Path $PSScriptRoot 'check-context-budget.ps1') },
   @{ Name = 'test-scripts'; Script = (Join-Path $PSScriptRoot 'test-scripts.ps1') }
 )

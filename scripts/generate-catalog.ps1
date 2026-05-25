@@ -8,6 +8,9 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $catalogPath = Join-Path $repoRoot 'CATALOG.md'
 $skillsRoot = Join-Path $repoRoot '.agent/skills'
 
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
+
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
 
@@ -15,21 +18,6 @@ function ConvertTo-TrimmedEol {
   param([string]$Text)
 
   return ($Text -replace "`r`n", "`n").Trim()
-}
-
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
 }
 
 function Get-SectionParagraph {

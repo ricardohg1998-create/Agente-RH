@@ -8,20 +8,8 @@ $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
 $psBin = Resolve-PowerShellBinary
 $issues = New-Object System.Collections.Generic.List[string]
 
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
-
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-
-  return ($FullPath -replace '\\', '/')
-}
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
 
 function Get-WorkflowMetadata {
   param([System.IO.FileInfo]$File)

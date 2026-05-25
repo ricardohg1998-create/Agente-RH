@@ -3,10 +3,10 @@
 <!-- QUICK-STATE:START -->
 ## Resumen operativo
 
-- Estado: validado
-- Fase: listo para distribucion
-- Ultima actualizacion: 2026-05-25
-- Riesgo principal: bajo: sin warnings activos en la suite oficial
+- Estado: endurecido y validado
+- Fase: listo para produccion
+- Ultima actualizacion: 2026-05-25 18:37
+- Riesgo principal: bajo: 32/32 tests de Pester en verde y 0 warnings
 
 ## Calidad de contexto
 
@@ -15,5 +15,5 @@
 
 ## Proxima validacion
 
-- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1 antes de distribuir o clonar la plantilla.
+- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1.
 <!-- QUICK-STATE:END -->

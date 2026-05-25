@@ -1,4 +1,4 @@
-﻿# Flujo diario en Antigravity Desktop (Win11)
+# Flujo diario en Antigravity Desktop (Win11)
 
 ## Objetivo
 
@@ -35,9 +35,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1
 
 ## Coexistencia con artefactos de Antigravity
 
-Antigravity Desktop genera sus propios artefactos de sesion (`task.md`, `implementation_plan.md`, `walkthrough.md`) en `~/.gemini/antigravity/brain/<conversation-id>/`. Esto no entra en conflicto con `brain/` del repo.
+Antigravity Desktop genera e interactúa con sus propios artefactos oficiales de sesión (`task.md`, `implementation_plan.md`, `walkthrough.md`) guardados físicamente en la raíz del repositorio. Esto asegura que los linters y scripts locales (como `run-checks.ps1` y `check-cleanliness.ps1`) puedan analizarlos y validarlos antes del commit.
 
 - `brain/` del repo = **memoria persistente del proyecto** (sobrevive entre conversaciones y sesiones).
-- Artefactos de Antigravity = **memoria de conversacion** (efimera, ligada a una sesion de trabajo).
+- Artefactos de Antigravity en la raíz = **memoria de conversación y planificación operativa activa** (efímera, ligada a la sesión y sprint actual).
 
-**Regla de cierre**: al terminar una sesion importante, migrar conclusiones relevantes de Antigravity hacia `brain/` del repo para que no se pierdan entre sesiones.
+**Regla de cierre**: al terminar una sesión importante, migra las conclusiones o hitos relevantes a la memoria persistente del repo (`brain/`) y archiva o limpia los artefactos activos de la raíz para mantener la higiene del espacio de trabajo.

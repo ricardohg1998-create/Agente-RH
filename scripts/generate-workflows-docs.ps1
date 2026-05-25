@@ -6,6 +6,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
+$fsUtilsPath = Join-Path $PSScriptRoot 'lib/fs-utils.psm1'
+Import-Module $fsUtilsPath -Force
+
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
 $workflowDir = Join-Path $repoRoot '.agent/workflows'
@@ -20,19 +23,26 @@ function ConvertTo-TrimmedEol {
   return ($Text -replace "`r`n", "`n").Trim()
 }
 
-function Get-RelativeRepoPath {
-  param([string]$FullPath)
+function Get-MarkedSectionUpdateContent {
+  param(
+    [string]$Content,
+    [string]$StartMarker,
+    [string]$EndMarker,
+    [string]$NewBody
+  )
 
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
+  $startIdx = $Content.IndexOf($StartMarker)
+  $endIdx = $Content.IndexOf($EndMarker)
+
+  if ($startIdx -lt 0 -or $endIdx -lt 0 -or $endIdx -le $startIdx) {
+    throw "Marcadores no validos en el contenido en memoria"
   }
 
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
+  $head = $Content.Substring(0, $startIdx + $StartMarker.Length)
+  $tail = $Content.Substring($endIdx)
+  $updated = $head + "`r`n" + $NewBody.Trim() + "`r`n" + $tail
 
-  return ($FullPath -replace '\\', '/')
+  return $updated
 }
 
 function Get-MarkedSectionUpdate {
@@ -220,13 +230,7 @@ $dispatchCriteriaBody = ($workflows | ForEach-Object {
 
 $readmeUpdate = Get-MarkedSectionUpdate -Path $readmePath -StartMarker '<!-- GENERATED:README-WORKFLOWS:START -->' -EndMarker '<!-- GENERATED:README-WORKFLOWS:END -->' -NewBody $readmeWorkflowsBody
 $dispatchMapUpdate = Get-MarkedSectionUpdate -Path $dispatchPath -StartMarker '<!-- GENERATED:WORKFLOW-MAP:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-MAP:END -->' -NewBody $dispatchMapBody
-$dispatchTempPath = Join-Path $env:TEMP ('workflow-dispatch-' + [guid]::NewGuid().ToString() + '.md')
-Write-Utf8File -Path $dispatchTempPath -Content $dispatchMapUpdate.Updated
-try {
-  $dispatchCriteriaUpdate = Get-MarkedSectionUpdate -Path $dispatchTempPath -StartMarker '<!-- GENERATED:WORKFLOW-DISPATCH:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-DISPATCH:END -->' -NewBody $dispatchCriteriaBody
-} finally {
-  Remove-Item -LiteralPath $dispatchTempPath -Force -ErrorAction SilentlyContinue
-}
+$dispatchExpected = Get-MarkedSectionUpdateContent -Content $dispatchMapUpdate.Updated -StartMarker '<!-- GENERATED:WORKFLOW-DISPATCH:START -->' -EndMarker '<!-- GENERATED:WORKFLOW-DISPATCH:END -->' -NewBody $dispatchCriteriaBody
 
 $indexTableBody = ($workflows | ForEach-Object {
   '| **' + $_.Name + '** | `' + $_.Id + '` | ' + $_.Trigger + ' | [Ver Guia](../' + $_.RelativePath + ') |'
@@ -265,7 +269,6 @@ if ((ConvertTo-TrimmedEol -Text $readmeUpdate.Raw) -ne (ConvertTo-TrimmedEol -Te
   $pending.Add('README.md')
 }
 
-$dispatchExpected = $dispatchCriteriaUpdate.Updated
 $dispatchCurrent = Read-Utf8File -Path $dispatchPath
 if ((ConvertTo-TrimmedEol -Text $dispatchCurrent) -ne (ConvertTo-TrimmedEol -Text $dispatchExpected)) {
   $pending.Add('.agent/rules/workflow-dispatch.md')

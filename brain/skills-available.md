@@ -7,7 +7,7 @@ La **única fuente de verdad** (SSoT) sobre las habilidades locales activas e in
 ## Estado y Disponibilidad de Habilidades
 
 * **Habilidades Nativas y Especiales:**
-  - **Servidor Semántico MCP:** Activo y cargado nativamente en el entorno IDE (según [stack.md](stack.md#estado-de-servidores-mcp)), lo que permite una navegación semántica profunda en el código.
+  - **Servidor Semántico MCP:** Activo y cargado nativamente en el entorno IDE (según [stack.md](stack.md#parametros-de-entorno-de-desarrollo-ide)), lo que permite una navegación semántica profunda en el código.
   - **pdf-official:** Utilidades de manipulación de archivos PDF locales.
 * **Instalación y Configuración:**
   - La selección, descarga e instalación de nuevos paquetes de habilidades a demanda para proyectos específicos se orquesta mediante el workflow [buscar-skills](../.agent/workflows/buscar-skills.md).

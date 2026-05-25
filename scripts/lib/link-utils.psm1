@@ -2,20 +2,7 @@
 [CmdletBinding()]
 param()
 
-function Get-RelativeRepoPath {
-  param(
-    [string]$FullPath,
-    [string]$repoRoot
-  )
-  $prefix = $repoRoot
-  if (-not $prefix.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $prefix += [System.IO.Path]::DirectorySeparatorChar
-  }
-  if ($FullPath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return ($FullPath.Substring($prefix.Length) -replace '\\', '/')
-  }
-  return ($FullPath -replace '\\', '/')
-}
+Import-Module (Join-Path $PSScriptRoot 'fs-utils.psm1') -Force
 
 function Test-IgnoreLinkTarget {
   param([string]$Target)
@@ -31,6 +18,7 @@ function Test-IgnoreLinkTarget {
   if ($Target -match '(?i)^(?:implementation_plan|task|walkthrough)\.md$') { return $true }
   if ($Target -match '(?i)\.vscode[/\\]') { return $true }
   if ($Target -match '(?i)semantic-server[/\\]build[/\\]') { return $true }
+  if ($Target -match '(?i)deploy\.ps1$') { return $true }
   return $false
 }
 
@@ -88,4 +76,4 @@ function Test-PathToken {
   return $null
 }
 
-Export-ModuleMember -Function Get-RelativeRepoPath, Test-IgnoreLinkTarget, Test-PathToken
+Export-ModuleMember -Function Test-IgnoreLinkTarget, Test-PathToken

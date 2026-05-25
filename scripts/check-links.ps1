@@ -27,7 +27,7 @@ foreach ($root in @('docs', 'brain', '.agent')) {
 $scanBlock = {
   param($filePath, $repoRootPath)
   $ErrorActionPreference = 'Stop'
-  $script:localIssues = New-Object System.Collections.Generic.List[string]
+  $localIssues = New-Object System.Collections.Generic.List[string]
 
   $linkUtils = Join-Path $repoRootPath 'scripts/lib/link-utils.psm1'
   Import-Module $linkUtils -Force
@@ -39,7 +39,7 @@ $scanBlock = {
   foreach ($linkMatch in [regex]::Matches($rawWithoutCodeBlocks, '\[[^\]\r\n]*\]\((?<target>[^)\r\n]+)\)')) {
     $target = $linkMatch.Groups['target'].Value.Trim()
     $issue = Test-PathToken -SourcePath $filePath -Token $target -repoRoot $repoRootPath -ResolveRelativeToSource $true
-    if ($issue) { [void]$script:localIssues.Add($issue) }
+    if ($issue) { [void]$localIssues.Add($issue) }
   }
 
   foreach ($codeMatch in [regex]::Matches($rawWithoutCodeBlocks, '(?<!`)`(?<code>[^`\r\n]+)`(?!`)')) {
@@ -52,10 +52,10 @@ $scanBlock = {
     if ($token -match '(?:^|[\\/])node_modules(?:[\\/]|$)') { continue }
     if ($token -match '^(?:implementation_plan\.md|task\.md|walkthrough\.md)$') { continue }
     $issue = Test-PathToken -SourcePath $filePath -Token $token -repoRoot $repoRootPath -ResolveRelativeToSource $false
-    if ($issue) { [void]$script:localIssues.Add($issue) }
+    if ($issue) { [void]$localIssues.Add($issue) }
   }
 
-  return $script:localIssues
+  return $localIssues
 }
 
 foreach ($file in ($filesToScan | Sort-Object -Unique)) {

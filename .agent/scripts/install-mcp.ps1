@@ -29,39 +29,52 @@ try {
 }
 
 if (Test-Path $ConfigPath) {
-    $jsonContent = Get-Content -Path $ConfigPath -Raw | ConvertFrom-Json
-    
-    if (-not $jsonContent.mcpServers) {
-        $jsonContent | Add-Member -MemberType NoteProperty -Name 'mcpServers' -Value @{}
-    }
-    
-    $mcpServerConfig = @{
-        command = "node"
-        args = @($McpEntryPath)
-        env = @{}
-    }
+    try {
+        # Copia de seguridad silenciosa rápida antes de cualquier modificación
+        Copy-Item -LiteralPath $ConfigPath -Destination "$ConfigPath.bak" -Force -ErrorAction SilentlyContinue
 
-    $ProjectRoot = Resolve-Path (Join-Path $RootDir "..\..") -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path
-    $ProjectName = "Agente-RH-Semantic"
-    if ($ProjectRoot) {
-        $PkgPath = Join-Path $ProjectRoot "package.json"
-        if (Test-Path $PkgPath) {
-            $pkg = Get-Content $PkgPath | ConvertFrom-Json
-            if ($pkg.name) {
-                $ProjectName = $pkg.name + "-Semantic"
+        $rawContent = Get-Content -Path $ConfigPath -Raw
+        $jsonContent = $rawContent | ConvertFrom-Json
+
+        if (-not $jsonContent) {
+            throw "El archivo de configuracion estaba vacio o no se pudo parsear como JSON valido."
+        }
+        
+        if (-not $jsonContent.mcpServers) {
+            $jsonContent | Add-Member -MemberType NoteProperty -Name 'mcpServers' -Value @{}
+        }
+        
+        $mcpServerConfig = @{
+            command = "node"
+            args = @($McpEntryPath)
+            env = @{}
+        }
+
+        $ProjectRoot = Resolve-Path (Join-Path $RootDir "..\..") -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path
+        $ProjectName = "Agente-RH-Semantic"
+        if ($ProjectRoot) {
+            $PkgPath = Join-Path $ProjectRoot "package.json"
+            if (Test-Path $PkgPath) {
+                $pkg = Get-Content $PkgPath | ConvertFrom-Json
+                if ($pkg.name) {
+                    $ProjectName = $pkg.name + "-Semantic"
+                }
             }
         }
-    }
-    
-    if ($jsonContent.mcpServers.PSObject.Properties.Match($ProjectName).Count -gt 0) {
-        $jsonContent.mcpServers.$ProjectName = $mcpServerConfig
-    } else {
-        $jsonContent.mcpServers | Add-Member -MemberType NoteProperty -Name $ProjectName -Value $mcpServerConfig
-    }
+        
+        if ($jsonContent.mcpServers.PSObject.Properties.Match($ProjectName).Count -gt 0) {
+            $jsonContent.mcpServers.$ProjectName = $mcpServerConfig
+        } else {
+            $jsonContent.mcpServers | Add-Member -MemberType NoteProperty -Name $ProjectName -Value $mcpServerConfig
+        }
 
-    $jsonStr = $jsonContent | ConvertTo-Json -Depth 10
-    [System.IO.File]::WriteAllText($ConfigPath, $jsonStr, (New-Object System.Text.UTF8Encoding($False)))
-    Write-Host "[Install-MCP] Servidor '$ProjectName' enganchado exitosamente a tu IDE con ruta dinamica: $McpEntryPath"
+        $jsonStr = $jsonContent | ConvertTo-Json -Depth 10
+        [System.IO.File]::WriteAllText($ConfigPath, $jsonStr, (New-Object System.Text.UTF8Encoding($False)))
+        Write-Host "[Install-MCP] Servidor '$ProjectName' enganchado exitosamente a tu IDE con ruta dinamica (Backup guardado en .bak): $McpEntryPath"
+    } catch {
+        Write-Warning "[Install-MCP] No se pudo integrar el MCP automaticamente para evitar corrupciones: $_"
+        Write-Warning "[Install-MCP] Se ha preservado intacto el archivo original $ConfigPath."
+    }
 } else {
     Write-Warning "[Install-MCP] No se encontro archivo MCP de Antigravity en $ConfigPath. Configuracion manual requerida apuntando a: $McpEntryPath"
 }

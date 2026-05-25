@@ -49,7 +49,7 @@ $robocopyArgs = @(
     $targetDir,
     '/S',
     '/XD', '.git', '.agent\local', 'agente-rh-template', '.gemini', 'node_modules', '.venv', 'brain\session_logs',
-    '/XF', '*.tmp', '*.log',
+    '/XF', '*.tmp', '*.log', 'implementation_plan.md', 'task.md', 'walkthrough.md',
     '/NFL', '/NDL', '/NJH', '/NJS', '/nc', '/ns', '/np'
 )
 
@@ -83,15 +83,7 @@ if (Test-Path -LiteralPath $exportArchiveLogs) {
     Get-ChildItem -LiteralPath $exportArchiveLogs -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-# Eliminar artefactos de planificación o de sesión que se hayan copiado accidentalmente
-$artifactsToClean = @('implementation_plan.md', 'task.md', 'walkthrough.md')
-foreach ($art in $artifactsToClean) {
-    $artPath = Join-Path $targetDir $art
-    if (Test-Path -LiteralPath $artPath) {
-        Remove-Item -LiteralPath $artPath -Force -ErrorAction SilentlyContinue
-    }
-    Get-ChildItem -LiteralPath $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
-}
+
 
 # Eliminar scripts obsoletos del repositorio maestro que no deben estar en el clon
 $scriptsToClean = @('scripts/update-template.ps1')

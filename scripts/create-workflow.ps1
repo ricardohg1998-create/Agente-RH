@@ -9,6 +9,11 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# Normalizar y sanitizar Id silenciosamente de caracteres de ruta o typos accidentales
+$Id = ($Id -replace '[^a-zA-Z0-9_-]', '').ToLower()
+if ([string]::IsNullOrWhiteSpace($Id)) {
+  throw "El parametro Id no es valido despues de normalizarse."
+}
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'

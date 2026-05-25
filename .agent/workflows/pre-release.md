@@ -83,7 +83,7 @@ Validacion exhaustiva antes de deploy a produccion. Combina checks automaticos d
 
 ## Composición
 
-- **Suele preceder a**: deploy (ejecucion de `scripts/deploy.ps1`) y `cierre-operativo`.
+- **Suele preceder a**: exportar plantilla (ejecucion de `scripts/export-template.ps1`) y `cierre-operativo`.
 - **Suele seguir a**: `qa-testing`, `code-review`, `desarrollador-profundidad`.
 - **Workflow sugerido al completar**: `cierre-operativo` (para documentar el release).
 

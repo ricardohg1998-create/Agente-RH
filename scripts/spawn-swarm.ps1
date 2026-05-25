@@ -10,24 +10,31 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
 # 1. Resolver rutas por defecto de forma segura
 if ([string]::IsNullOrWhiteSpace($PlanPath)) {
-    # Buscar implementation_plan.md en el directorio de artefactos activo
-    # Usando la carpeta de conversación más reciente o un fallback local
-    $brainDir = Join-Path $env:USERPROFILE ".gemini\antigravity\brain"
-    $newestPlan = $null
-    if (Test-Path -LiteralPath $brainDir -PathType Container) {
-        $newestPlan = Get-ChildItem -LiteralPath $brainDir -Directory | 
-            ForEach-Object { Join-Path $_.FullName 'implementation_plan.md' } | 
-            Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | 
-            ForEach-Object { Get-Item -LiteralPath $_ } | 
-            Sort-Object LastWriteTime -Descending | 
-            Select-Object -First 1 -ExpandProperty FullName
-    }
-    
-    if ($newestPlan) {
-        $PlanPath = $newestPlan
+    # 1. Comprobar primero en la raiz del proyecto local
+    $localPlan = Join-Path $repoRoot 'implementation_plan.md'
+    if (Test-Path -LiteralPath $localPlan -PathType Leaf) {
+        $PlanPath = $localPlan
     } else {
-        # Fallback al directorio raíz si existe localmente
-        $PlanPath = Join-Path $repoRoot 'implementation_plan.md'
+        # 2. Si no hay local, buscar recursivamente pero filtrando solo carpetas modificadas en las ultimas 48 horas para evitar lag
+        $brainDir = Join-Path $env:USERPROFILE ".gemini\antigravity\brain"
+        $newestPlan = $null
+        if (Test-Path -LiteralPath $brainDir -PathType Container) {
+            $cutoff = (Get-Date).AddDays(-2)
+            $newestPlan = Get-ChildItem -LiteralPath $brainDir -Directory | 
+                Where-Object { $_.LastWriteTime -ge $cutoff } |
+                ForEach-Object { Join-Path $_.FullName 'implementation_plan.md' } | 
+                Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | 
+                ForEach-Object { Get-Item -LiteralPath $_ } | 
+                Sort-Object LastWriteTime -Descending | 
+                Select-Object -First 1 -ExpandProperty FullName
+        }
+        
+        if ($newestPlan) {
+            $PlanPath = $newestPlan
+        } else {
+            # Fallback final a la raiz del proyecto
+            $PlanPath = $localPlan
+        }
     }
 }
 
@@ -169,7 +176,9 @@ $bootstrapPayloads = @()
 
 foreach ($member in $swarmDefinition.swarm) {
     $roleName = $member.role
-    $roleKey = $member.roleKey
+    # Sanitización silenciosa de roleKey para evitar caracteres extraños o errores de tipado
+    $roleKey = ($member.roleKey -replace '[^a-zA-Z0-9_-]', '').ToLower()
+    if ([string]::IsNullOrWhiteSpace($roleKey)) { $roleKey = 'specialist' }
     $scope = $member.scope
     $instruction = $member.instruction
     

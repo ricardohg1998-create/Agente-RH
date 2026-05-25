@@ -14,16 +14,7 @@ function Get-RelativePath {
     [string]$FullPath
   )
 
-  $rootWithSlash = $Root
-  if (-not $rootWithSlash.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
-    $rootWithSlash += [System.IO.Path]::DirectorySeparatorChar
-  }
-
-  if ($FullPath.StartsWith($rootWithSlash, [System.StringComparison]::OrdinalIgnoreCase)) {
-    return $FullPath.Substring($rootWithSlash.Length)
-  }
-
-  return $FullPath
+  return Get-RelativeRepoPath -FullPath $FullPath -RepoRoot $Root
 }
 
 function ConvertTo-NormalizedParagraph {

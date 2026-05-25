@@ -138,7 +138,7 @@ function Resolve-MergedValueParam {
     [string]$Fallback
   )
   if ($script:boundParameters.ContainsKey($ParameterName)) {
-    return [string](Get-Variable -Name $ParameterName -Scope Script -ValueOnly)
+    return [string]$script:boundParameters[$ParameterName]
   }
   if (-not [string]::IsNullOrWhiteSpace($ExistingValue)) { return $ExistingValue }
   return $Fallback
@@ -150,8 +150,9 @@ function Resolve-MergedListParam {
     [object[]]$ExistingValue,
     [string[]]$Fallback
   )
+
   if ($script:boundParameters.ContainsKey($ParameterName)) {
-    $val = Get-Variable -Name $ParameterName -Scope Script -ValueOnly
+    $val = $script:boundParameters[$ParameterName]
     if ($null -eq $val) { return @() }
     return @($val | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
   }

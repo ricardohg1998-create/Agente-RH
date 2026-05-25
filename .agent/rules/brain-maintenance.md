@@ -42,6 +42,5 @@ Usar scripts:
 
 - `scripts/update-brain-quick.ps1`
 - `scripts/update-brain-deep-summary.ps1`
-- `scripts/check-brain-deep-summary-sync.ps1`
 - `scripts/log-decision.ps1`
 - `scripts/add-instruction.ps1`

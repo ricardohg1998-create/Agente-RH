@@ -78,8 +78,10 @@ Seleccionar e instalar el conjunto minimo util de skills para el stack real del 
 El IDE de Antigravity agrupa las globales y locales.
 Si hace falta volcar una skill a la "mochila" del proyecto específico localmente:
 
-```bash
-# Ejemplo: Instalación en local via CLI
-npx skills add "<ruta_o_url>" -g -a antigravity --copy -y -s <skills...>
-# La skill terminara residiendo operativamente en .agent/skills/<nombre>/SKILL.md
+```powershell
+# Para generar e inicializar una nueva skill local versionada en este repositorio:
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/create-skill.ps1 -Name "nombre-de-la-skill" -Description "Descripcion de lo que hace la skill"
+
+# Y luego regenerar el CATALOG.md para que la skill sea indexada por tu IDE:
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-catalog.ps1
 ```
