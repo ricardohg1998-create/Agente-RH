@@ -49,3 +49,20 @@
 - **Consecuencias Esperadas**:
   - Bueno: Flujos de trabajo naturales, el agente sugiere el siguiente paso automaticamente.
   - Malo: `workflow-dispatch.md` ha crecido significativamente (~200 lineas). Monitorear presupuesto de contexto.
+
+---
+
+### DEC-20260524-005147
+
+- Fecha: 2026-05-24
+- Estado: accepted
+- Titulo: Endurecer plantilla Antigravity Desktop 2.0
+
+Contexto:
+La plantilla necesitaba reducir friccion al clonarse en Windows 11: habia enlaces file:/// absolutos al repo maestro, payloads efimeros de brain/swarm podian filtrarse al export y la suite detectaba deep-summary desincronizado.
+
+Decision:
+Usar rutas relativas en reglas y plantillas, limpiar brain/swarm en scripts de exportacion, ignorar artefactos efimeros y hacer que check-cleanliness falle si quedan planes o payloads temporales al cierre.
+
+Consecuencias:
+La plantilla queda mas portable para nuevos repositorios Antigravity Desktop 2.0 y los checks capturan residuos antes de distribuir o cerrar una sesion.

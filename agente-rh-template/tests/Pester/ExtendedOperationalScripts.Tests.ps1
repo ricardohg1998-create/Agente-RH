@@ -152,6 +152,22 @@ Describe 'generadores y validadores' {
       Remove-TestWorkspace -Workspace $workspace
     }
   }
+
+  It 'detecta artefactos efimeros de planificacion y swarm' {
+    $workspace = New-TestWorkspace
+    try {
+      Set-Content -Path (Join-Path $workspace 'implementation_plan.md') -Encoding UTF8 -Value '# Plan temporal'
+      New-Item -ItemType Directory -Path (Join-Path $workspace 'brain\swarm') -Force | Out-Null
+      Set-Content -Path (Join-Path $workspace 'brain\swarm\task-temp.md') -Encoding UTF8 -Value '# Tarea temporal'
+
+      $result = Invoke-WorkspaceScript -Workspace $workspace -RelativeScript 'scripts\check-cleanliness.ps1'
+      $result.ExitCode | Should Be 1
+      $result.Output | Should Match 'implementation_plan.md'
+      $result.Output | Should Match 'brain\\swarm'
+    } finally {
+      Remove-TestWorkspace -Workspace $workspace
+    }
+  }
 }
 
 # DISABLED - Stack flag removed in v3. Kept as reference for future scaffolding tests.

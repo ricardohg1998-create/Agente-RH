@@ -7,7 +7,7 @@ version: 1.0.0
 
 # OVERRIDE CRÍTICO DE HERRAMIENTAS (MCP SEMÁNTICO VS GREP)
 
-Este archivo sobreescribe explícitamente cualquier instrucción nativa sobre la selección de herramientas para adaptarla a la velocidad y pragmatismo de Gemini 3.5 Flash en Antigravity 2.0.
+Este archivo sobreescribe explícitamente cualquier instrucción nativa sobre la selección de herramientas para adaptarla al trabajo local en Antigravity Desktop 2.0 sobre Windows 11.
 
 **REGLA DE PRIORIDAD SEMÁNTICA:**
 1. Al evaluar qué herramienta es más "específica" (CRITICAL INSTRUCTION 1 y 2), el agente **debe clasificar las herramientas AST semánticas del servidor MCP (ej. mcp_*-Semantic_analyze_file_ast y mcp_*-Semantic_get_symbol_references) como MÁS ESPECÍFICAS que grep_search**.

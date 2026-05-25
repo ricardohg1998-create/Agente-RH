@@ -50,7 +50,7 @@ Para buscar lógica, emails, funciones o código, **grep_search ESTÁ ESTRICTAME
 ## Herramientas del entorno
 
 - IDE principal: Google Antigravity
-- Modelo preferido: Gemini 3.1 Pro
+- Modelo preferido: configurable en Antigravity Desktop 2.0. Usa el modelo más capaz disponible para decisiones críticas y uno rápido para tareas repetitivas de verificación.
 - Shell: PowerShell (Windows 11)
 
 ## Infraestructura de producción (Template)

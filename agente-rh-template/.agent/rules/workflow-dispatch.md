@@ -95,7 +95,7 @@ Tras ejecutar workflow, actualizar:
 
 ## Topologías de Swarm Recomendadas (Swarm Core v2.0)
 
-El despachador, al seleccionar un workflow, sugerirá e instanciará una de las siguientes **Topologías de Enjambre** para maximizar la velocidad local en Gemini 3.5 Flash:
+El despachador, al seleccionar un workflow, sugerirá e instanciará una de las siguientes **Topologías de Enjambre** para maximizar la velocidad local en Antigravity Desktop 2.0:
 
 ### A. Topología de Auditoría (Investigación Intensiva)
 * **Workflows**: `autista-cafeinado`, `spike-investigacion`, `code-review`.
@@ -215,4 +215,3 @@ Sistema de senales para seleccion automatica de workflow con mayor precision. Ca
 - **Senales**: "deploy", "produccion", "release", "lanzar", "staging", "pre-deploy", "checklist", "listo para subir"
 - **Anti-senales**: "investigar", "empezar proyecto", "retrospectiva"
 - **Prioridad base**: 4 (se eleva a 5 si se menciona "produccion" o "staging")
-

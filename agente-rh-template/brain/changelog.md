@@ -1,4 +1,3 @@
 # Changelog
 
-## Registros
-
+- Inicializacion del proyecto.

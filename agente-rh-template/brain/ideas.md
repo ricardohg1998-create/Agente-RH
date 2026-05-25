@@ -1,3 +1,3 @@
-# Ideas
+# Ideas y Tareas Futuras
 
-- (sin registros)
+(Vacio)

@@ -1,8 +1,3 @@
-# Technical Debt
+# Deuda Tecnica
 
-## Actual
-
-## Resuelto
-
-## Riesgos de deuda futura
-
+No hay deuda tecnica registrada.

@@ -104,6 +104,19 @@ foreach ($special in @('.DS_Store', 'Thumbs.db')) {
   }
 }
 
+$ephemeralFiles = @('implementation_plan.md', 'task.md', 'walkthrough.md')
+foreach ($ephemeral in $ephemeralFiles) {
+  $fullPath = Join-Path $repoRoot $ephemeral
+  if (Test-Path -LiteralPath $fullPath -PathType Leaf) {
+    $issues.Add("Artefacto efimero activo (recomendacion: archivar en brain/session_logs o borrar antes del cierre): $ephemeral")
+  }
+}
+
+$swarmDir = Join-Path $repoRoot 'brain\swarm'
+if (Test-Path -LiteralPath $swarmDir -PathType Container) {
+  $issues.Add('Artefacto efimero activo (recomendacion: borrar brain/swarm antes del cierre): brain\swarm')
+}
+
 $sizeBuckets = @{}
 foreach ($f in $allFiles) {
   if ($f.Name -eq '.gitkeep') { continue }

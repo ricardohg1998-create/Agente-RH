@@ -10,3 +10,4 @@
 - **2026-04-03**: Mejora integral de workflows v2.0 — Reescritura profunda de `autista-cafeinado` y `desarrollador-profundidad`. Nuevos workflows `code-review` y `retrospectiva`. Fix de `create-workflow.ps1`. Campo `description` en todos.
 - **2026-03-21**: Finalizado el retroceso de mejoras (Backport) desde el proyecto derivado `comparador v2`. Añadida la sección de infraestructura a `AGENTS.md`, creado placeholder en `brain/access.md`, reparados índices faltantes en el catálogo base y relajadas las normas de higiene de logs (`*.log`, `*.bak`).
 - **2026-03-20**: Instalación exitosa de `Agentic-SEO-Skill` en el workspace de habilidades del agente (`.agent/skills/seo`). Se ejecutó una validación funcional auditando el sitio `conectayaentuhogar.es`, generando un dashboard en HTML, un Full Audit Report y un Action Plan.
+- 2026-05-24 | Decision registrada (DEC-20260524-005147): Endurecer plantilla Antigravity Desktop 2.0

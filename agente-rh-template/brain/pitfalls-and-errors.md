@@ -1,4 +1,3 @@
 # Pitfalls and Errors
 
-## Registros
-
+Registro de errores comunes. Vacio en inicializacion.

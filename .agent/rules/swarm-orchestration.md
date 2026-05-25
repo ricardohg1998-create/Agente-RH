@@ -11,7 +11,7 @@ version: 2.0.0
 > **DIRECTRIZ CONDICIONAL DE CONTENCIÓN PARA SUBAGENTES:**
 > Si eres un subagente especialista ya instanciado por un Orquestador (ej. CodebaseResearcher, FeatureDeveloper, QASpecialist, CleanlinessGuardian), **IGNORA** todas las instrucciones de delegación, orquestación y creación de subagentes. Tu única prioridad es ejecutar el payload de tu tarea delimitada de forma ultra-enfocada, utilizar las herramientas habilitadas en tu entorno local y retornar tus resultados al Orquestador Principal mediante un callback estructurado `[COMPLETED]`. No intentes coordinar enjambres anidados ni crear complejidad artificial en el repositorio.
 
-Este protocolo define las directrices y reglas operativas para que el agente funcione como un **Orquestador de Ingeniería (Lead Architect)** que dirige a un enjambre de subagentes especialistas en paralelo bajo Antigravity 2.0 con Gemini 3.5 Flash en Windows.
+Este protocolo define las directrices y reglas operativas para que el agente funcione como un **Orquestador de Ingeniería (Lead Architect)** que dirige a un enjambre de subagentes especialistas en paralelo bajo Antigravity Desktop 2.0 en Windows 11.
 
 ---
 

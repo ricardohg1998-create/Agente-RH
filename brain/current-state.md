@@ -3,17 +3,17 @@
 <!-- QUICK-STATE:START -->
 ## Resumen operativo
 
-- Estado: Limpio y optimizado para Antigravity 2.0
-- Fase: Listo para distribución de Swarm Core v2.0
-- Ultima actualizacion: 2026-05-22 22:13
-- Riesgo principal: Ninguno. Todos los tests de la suite están en verde.
+- Estado: validado
+- Fase: listo para distribucion
+- Ultima actualizacion: 2026-05-24 01:02
+- Riesgo principal: bajo: solo quedan warnings conocidos de tamano en skills externas
 
 ## Calidad de contexto
 
-- Capa rápida completamente actualizada en esta sesión. Ver [registro de cambios históricos](session_logs/2026-05-22_22-13_registro_cambios_sesion.md).
-- Capa profunda sincronizada a través de `update-brain-deep-summary.ps1`.
+- Capa rapida actualizada en esta ejecucion.
+- Capa profunda: actualizar si aplica.
 
 ## Proxima validacion
 
-- Ninguna pendiente. Todo verificado localmente.
+- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1.
 <!-- QUICK-STATE:END -->

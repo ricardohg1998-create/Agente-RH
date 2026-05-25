@@ -4,6 +4,9 @@ param()
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $targetDir = Join-Path $repoRoot 'agente-rh-template'
+$resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
+. $resolvePsBinPath
+$psBin = Resolve-PowerShellBinary
 
 Write-Host "Iniciando empaquetado del template virgen en: $targetDir" -ForegroundColor Cyan
 
@@ -67,6 +70,11 @@ foreach ($art in $artifactsToClean) {
         Remove-Item -LiteralPath $artPath -Force -ErrorAction SilentlyContinue
     }
     Get-ChildItem -Path $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
+}
+
+$exportSwarmDir = Join-Path $targetDir 'brain\swarm'
+if (Test-Path -LiteralPath $exportSwarmDir -PathType Container) {
+    Remove-Item -LiteralPath $exportSwarmDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # The generated brain must be very clean and we should erase actual project specific things if any.
@@ -244,6 +252,14 @@ if (Test-Path -LiteralPath $deepSummaryPath) {
 
 "@
     Set-Content -Path $deepSummaryPath -Value $deepSummaryContent -Force
+}
+
+$targetDeepSummaryScript = Join-Path $targetDir 'scripts\update-brain-deep-summary.ps1'
+if (Test-Path -LiteralPath $targetDeepSummaryScript -PathType Leaf) {
+    & $psBin -NoProfile -ExecutionPolicy Bypass -File $targetDeepSummaryScript
+    if ($LASTEXITCODE -ne 0) {
+        throw 'No se pudo regenerar brain/deep-summary.md dentro del template exportado.'
+    }
 }
 
 Write-Host "deploy: OK. Template virgen exportado correctamente en 'agente-rh-template'." -ForegroundColor Green

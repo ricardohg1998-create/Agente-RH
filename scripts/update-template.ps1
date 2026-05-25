@@ -5,6 +5,9 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $templateDir = Join-Path $repoRoot 'agente-rh-template'
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
+. $resolvePsBinPath
+$psBin = Resolve-PowerShellBinary
 
 Write-Host "Iniciando sincronizacion de la plantilla..." -ForegroundColor Cyan
 
@@ -38,6 +41,11 @@ foreach ($art in $artifactsToClean) {
         Remove-Item -LiteralPath $artPath -Force -ErrorAction SilentlyContinue
     }
     Get-ChildItem -LiteralPath $templateDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
+}
+
+$swarmDir = Join-Path $templateDir 'brain\swarm'
+if (Test-Path -LiteralPath $swarmDir -PathType Container) {
+    Remove-Item -LiteralPath $swarmDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # 3. Resetear archivos clave de estado
@@ -143,5 +151,13 @@ $cleanMilestones = @"
 [System.IO.File]::WriteAllText((Join-Path $templateDir 'brain\ideas.md'), $cleanIdeas, $utf8NoBom)
 [System.IO.File]::WriteAllText((Join-Path $templateDir 'brain\backlog.md'), $cleanBacklog, $utf8NoBom)
 [System.IO.File]::WriteAllText((Join-Path $templateDir 'brain\milestones.md'), $cleanMilestones, $utf8NoBom)
+
+$templateDeepSummaryScript = Join-Path $templateDir 'scripts\update-brain-deep-summary.ps1'
+if (Test-Path -LiteralPath $templateDeepSummaryScript -PathType Leaf) {
+    & $psBin -NoProfile -ExecutionPolicy Bypass -File $templateDeepSummaryScript
+    if ($LASTEXITCODE -ne 0) {
+        throw 'No se pudo regenerar brain/deep-summary.md dentro de la plantilla.'
+    }
+}
 
 Write-Host "Plantilla actualizada y lista para usar." -ForegroundColor Green
