@@ -63,3 +63,6 @@ dev.db
 # Swarm efímero
 brain/swarm/*
 !brain/swarm/.gitkeep
+
+# Copia de exportación local temporal
+agente-rh-template/

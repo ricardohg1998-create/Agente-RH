@@ -1,11 +1,20 @@
 [CmdletBinding()]
-param()
+param(
+  [string]$TargetDirectory = "R:\Escritorio\Ricardo Huertas\Repos GitHub\Agente RH - copia limpia actualizada"
+)
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
-$targetDir = Join-Path $repoRoot 'agente-rh-template'
+
+$targetDir = Resolve-Path $TargetDirectory -ErrorAction SilentlyContinue
+if ($null -eq $targetDir) {
+    $targetDir = $TargetDirectory
+} else {
+    $targetDir = $targetDir.Path
+}
+
 $resolvePsBinPath = Join-Path $PSScriptRoot 'lib/resolve-ps-bin.ps1'
 . $resolvePsBinPath
 $psBin = Resolve-PowerShellBinary
