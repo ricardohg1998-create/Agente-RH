@@ -26,6 +26,10 @@
     ".agent/skills",
     ".agent/scripts"
   ],
+  "excludePaths": [
+    ".agent/skills/pdf-official/reference.md",
+    "docs/template-hardening-2026-05-25.md"
+  ],
   "textExtensions": [
     ".md",
     ".txt",

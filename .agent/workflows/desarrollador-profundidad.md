@@ -102,7 +102,7 @@ Detectar falta de profundidad real en la experiencia de usuario y la funcionalid
 6. **Lista de funciones por implementar** (archivo, linea, que deberia hacer).
 7. **Lista de estados UX sin manejar** (componente, que estado falta, como deberia verse).
 8. **Lista de flujos rotos** (flujo, donde se rompe, como deberia funcionar).
-9. **Quick wins** (esfuerzo bajo, impacto alto â€” hacer primero).
+9. **Quick wins** (esfuerzo bajo, impacto alto — hacer primero).
 10. **Cambios estructurales necesarios** (requieren mas trabajo pero son fundamentales).
 11. **Implementation Plan detallado por fases** en un Artifact nativo de Antigravity (`implementation_plan.md`):
     - Cada tarea con descripcion precisa de que hacer.

@@ -5,8 +5,8 @@
 
 - Estado: validado
 - Fase: listo para distribucion
-- Ultima actualizacion: 2026-05-24 01:02
-- Riesgo principal: bajo: solo quedan warnings conocidos de tamano en skills externas
+- Ultima actualizacion: 2026-05-25
+- Riesgo principal: bajo: sin warnings activos en la suite oficial
 
 ## Calidad de contexto
 
@@ -15,5 +15,5 @@
 
 ## Proxima validacion
 
-- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1.
+- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1 antes de distribuir o clonar la plantilla.
 <!-- QUICK-STATE:END -->

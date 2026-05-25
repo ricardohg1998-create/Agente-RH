@@ -9,12 +9,37 @@ function New-TestWorkspace {
   $workspace = Join-Path $env:TEMP ('agente-rh-tests-' + [guid]::NewGuid().ToString())
   New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 
-  $excludeList = @('.git', 'node_modules', '.venv', 'dist', 'build', 'out', 'agente-rh-template')
+  $excludedDirNames = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
+  @('node_modules', '.venv', 'dist', 'build', 'out', 'agente-rh-template') | ForEach-Object {
+    [void]$excludedDirNames.Add($_)
+  }
+  if (-not $IncludeGit) {
+    [void]$excludedDirNames.Add('.git')
+  }
 
-  Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
-    ($IncludeGit -or $_.Name -ne '.git') -and ($_.Name -notin $excludeList)
-  } | ForEach-Object {
-    Copy-Item -LiteralPath $_.FullName -Destination $workspace -Recurse -Force
+  $pending = New-Object System.Collections.Generic.Stack[object]
+  $pending.Push([pscustomobject]@{
+    Source = $repoRoot
+    Target = $workspace
+  })
+
+  while ($pending.Count -gt 0) {
+    $current = $pending.Pop()
+    Get-ChildItem -LiteralPath $current.Source -Force | ForEach-Object {
+      if ($_.PSIsContainer) {
+        if ($excludedDirNames.Contains($_.Name)) { return }
+
+        $targetDir = Join-Path $current.Target $_.Name
+        New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+        $pending.Push([pscustomobject]@{
+          Source = $_.FullName
+          Target = $targetDir
+        })
+        return
+      }
+
+      Copy-Item -LiteralPath $_.FullName -Destination $current.Target -Force
+    }
   }
 
   return $workspace

@@ -1,12 +1,16 @@
 [CmdletBinding()]
 param(
-  [string]$TargetDirectory = "R:\Escritorio\Ricardo Huertas\Repos GitHub\Agente RH - copia limpia actualizada"
+  [string]$TargetDirectory
 )
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $utf8IoPath = Join-Path $PSScriptRoot 'lib/utf8-io.psm1'
 Import-Module $utf8IoPath -Force
+
+if ([string]::IsNullOrWhiteSpace($TargetDirectory)) {
+    $TargetDirectory = Join-Path $repoRoot 'agente-rh-template'
+}
 
 $targetDir = Resolve-Path $TargetDirectory -ErrorAction SilentlyContinue
 if ($null -eq $targetDir) {
@@ -32,7 +36,6 @@ $excludeList = @(
     '.git',
     '.agent/local',
     'agente-rh-template',
-    '.github/workflows/windows-checks.yml', # Opcionalmente, se podria mantener, pero la base virgen prioriza no tener historial
     '.gemini',
     'node_modules',
     '.venv',
@@ -90,8 +93,8 @@ foreach ($art in $artifactsToClean) {
     Get-ChildItem -LiteralPath $targetDir -Filter $art -Recurse -File | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
-# Eliminar scripts de deploy/update específicos del repositorio maestro que no deben estar en el clon
-$scriptsToClean = @('scripts/deploy.ps1', 'scripts/update-template.ps1')
+# Eliminar scripts obsoletos del repositorio maestro que no deben estar en el clon
+$scriptsToClean = @('scripts/update-template.ps1')
 foreach ($scr in $scriptsToClean) {
     $scrPath = Join-Path $targetDir $scr
     if (Test-Path -LiteralPath $scrPath) {
@@ -107,7 +110,13 @@ if (Test-Path -LiteralPath $pdfPath) {
 
 $exportSwarmDir = Join-Path $targetDir 'brain\swarm'
 if (Test-Path -LiteralPath $exportSwarmDir -PathType Container) {
-    Remove-Item -LiteralPath $exportSwarmDir -Recurse -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $exportSwarmDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $exportSwarmDir -Recurse -Directory | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+} else {
+    New-Item -ItemType Directory -Path $exportSwarmDir -Force | Out-Null
+}
+if (-not (Test-Path -LiteralPath (Join-Path $exportSwarmDir '.gitkeep') -PathType Leaf)) {
+    Write-Utf8File -Path (Join-Path $exportSwarmDir '.gitkeep') -Content ''
 }
 
 # The generated brain must be very clean and we should erase actual project specific things if any.
@@ -295,5 +304,5 @@ if (Test-Path -LiteralPath $targetDeepSummaryScript -PathType Leaf) {
     }
 }
 
-Write-Host "deploy: OK. Template virgen exportado correctamente en 'agente-rh-template'." -ForegroundColor Green
+Write-Host "deploy: OK. Template virgen exportado correctamente en: $targetDir" -ForegroundColor Green
 exit 0

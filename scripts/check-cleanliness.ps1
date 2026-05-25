@@ -3,6 +3,7 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 $issues = New-Object System.Collections.Generic.List[string]
 
 $excludedDirNames = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
@@ -196,10 +197,37 @@ foreach ($doc in $allFiles) {
 
   if (-not $inScope) { continue }
 
-  $raw = Get-Content -LiteralPath $doc.FullName -Raw
+  $raw = [System.IO.File]::ReadAllText($doc.FullName, $utf8NoBom)
   if ($raw -match '\[OBSOLETO\]' -or $raw -match 'STATUS:\s*DEPRECATED') {
     $relative = Get-RelativePath -Root $repoRoot -FullPath $doc.FullName
     $issues.Add("Contenido obsoleto marcado (recomendacion: archivar o limpiar): $relative")
+  }
+}
+
+$textExtensions = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
+@('.md', '.ps1', '.psm1', '.json', '.yml', '.yaml', '.txt') | ForEach-Object {
+  [void]$textExtensions.Add($_)
+}
+
+$mojibakeTokens = @(
+  ([char]0x00C3).ToString(),
+  ([char]0x00C2).ToString(),
+  ([char]0x00E2).ToString(),
+  ([char]0x00F0).ToString()
+)
+foreach ($textFile in $allFiles) {
+  if (-not $textExtensions.Contains($textFile.Extension)) { continue }
+
+  $relative = Get-RelativePath -Root $repoRoot -FullPath $textFile.FullName
+  $relativeNorm = $relative -replace '\\', '/'
+  if ($relativeNorm -like '.agent/skills/*') { continue }
+
+  $raw = [System.IO.File]::ReadAllText($textFile.FullName, $utf8NoBom)
+  foreach ($token in $mojibakeTokens) {
+    if ($raw.Contains($token)) {
+      $issues.Add("Mojibake detectado (recomendacion: reescribir en UTF-8 limpio): $relative")
+      break
+    }
   }
 }
 

@@ -229,17 +229,17 @@ try {
 }
 
 $indexTableBody = ($workflows | ForEach-Object {
-  '| **' + $_.Name + '** | `' + $_.Id + '` | ' + $_.Trigger + ' | [Ver Guía](../' + $_.RelativePath + ') |'
+  '| **' + $_.Name + '** | `' + $_.Id + '` | ' + $_.Trigger + ' | [Ver Guia](../' + $_.RelativePath + ') |'
 }) -join "`n"
 
 $expectedIndex = @"
-# Índice de Workflows Operativos
+# Indice de Workflows Operativos
 
-Este documento sirve como mapa relacional y de navegación rápido para los workflows de la suite operativa del agente. El registro maestro, los criterios de despacho automáticos, las topologías de Swarm y las señales de desempate están centralizados en la **única fuente de verdad** (SSoT): [Workflow Dispatch Rule](../.agent/rules/workflow-dispatch.md).
+Este documento sirve como mapa relacional y de navegacion rapido para los workflows de la suite operativa del agente. El registro maestro, los criterios de despacho automaticos, las topologias de Swarm y las senales de desempate estan centralizados en la **unica fuente de verdad** (SSoT): [Workflow Dispatch Rule](../.agent/rules/workflow-dispatch.md).
 
-## Catálogo de Despacho Rápido
+## Catalogo de Despacho Rapido
 
-| Workflow | Identificador | Cuándo Utilizar (Señal Rápida) | Guía Detallada |
+| Workflow | Identificador | Cuando Utilizar (Senal Rapida) | Guia Detallada |
 | :--- | :--- | :--- | :--- |
 $indexTableBody
 
@@ -247,10 +247,10 @@ $indexTableBody
 
 ## Directiva de Uso Recomendado
 
-1. **Definir Alcance:** Determina qué cambio o feature vas a acometer.
-2. **Seleccionar el Workflow:** Consulta la tabla anterior y dirígete a [Workflow Dispatch](../.agent/rules/workflow-dispatch.md) para alinearte con las topologías de Swarm recomendadas.
+1. **Definir Alcance:** Determina que cambio o feature vas a acometer.
+2. **Seleccionar el Workflow:** Consulta la tabla anterior y dirigete a [Workflow Dispatch](../.agent/rules/workflow-dispatch.md) para alinearte con las topologias de Swarm recomendadas.
 3. **Ejecutar e Integrar:** Genera la salida estructurada solicitada por el workflow seleccionado.
-4. **Cierre Higiénico:** Finaliza siempre la sesión utilizando la secuencia del workflow de [Cierre Operativo](../.agent/workflows/cierre-operativo.md).
+4. **Cierre Higienico:** Finaliza siempre la sesion utilizando la secuencia del workflow de [Cierre Operativo](../.agent/workflows/cierre-operativo.md).
 "@
 
 $pending = New-Object System.Collections.Generic.List[string]

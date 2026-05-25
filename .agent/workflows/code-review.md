@@ -10,7 +10,7 @@ modes: [planning, execution]
 
 ## Propósito
 
-Revision tecnica de codigo â€” desde un archivo o componente concreto hasta el repo completo. Inspeccion por capas de calidad, patrones y **seguridad** (credenciales, APIs, auth, tokens expuestos, manejo de secretos). Cada hallazgo viene con severidad, ubicacion exacta y fix propuesto.
+Revision tecnica de codigo — desde un archivo o componente concreto hasta el repo completo. Inspeccion por capas de calidad, patrones y **seguridad** (credenciales, APIs, auth, tokens expuestos, manejo de secretos). Cada hallazgo viene con severidad, ubicacion exacta y fix propuesto.
 
 ## Cuándo usarlo
 
@@ -55,10 +55,10 @@ Revision tecnica de codigo â€” desde un archivo o componente concreto hasta
    - **Legibilidad**: naming inconsistente, estructura confusa, comentarios utiles vs ruido, complejidad ciclomatica excesiva.
    - **Rendimiento**: queries N+1, re-renders innecesarios, cargas no lazy, bundles pesados, assets sin optimizar.
 4. **Clasificar hallazgos** por severidad:
-   - ðŸ”´ **Critico**: bugs/seguridad â€” debe corregirse antes de deploy.
-   - ðŸŸ¡ **Importante**: smell/patron â€” afecta mantenibilidad o escalabilidad.
-   - ðŸŸ¢ **Mejora**: oportunidad de hacer algo mejor.
-   - âšª **Nit**: detalle menor, cosmetico.
+   - 🔴 **Critico**: bugs/seguridad — debe corregirse antes de deploy.
+   - 🟡 **Importante**: smell/patron — afecta mantenibilidad o escalabilidad.
+   - 🟢 **Mejora**: oportunidad de hacer algo mejor.
+   - ⚪ **Nit**: detalle menor, cosmetico.
 5. **Proponer fix concreto** para cada hallazgo (con codigo cuando aplique).
 6. **Emitir resumen ejecutivo** con veredicto general y nivel de riesgo de seguridad.
 
@@ -80,7 +80,7 @@ Revision tecnica de codigo â€” desde un archivo o componente concreto hasta
 4. **Hallazgos criticos** (con archivo, linea, contexto y fix propuesto).
 5. **Hallazgos importantes**.
 6. **Mejoras y nits**.
-7. **Patrones positivos detectados** (que se esta haciendo bien â€” refuerzo positivo).
+7. **Patrones positivos detectados** (que se esta haciendo bien — refuerzo positivo).
 8. **Recomendaciones de seguimiento** (lo que no es urgente pero conviene abordar).
 
 ## Criterios de calidad

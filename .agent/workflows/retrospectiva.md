@@ -10,7 +10,7 @@ modes: [planning, execution]
 
 ## Propósito
 
-Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente del `cierre-operativo` (que cierra una tarea puntual) â€” esto mira el panorama general de un sprint, fase o proyecto completo. Revisa el proceso, las herramientas, las decisiones tomadas y propone ajustes concretos para mejorar el siguiente ciclo.
+Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente del `cierre-operativo` (que cierra una tarea puntual) — esto mira el panorama general de un sprint, fase o proyecto completo. Revisa el proceso, las herramientas, las decisiones tomadas y propone ajustes concretos para mejorar el siguiente ciclo.
 
 ## Cuándo usarlo
 
@@ -82,7 +82,7 @@ Analisis post-ciclo de trabajo: que funciono, que fallo, que cambiar. Diferente 
 
 - **Honestidad sin drama**: identificar problemas reales sin exagerar ni minimizar.
 - **Ajustes accionables**: cada propuesta debe ser especifica y ejecutable.
-- **Balance**: incluir lo positivo y lo negativo â€” la retrospectiva no es solo buscar fallos.
+- **Balance**: incluir lo positivo y lo negativo — la retrospectiva no es solo buscar fallos.
 - **Sin culpas**: foco en procesos y decisiones, no en personas.
 
 ## Composición

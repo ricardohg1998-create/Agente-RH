@@ -87,6 +87,19 @@ if ($textExtensions.Count -eq 0) {
   $textExtensions = @('.md', '.txt', '.json', '.yml', '.yaml')
 }
 
+$excludePathSet = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
+foreach ($excludePath in @($config.excludePaths)) {
+  if ([string]::IsNullOrWhiteSpace($excludePath)) { continue }
+  [void]$excludePathSet.Add(($excludePath.Trim() -replace '\\', '/'))
+}
+
+function Test-ExcludedPath {
+  param([string]$RelativePath)
+
+  $normalized = $RelativePath -replace '\\', '/'
+  return $excludePathSet.Contains($normalized)
+}
+
 $extensionSet = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
 foreach ($ext in $textExtensions) {
   if ([string]::IsNullOrWhiteSpace($ext)) { continue }
@@ -109,6 +122,7 @@ foreach ($scanPath in $config.scanPaths) {
     $raw = Get-Content -LiteralPath $item.FullName -Raw
     $relative = Get-RelativePath -Root $repoRoot -FullPath $item.FullName
     $relative = $relative -replace '\\', '/'
+    if (Test-ExcludedPath -RelativePath $relative) { continue }
     $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }
     $chars = $raw.Length
     $files.Add([pscustomobject]@{
@@ -129,6 +143,7 @@ foreach ($scanPath in $config.scanPaths) {
     $raw = Get-Content -LiteralPath $full -Raw
     $relative = Get-RelativePath -Root $repoRoot -FullPath $full
     $relative = $relative -replace '\\', '/'
+    if (Test-ExcludedPath -RelativePath $relative) { return }
     $lines = if ($raw.Length -eq 0) { 0 } else { ($raw -split "`r?`n").Count }
     $chars = $raw.Length
 

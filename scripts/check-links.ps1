@@ -49,6 +49,7 @@ $scanBlock = {
     if ($token -match '\\[sdwbDSWBrnstuU]') { continue }
     if ($token -match '^/[a-zA-Z0-9-]+$' -and $token -notmatch '\.') { continue }
     if ($token -match '[\[\]+{}|^]') { continue }
+    if ($token -match '(?:^|[\\/])node_modules(?:[\\/]|$)') { continue }
     if ($token -match '^(?:implementation_plan\.md|task\.md|walkthrough\.md)$') { continue }
     $issue = Test-PathToken -SourcePath $filePath -Token $token -repoRoot $repoRootPath -ResolveRelativeToSource $false
     if ($issue) { [void]$script:localIssues.Add($issue) }
