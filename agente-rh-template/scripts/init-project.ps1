@@ -150,17 +150,17 @@ if ($shouldPrepareProjectMetadata) {
 
   if (Test-Path $sessionLogsDir) {
     Get-ChildItem -Path $sessionLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
-    Set-Content -Path "$sessionLogsDir\.gitkeep" -Value "" -Encoding UTF8
+    [System.IO.File]::WriteAllText("$sessionLogsDir\.gitkeep", "", [System.Text.UTF8Encoding]::new($false))
   }
   if (Test-Path $archiveLogsDir) {
     Get-ChildItem -Path $archiveLogsDir -Recurse -File | Where-Object { $_.Name -ne '.gitkeep' } | Remove-Item -Force -ErrorAction SilentlyContinue
-    Set-Content -Path "$archiveLogsDir\.gitkeep" -Value "" -Encoding UTF8
+    [System.IO.File]::WriteAllText("$archiveLogsDir\.gitkeep", "", [System.Text.UTF8Encoding]::new($false))
   }
 
   $nowPath = Join-Path $repoRoot 'brain/now.md'
   if (Test-Path $nowPath) {
     $nowResetContent = "# Now`n`n<!-- QUICK-NOW:START -->`n## Estado actual`n`n- Memoria reseteada para nuevo proyecto.`n`n## Siguiente accion recomendada`n- Definir base arquitectónica.`n<!-- QUICK-NOW:END -->`n"
-    Set-Content -Path $nowPath -Value $nowResetContent -Encoding UTF8 -Force
+    [System.IO.File]::WriteAllText($nowPath, $nowResetContent, [System.Text.UTF8Encoding]::new($false))
   }
 
   $syncParams = @{

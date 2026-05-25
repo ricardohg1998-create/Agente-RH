@@ -82,7 +82,7 @@ if ($null -eq $swarmDefinition -or $null -eq $swarmDefinition.swarm) {
     foreach ($m in $matchesFiles) {
         $action = $m.Groups[1].Value
         $fileName = $m.Groups[2].Value
-        $filePath = $m.Groups[3].Value -replace '%20', ' '
+        $filePath = [System.Uri]::UnescapeDataString($m.Groups[3].Value)
         
         # Inferir un rol y scope basado en la extensión y directorio del archivo
         $extension = [System.IO.Path]::GetExtension($fileName).ToLower()
@@ -140,6 +140,23 @@ if ($null -eq $swarmDefinition -or $null -eq $swarmDefinition.swarm) {
             scope = "Todo el repositorio"
             instruction = "Ejecutar las directivas descritas en el plan de implementacion general."
         }
+    } elseif ($swarmList.Count -gt 1) {
+        # Si hay más de un desarrollador/especialista, inyectar el supervisor y el validador automáticamente
+        Write-Host "spawn-swarm: Detectado enjambre concurrente. Inyectando Supervisor y Validador de Calidad." -ForegroundColor Cyan
+        
+        $swarmList += [PSCustomObject]@{
+            role = "Swarm Supervisor"
+            roleKey = "supervisor"
+            scope = "Todo el enjambre"
+            instruction = "Coordinar, monitorizar en tiempo real el progreso de los subagentes, guiar ante bloqueos y arbitrar el orden de integracion."
+        }
+        
+        $swarmList += [PSCustomObject]@{
+            role = "Quality Validator"
+            roleKey = "validator"
+            scope = "Archivos modificados en el plan"
+            instruction = "Auditar críticamente, comprobar, criticar intelectualmente y validar todos los diffs de codigo y tests locales de regresion."
+        }
     }
     
     $swarmDefinition = [PSCustomObject]@{
@@ -147,16 +164,7 @@ if ($null -eq $swarmDefinition -or $null -eq $swarmDefinition.swarm) {
     }
 }
 
-# 5. Cargar plantilla de bootstrap de subagente
-$templatePath = Join-Path $repoRoot '.agent/templates/swarm-bootstrap-template.md'
-if (-not (Test-Path -LiteralPath $templatePath -PathType Leaf)) {
-    Write-Error "No se encontro la plantilla de sistema en: $templatePath"
-    exit 1
-}
-$templateContent = Get-Content -LiteralPath $templatePath -Raw -Encoding UTF8
-
-
-# 6. Procesar cada rol e instanciar archivos
+# 5. Cargar plantillas y procesar cada rol e instanciar archivos
 $bootstrapPayloads = @()
 
 foreach ($member in $swarmDefinition.swarm) {
@@ -166,6 +174,21 @@ foreach ($member in $swarmDefinition.swarm) {
     $instruction = $member.instruction
     
     Write-Host "  -> Procesando especialista: $roleName ($roleKey)" -ForegroundColor Cyan
+    
+    # Seleccionar plantilla de forma dinámica
+    $templateName = 'swarm-bootstrap-template.md'
+    if ($roleKey -eq 'supervisor') {
+        $templateName = 'swarm-supervisor-bootstrap-template.md'
+    } elseif ($roleKey -eq 'validator') {
+        $templateName = 'swarm-validator-bootstrap-template.md'
+    }
+    
+    $templatePath = Join-Path $repoRoot ".agent/templates/$templateName"
+    if (-not (Test-Path -LiteralPath $templatePath -PathType Leaf)) {
+        Write-Error "No se encontro la plantilla de sistema en: $templatePath"
+        exit 1
+    }
+    $templateContent = Get-Content -LiteralPath $templatePath -Raw -Encoding UTF8
     
     # Generar System Prompt a partir de la plantilla
     $systemPrompt = $templateContent
@@ -181,17 +204,46 @@ foreach ($member in $swarmDefinition.swarm) {
     # Generar Checklist de tareas vacío (o con la instrucción)
     $taskPath = Join-Path $SwarmOutDir "task-$roleKey.md"
     if (-not (Test-Path -LiteralPath $taskPath -PathType Leaf) -or $Force) {
-        $taskContent = "# Checklist Operativo - $roleName`n`n"
-        $taskContent += "Ambito de Trabajo: $scope`n`n"
-        $taskContent += "## Tareas Asignadas`n`n"
-        $taskContent += "- [ ] **Fase 1: Analisis y Preparacion**`n"
-        $taskContent += "  - [ ] Leer el plan de implementacion general.`n"
-        $taskContent += "  - [ ] Analizar el estado actual de los archivos asignados.`n"
-        $taskContent += "- [ ] **Fase 2: Ejecucion Quirurgica**`n"
-        $taskContent += "  - [ ] $instruction`n"
-        $taskContent += "- [ ] **Fase 3: Verificacion e Informe**`n"
-        $taskContent += "  - [ ] Ejecutar comprobaciones basicas sobre el codigo.`n"
-        $taskContent += "  - [ ] Reportar de forma concisa al Orquestador.`n"
+        $taskContent = ""
+        if ($roleKey -eq 'supervisor') {
+            $taskContent = "# Checklist Operativo - $roleName`n`n"
+            $taskContent += "Ambito de Trabajo: $scope`n`n"
+            $taskContent += "## Tareas Asignadas`n`n"
+            $taskContent += "- [ ] **Fase 1: Preparacion y Analisis**`n"
+            $taskContent += "  - [ ] Leer el plan de implementacion general y el catalogo de subagentes.`n"
+            $taskContent += "  - [ ] Validar la consistencia de los checklists del resto de subagentes tecnicos.`n"
+            $taskContent += "- [ ] **Fase 2: Supervision e Intercomunicacion**`n"
+            $taskContent += "  - [ ] Monitorizar periodicamente el avance de los checklists en brain/swarm/task-*.md.`n"
+            $taskContent += "  - [ ] Mitigar bloqueos y arbitrar el orden de integracion secuencial.`n"
+            $taskContent += "- [ ] **Fase 3: Consolidacion de Avances**`n"
+            $taskContent += "  - [ ] Elaborar informe periodico de estado y actualizar el checklist general.`n"
+            $taskContent += "  - [ ] Reportar al Orquestador Principal una vez finalizado todo el trabajo de desarrollo y QA.`n"
+        } elseif ($roleKey -eq 'validator') {
+            $taskContent = "# Checklist Operativo - $roleName`n`n"
+            $taskContent += "Ambito de Trabajo: $scope`n`n"
+            $taskContent += "## Tareas Asignadas`n`n"
+            $taskContent += "- [ ] **Fase 1: Preparacion e Inspeccion de Criterios**`n"
+            $taskContent += "  - [ ] Estudiar a fondo los diffs de codigo propuestos por los desarrolladores.`n"
+            $taskContent += "  - [ ] Comprobar que no se introducen Mojibakes, BOMs ni duplicidades.`n"
+            $taskContent += "- [ ] **Fase 2: Auditoria Critica y Validacion**`n"
+            $taskContent += "  - [ ] Criticar e intelectualizar el trabajo realizado, emitiendo revisiones rigurosas de codigo.`n"
+            $taskContent += "  - [ ] Correr la suite de tests locales mediante scripts/run-checks.ps1 u otros tests aplicables.`n"
+            $taskContent += "- [ ] **Fase 3: Veredicto de Calidad**`n"
+            $taskContent += "  - [ ] Emitir callback correspondiente ([APPROVED] o [REFACT_NEEDED]).`n"
+            $taskContent += "  - [ ] Informar los resultados y la critica al Supervisor y al Orquestador.`n"
+        } else {
+            $taskContent = "# Checklist Operativo - $roleName`n`n"
+            $taskContent += "Ambito de Trabajo: $scope`n`n"
+            $taskContent += "## Tareas Asignadas`n`n"
+            $taskContent += "- [ ] **Fase 1: Analisis y Preparacion**`n"
+            $taskContent += "  - [ ] Leer el plan de implementacion general.`n"
+            $taskContent += "  - [ ] Analizar el estado actual de los archivos asignados.`n"
+            $taskContent += "- [ ] **Fase 2: Ejecucion Quirurgica**`n"
+            $taskContent += "  - [ ] $instruction`n"
+            $taskContent += "- [ ] **Fase 3: Verificacion e Informe**`n"
+            $taskContent += "  - [ ] Ejecutar comprobaciones basicas sobre el codigo.`n"
+            $taskContent += "  - [ ] Reportar de forma concisa al Orquestador.`n"
+        }
         [System.IO.File]::WriteAllText($taskPath, $taskContent, (New-Object System.Text.UTF8Encoding($False)))
     }
     

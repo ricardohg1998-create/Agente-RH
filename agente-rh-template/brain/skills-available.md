@@ -13,3 +13,9 @@ La **única fuente de verdad** (SSoT) sobre las habilidades locales activas e in
 * **Instalación y Configuración:**
   - La selección, descarga e instalación de nuevos paquetes de habilidades a demanda para proyectos específicos se orquesta mediante el workflow [buscar-skills](../.agent/workflows/buscar-skills.md).
   - Los orígenes y fuentes remotas de descarga están definidos formalmente en el archivo de configuración `.agent/config/skills-sources.json`.
+
+## Soporte Multiagente Especializado (Swarm Core v2.0)
+
+El repositorio cuenta con prompts de sistema y checklists de tareas dedicados para orquestar agentes coordinadores y de calidad:
+- **Supervisor de Enjambre (SwarmSupervisor)**: Especialista en sincronización reactiva, monitorización ágil en tiempo real e intercomunicación a través de callbacks.
+- **Validador de Calidad / QA (QualityValidator)**: Compuerta de calidad encargada de realizar críticas intelectuales rigurosas y ejecutar suites de validación (`run-checks.ps1` o Pester).

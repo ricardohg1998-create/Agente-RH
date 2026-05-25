@@ -1,10 +1,19 @@
 # Now
-
+ 
 <!-- QUICK-NOW:START -->
 ## Estado actual
 
-- Proyecto inicializado desde la plantilla base.
+- Base virgen de Agente-RH inicializada.
 
 ## Siguiente accion recomendada
-- Definir base arquitectÃ³nica y stack.
+
+- Iniciar nuevo proyecto y definir el alcance.
+
+## Bloqueos activos
+
+- Ninguno.
+
+## Cambios recientes
+
+- Generada desde deploy.
 <!-- QUICK-NOW:END -->

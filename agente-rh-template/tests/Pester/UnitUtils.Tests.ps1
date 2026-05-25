@@ -79,15 +79,15 @@ Describe 'Unit Tests - link-utils' {
     }
 
     It 'Resuelve correctamente hipervínculos con codificación URL de espacios (%20)' {
-      $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
-      # Creamos un archivo temporal con espacio
-      $tempFile = Join-Path $repoRoot 'test archivo temp.md'
+      $fakeRepoRoot = Join-Path $env:TEMP ('agente-rh-fake-repo-' + [guid]::NewGuid().ToString())
+      New-Item -ItemType Directory -Path $fakeRepoRoot -Force | Out-Null
+      $tempFile = Join-Path $fakeRepoRoot 'test archivo temp.md'
       New-Item -ItemType File -Path $tempFile -Force | Out-Null
       try {
-        $res = Test-PathToken -SourcePath $tempFile -Token 'test%20archivo%20temp.md' -repoRoot $repoRoot
+        $res = Test-PathToken -SourcePath $tempFile -Token 'test%20archivo%20temp.md' -repoRoot $fakeRepoRoot
         [string]::IsNullOrWhiteSpace($res) | Should Be $true
       } finally {
-        Remove-Item -LiteralPath $tempFile -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $fakeRepoRoot -Recurse -Force -ErrorAction SilentlyContinue
       }
     }
   }

@@ -58,7 +58,7 @@ foreach ($keep in $safeFiles) {
       if (-not (Test-Path -LiteralPath $keepDir -PathType Container)) {
         New-Item -ItemType Directory -Path $keepDir -Force | Out-Null
       }
-      Set-Content -Path $keepPath -Encoding UTF8 -Value ""
+      [System.IO.File]::WriteAllText($keepPath, "", [System.Text.UTF8Encoding]::new($false))
       $created.Add($keep)
     } else {
       $missing.Add($keep)

@@ -114,7 +114,10 @@ foreach ($ephemeral in $ephemeralFiles) {
 
 $swarmDir = Join-Path $repoRoot 'brain\swarm'
 if (Test-Path -LiteralPath $swarmDir -PathType Container) {
-  $issues.Add('Artefacto efimero activo (recomendacion: borrar brain/swarm antes del cierre): brain\swarm')
+  $swarmFiles = @(Get-ChildItem -LiteralPath $swarmDir -File -Force | Where-Object { $_.Name -ne '.gitkeep' })
+  if ($swarmFiles.Count -gt 0) {
+    $issues.Add('Artefacto efimero activo (recomendacion: borrar brain/swarm antes del cierre): brain\swarm')
+  }
 }
 
 $sizeBuckets = @{}
