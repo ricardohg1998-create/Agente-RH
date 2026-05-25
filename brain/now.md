@@ -3,11 +3,14 @@
 <!-- QUICK-NOW:START -->
 ## Estado actual
 
-- Plantilla endurecida y validada para Antigravity Desktop 2.0 en Windows 11: reglas portables, export limpio, deep-summary regenerado en template y barrera anti-artefactos efimeros.
+- Plantilla 100% depurada, validada y en verde brillante (32/32 tests).
+- Erradicada la skill `seo` y resuelto el error de submódulos huérfanos de Git en GitHub Desktop.
+- Desplegada y trasladada la copia limpia virgen a su nueva casa oficial externa de distribución (`R:\Escritorio\...\Agente RH - copia limpia actualizada`).
+- Purgado el template local duplicado en la raíz y resuelto el bloqueo contradictorio de limpieza local para DX fluido.
 
 ## Siguiente accion recomendada
 
-- Distribuir o probar la plantilla en un repositorio nuevo real.
+- Distribuir e inicializar proyectos nuevos de forma ágil desde el clon limpio externo.
 
 ## Bloqueos activos
 
@@ -15,5 +18,5 @@
 
 ## Cambios recientes
 
-- [2026-05-24 01:02] Actualizacion rapida por agent.
+- [2026-05-25 17:43] Saneamiento completo de Git, eliminación de seo y del template duplicado, y fix de DX de cierre (ver log [2026-05-25_17-43_registro_cambios_sesion.md](session_logs/2026-05-25_17-43_registro_cambios_sesion.md)).
 <!-- QUICK-NOW:END -->
