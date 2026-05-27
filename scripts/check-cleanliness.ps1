@@ -104,11 +104,18 @@ foreach ($special in @('.DS_Store', 'Thumbs.db')) {
   }
 }
 
-$ephemeralFiles = @('implementation_plan.md', 'task.md', 'walkthrough.md')
+$ephemeralFiles = @(
+  'implementation_plan.md',
+  'task.md',
+  'walkthrough.md',
+  'implementation_plan.md.metadata.json',
+  'task.md.metadata.json',
+  'walkthrough.md.metadata.json'
+)
 foreach ($ephemeral in $ephemeralFiles) {
   $fullPath = Join-Path $repoRoot $ephemeral
   if (Test-Path -LiteralPath $fullPath -PathType Leaf) {
-    Write-Host " [WARN] Artefacto efimero activo (recomendacion: archivar en brain/session_logs o borrar antes del cierre): $ephemeral" -ForegroundColor Yellow
+    Write-Host " [WARN] Artefacto efimero activo de Antigravity (recomendacion: archivar o borrar antes del cierre): $ephemeral" -ForegroundColor Yellow
   }
 }
 
@@ -225,6 +232,30 @@ foreach ($textFile in $allFiles) {
   foreach ($token in $mojibakeTokens) {
     if ($raw.Contains($token)) {
       $issues.Add("Mojibake detectado (recomendacion: reescribir en UTF-8 limpio): $relative")
+      break
+    }
+  }
+}
+
+$artifactNames = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)
+@(
+  'implementation_plan.md',
+  'task.md',
+  'walkthrough.md',
+  'implementation_plan.md.metadata.json',
+  'task.md.metadata.json',
+  'walkthrough.md.metadata.json'
+) | ForEach-Object { [void]$artifactNames.Add($_) }
+
+foreach ($artifact in $allFiles) {
+  if (-not $artifactNames.Contains($artifact.Name)) { continue }
+  if (-not $textExtensions.Contains($artifact.Extension)) { continue }
+
+  $relative = Get-RelativePath -Root $repoRoot -FullPath $artifact.FullName
+  $raw = [System.IO.File]::ReadAllText($artifact.FullName, $utf8NoBom)
+  foreach ($token in $mojibakeTokens) {
+    if ($raw.Contains($token)) {
+      $issues.Add("Artifact de Antigravity con mojibake (recomendacion: regenerar o sanear): $relative")
       break
     }
   }

@@ -8,7 +8,7 @@ Este documento sirve como mapa relacional y de navegacion rapido para los workfl
 | :--- | :--- | :--- | :--- |
 | **Autista cafeinado** | `autista-cafeinado` | Antes de release relevante | [Ver Guia](../.agent/workflows/autista-cafeinado.md) |
 | **Buscar skills** | `buscar-skills` | Inicio de proyecto nuevo | [Ver Guia](../.agent/workflows/buscar-skills.md) |
-| **Cierre operativo** | `cierre-operativo` | Al terminar una tarea tecnica o documental | [Ver Guia](../.agent/workflows/cierre-operativo.md) |
+| **Cierre operativo** | `cierre-operativo` | Al terminar una tarea tecnica o documental con cambios en archivos | [Ver Guia](../.agent/workflows/cierre-operativo.md) |
 | **Code Review** | `code-review` | Antes de merge o deploy | [Ver Guia](../.agent/workflows/code-review.md) |
 | **Desarrollador de profundidad** | `desarrollador-profundidad` | Producto parece incompleto o superficial | [Ver Guia](../.agent/workflows/desarrollador-profundidad.md) |
 | **Higiene de contexto** | `higiene-contexto` | Se detecta ruido, duplicidad o documentos largos sin accion | [Ver Guia](../.agent/workflows/higiene-contexto.md) |

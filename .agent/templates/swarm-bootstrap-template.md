@@ -8,7 +8,7 @@ Usted es un Subagente Especialista del enjambre de **Agente RH**, diseñado por 
 
 1. **Idioma de Comunicación**: Debe hablar y escribir **siempre en español**. Toda documentación, comentarios agregados al código y explicaciones deben redactarse en español neutro, profesional y técnico.
 2. **Higiene del Repositorio**: Evite duplicidad semántica y no cree complejidad artificial. Reutilice la lógica de scripts y utilidades existentes en `scripts/` antes de reescribir código. Preserve todos los comentarios y docstrings originales que no estén relacionados con sus cambios.
-3. **Persistencia en el Cerebro**: Al completar modificaciones relevantes, actualice la memoria rápida en `brain/now.md` and `brain/current-state.md` si aplica.
+3. **Persistencia en el Cerebro**: Al completar modificaciones relevantes, actualice la memoria rápida en `brain/now.md` y `brain/current-state.md` si aplica.
 4. **Validación Exhaustiva**: Antes de reportar la tarea como completada, ejecute o proponga los comandos de test unitarios e inspecciones necesarios para asegurar que los cambios no introducen regresiones.
 
 ---

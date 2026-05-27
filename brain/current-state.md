@@ -3,17 +3,17 @@
 <!-- QUICK-STATE:START -->
 ## Resumen operativo
 
-- Estado: endurecido y validado
-- Fase: listo para produccion
-- Ultima actualizacion: 2026-05-25 18:37
-- Riesgo principal: bajo: 32/32 tests de Pester en verde y 0 warnings
+- Estado: ajuste de experiencia aplicado y validado
+- Fase: listo para prueba real en Antigravity
+- Ultima actualizacion: 2026-05-26 16:27
+- Riesgo principal: bajo: 32/32 tests en verde y configuracion local respaldada
 
 ## Calidad de contexto
 
 - Capa rapida actualizada en esta ejecucion.
-- Capa profunda: actualizar si aplica.
+- Capa profunda: sincronizada tras cambios en `user-instructions.md` y workflows.
 
 ## Proxima validacion
 
-- Ejecutar powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1.
+- Probar una consulta simple y una tarea con cambios en Antigravity.
 <!-- QUICK-STATE:END -->

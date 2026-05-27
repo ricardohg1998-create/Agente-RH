@@ -3,11 +3,11 @@
 <!-- QUICK-NOW:START -->
 ## Estado actual
 
-- Endurecimiento completo de la plantilla para Windows 11 realizado con exito absoluto.
+- Plantilla en ajuste de experiencia: reglas adelgazadas y Antigravity saneado sin perder autonomia.
 
 ## Siguiente accion recomendada
 
-- Utilizar la plantilla para la inicializacion y distribucion fluida de futuros proyectos.
+- Validar `scripts/run-checks.ps1` y probar una sesion simple en Antigravity.
 
 ## Bloqueos activos
 
@@ -15,6 +15,7 @@
 
 ## Cambios recientes
 
+- [2026-05-26 16:27] Saneado Antigravity y adelgazadas reglas core/workflows. Ver `brain/session_logs/2026-05-26_16-27_registro_cambios_sesion.md`.
+- [2026-05-26 11:52] Comprobacion y actualizacion completa de la copia limpia del template a la ultima version.
 - [2026-05-25 18:37] Actualizacion rapida por agent.
 <!-- QUICK-NOW:END -->
-

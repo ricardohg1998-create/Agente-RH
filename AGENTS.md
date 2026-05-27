@@ -1,62 +1,56 @@
 # AGENTS.md
 
-Este archivo define reglas de colaboración para agentes en este repo.
+Este archivo define las reglas maestras para agentes en este repo. La fuente dominante de comportamiento diario es `.agent/rules/core.md`.
 
 ## Prioridades
 
-1. Hablar siempre en español.
-2. Mantener el repo limpio y sin basura.
-3. No crear complejidad artificial.
-4. Actualizar memoria operativa en `brain/` tras cambios relevantes.
+1. Responder siempre en espanol.
+2. Ser conciso por defecto.
+3. Mantener el repo limpio y sin basura.
+4. No crear complejidad artificial.
+5. Actualizar `brain/` solo tras cambios relevantes.
 
 ## Fuente de verdad
 
-- Reglas operativas: `.agent/rules/`
-- Workflows: `.agent/workflows/`
+- Comportamiento diario: `.agent/rules/core.md`
+- Reglas complementarias: `.agent/rules/`
+- Workflows bajo demanda: `.agent/workflows/`
 - Plantillas: `.agent/templates/`
-- Políticas configurables: `.agent/config/`
+- Politicas configurables: `.agent/config/`
 - Memoria del proyecto: `brain/`
+- Preferencias persistentes del usuario: `brain/user-instructions.md`
 
 ## Modo de trabajo
 
+- Para consultas o auditorias de solo lectura: responder directamente, sin crear logs ni artefactos.
 - Antes de cambios relevantes: leer `brain/now.md`, `brain/current-state.md`, `brain/stack.md` y `brain/deep-summary.md`.
-- Después de cambios relevantes:
-  - actualizar capa rápida (`now.md`, `current-state.md`, `stack.md` si aplica)
-  - si cambia cualquier archivo de memoria profunda (`deepLayer.files`), actualizar `deep-summary.md` en la misma tarea
-  - registrar decisión o hito si aplica
-  - registrar en changelog si aplica
+- Despues de cambios relevantes:
+  - actualizar `brain/now.md` y `brain/current-state.md`
+  - actualizar `brain/stack.md` si cambia el stack
+  - actualizar `brain/deep-summary.md` si cambia memoria profunda
+  - registrar decision, changelog o log de sesion solo si aporta trazabilidad real
+
+## Compatibilidad Antigravity
+
+- Workspace rules en `.agent/rules/`.
+- Skills workspace en `.agent/skills/`.
+- Servidor MCP semantico para AST, simbolos, tipos, imports y referencias de codigo.
+- Busqueda textual permitida para markdown, logs, configs, secretos, TODOs, rutas y patrones planos.
+- Workflows documentados para planning mode, pero no obligatorios para tareas pequenas.
+
+## Herramientas del entorno
+
+- IDE principal: Google Antigravity.
+- Shell: PowerShell en Windows 11.
+- Modelo: configurable desde Antigravity Desktop.
+
+## Deploy de la plantilla
+
+Cuando el usuario pida "deploy" o "desplegar" en este repo, no subir a produccion. Aqui significa exportar una copia limpia de la plantilla ejecutando `scripts/export-template.ps1`.
 
 ## Higiene
 
 - Reutilizar documentos existentes antes de crear nuevos.
-- Evitar duplicidad semántica entre `brain/` y docs históricos.
+- Evitar duplicidad semantica entre `AGENTS.md`, `.agent/rules/` y `brain/`.
 - Proponer archivado o borrado de restos obsoletos.
-- Ejecutar checks con scripts de `scripts/`.
-
-## Compatibilidad IDE
-
-Este repo está alineado con Antigravity:
-
-- Workspace rules en `.agent/rules/`.
-- Skills workspace en `.agent/skills/`.
-- Servidor MCP Semántico nativo (integrado para resolución AST profunda).
-- Capacidad nativa para delegación de tareas a las `<skills>` disponibles en memoria.
-- Workflows documentados para planning mode.
-
-**INSTRUCCIÓN DE PRIORIDAD ABSOLUTA SOBRE HERRAMIENTAS:**
-Para buscar lógica, funciones o código, **`grep_search` está estrictamente prohibido si un servidor MCP semántico está activo**, debiendo priorizar las herramientas específicas `mcp_*`. Consulta los detalles y la directiva completa en [00-mcp-strict-override.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/.agent/rules/00-mcp-strict-override.md).
-
-## Herramientas del entorno
-
-- IDE principal: Google Antigravity
-- Modelo preferido: configurable en Antigravity Desktop 2.0. Usa el modelo más capaz disponible para decisiones críticas y uno rápido para tareas repetitivas de verificación.
-- Shell: PowerShell (Windows 11)
-
-## Infraestructura de producción (Template)
-
-- **Entorno de Despliegue**: Por definir de forma dinámica en cada clon de acuerdo con las especificaciones del cliente.
-- **Base de Datos**: Por definir (PostgreSQL o SQLite según la arquitectura de stack seleccionada).
-- **Credenciales y Secretos**: Consultar de forma segura en [access.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/access.md) o en el sistema configurado del entorno.
-- **Gestión de Riesgos y Despliegue**:
-  - Leer siempre [pitfalls-and-errors.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/pitfalls-and-errors.md) antes de cada paso a producción.
-  - Revisar y mitigar la deuda técnica activa documentada en [technical-debt.md](file:///r:/Escritorio/Ricardo%20Huertas/Repos%20GitHub/Agente%20RH/brain/technical-debt.md).
+- Ejecutar `scripts/run-checks.ps1` cuando haya cambios relevantes en la plantilla.

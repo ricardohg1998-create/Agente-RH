@@ -14,8 +14,8 @@
 - brain/ideas.md | estado: base | resumen: sin novedades | mod: 2026-04-05
 - brain/changelog.md | estado: activo | resumen: **2026-05-25 (Optimizacion de validacion en Windows 11)**: Corregido el cuello de botella... | mod: 2026-05-25
 - brain/skills-available.md | estado: activo | resumen: Este documento centraliza el estado de las herramientas especializadas y habilidades dispo... | mod: 2026-05-25
-- brain/workflows-index.md | estado: activo | resumen: Este documento sirve como mapa relacional y de navegacion rapido para los workflows de la... | mod: 2026-05-25
-- brain/user-instructions.md | estado: activo | resumen: Este archivo guarda instrucciones permanentes del usuario. | mod: 2026-05-25
+- brain/workflows-index.md | estado: activo | resumen: Este documento sirve como mapa relacional y de navegacion rapido para los workflows de la... | mod: 2026-05-26
+- brain/user-instructions.md | estado: activo | resumen: Este archivo guarda preferencias permanentes del usuario. | mod: 2026-05-26
 - brain/workflow-metrics.md | estado: activo | resumen: / Workflow / Veces usado / Ultima vez / Satisfaccion / | mod: 2026-04-19
 - brain/access.md | estado: activo | resumen: Acceso restringido (credenciales seguras) | mod: 2026-05-25
 <!-- QUICK-DEEP:END -->

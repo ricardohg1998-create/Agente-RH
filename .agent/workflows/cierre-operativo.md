@@ -1,78 +1,60 @@
 ---
 id: cierre-operativo
 name: Cierre operativo
-description: Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
-version: 2.0.0
+description: Cerrar tareas con cambios reales dejando estado verificable, memoria util y handoff claro.
+version: 2.1.0
 modes: [planning, execution]
 ---
 
 # Workflow: Cierre operativo
 
-## Propósito
+## Proposito
 
-Estandarizar el cierre de tarea para dejar estado verificable, handoff claro y cero ambiguedad operativa.
+Cerrar una tarea cuando hubo cambios reales, handoff, commit, release o peticion explicita de cierre. No se usa para consultas, auditorias de solo lectura ni respuestas conceptuales.
 
-## Cuándo usarlo
+## Cuando usarlo
 
-- Al terminar una tarea tecnica o documental.
-- Antes de handoff entre agentes/personas.
-- Antes de commit o cierre de sesion de trabajo.
+- Al terminar una tarea tecnica o documental con cambios en archivos.
+- Antes de commit, merge, release o handoff.
+- Cuando el usuario pida cerrar la sesion o dejar estado final.
 
-## Input esperado
+## Cuando no usarlo
 
-- Objetivo original de la tarea.
-- Cambios realizados o previstos.
-- Restricciones de cierre (tiempo, riesgos, dependencias externas).
+- Preguntas simples.
+- Auditorias sin cambios.
+- Lectura o diagnostico que no modifica archivos.
+- Tareas pequenas que ya tienen una respuesta final clara.
 
-## Política de lectura de memoria
+## Lectura de memoria
 
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:START -->
 - Leer siempre capa rapida (`brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`).
 <!-- GENERATED:WORKFLOW-QUICK-LAYER:END -->
-- Expandir a capa profunda solo si hay dudas de trazabilidad, riesgos residuales o dependencias abiertas.
-- Limitar lectura profunda a backlog/changelog/milestones segun necesidad.
+- Expandir a capa profunda solo si hay riesgos, decisiones persistentes o pendientes que documentar.
 
-## Pasos internos (Swarm Core v2.0)
+## Pasos internos
 
-1. **Revisión del Orquestador**: Confirmar que se ha implementado TODO lo especificado en el artefacto interactivo oficial `implementation_plan.md` y que la checklist en `task.md` está completamente marcada.
-2. **Generación del Walkthrough**: El Orquestador redacta el artefacto `walkthrough.md` en el directorio de la sesión resumiendo los entregables, tests unitarios ejecutados y diffs.
-3. **Delegación de Cierre**: El Orquestador define e invoca en background al subagente especialista **`CleanlinessGuardian`** (en workspace `inherit`) pasándole el Context Payload correspondiente.
-4. **Ejecución del Guardian**: El `CleanlinessGuardian` ejecuta de forma 100% automatizada:
-   * **Auditoría de Calidad**: Ejecuta `scripts/run-checks.ps1 -Fast` en background para evitar la suite de tests interactiva de Pester 3.4 (la cual cuelga la ejecución asíncrona en Windows 11/PowerShell 5.1). Si falla, reporta los errores de inmediato al Orquestador.
-   * **Higiene Física**: Identifica y elimina cualquier residuo efímero de la sesión (`*.tmp`, `.bak`, `.log`). Si se utilizó un enjambre, **elimina físicamente todos los archivos efímeros de `brain/swarm/`** (`system-prompt-*.md`, `task-*.md`, `bootstrap-payload.json`), respetando y dejando únicamente el archivo `.gitkeep`.
-   * **Registro Histórico**: Compacta el walkthrough en una entrada impecable de historial permanente bajo `brain/session_logs/` en formato de fecha y hora actual `YYYY-MM-DD_HH-MM_registro_cambios_sesion.md`.
-   * **Compactación de Memoria Rápida**: Actualiza con precisión milimétrica `brain/now.md`, `brain/current-state.md` y `brain/deep-summary.md` vinculando al log histórico creado.
-5. **Reporte Final**: El Guardian envía el callback `[COMPLETED]` con el reporte final de cierre. El Orquestador valida la higiene y ofrece el handoff limpio al desarrollador.
+1. Verificar que el objetivo original esta resuelto o que los pendientes quedan explicitados.
+2. Ejecutar checks adecuados al alcance. Usar `scripts/run-checks.ps1` para cambios de plantilla o repo; usar checks mas pequenos para cambios acotados.
+3. Si hubo cambios relevantes, actualizar `brain/now.md` y `brain/current-state.md`.
+4. Si cambio un archivo de memoria profunda, actualizar `brain/deep-summary.md`.
+5. Crear o completar registro en `brain/session_logs/` solo si la sesion tuvo cambios relevantes.
+6. Limpiar artefactos efimeros del repo (`implementation_plan.md`, `task.md`, `walkthrough.md`, `brain/swarm/*`) si existen y ya no son necesarios.
 
-## Herramientas sugeridas
+## Swarm
 
-- **Delegación**: `define_subagent` e `invoke_subagent` asignando el rol `CleanlinessGuardian` en `inherit`.
-- **Comunicación**: `send_message` para recibir el reporte final.
-- **Checks manuales alternativos**: `run_command` con `scripts/run-checks.ps1` en caso de fallo del subagente.
+- No invocar `CleanlinessGuardian` por defecto.
+- Usarlo solo si hubo swarm real, limpieza extensa, muchos archivos o cierre de release.
+- Para cierres pequenos, el orquestador principal realiza los pasos directamente.
 
-## Output obligatorio (Swarm Core v2.0)
+## Salida esperada
 
-1. Checklist `task.md` completamente resuelta (`[x]`).
-2. Artefacto `walkthrough.md` nativo del editor generado con el resumen del sprint.
-3. Subagente `CleanlinessGuardian` invocado y completado con éxito.
-4. Historial permanente actualizado en `brain/session_logs/` sin duplicidad.
-5. Memoria rápida (`now.md`, `current-state.md` y `deep-summary.md`) en verde y sincronizada.
-6. Eliminación de todos los archivos residuales o temporales del editor.
-
-
-## Criterios de calidad
-
-- Diferenciar claramente hecho vs pendiente.
-- No cerrar con riesgos criticos sin visibilidad.
-
-## Composición
-
-- **Suele preceder a**: handoff, commit final, fin de sesion.
-- **Suele seguir a**: `code-review`, `pre-release`, `implementacion-quirurgica`, `qa-testing`.
-- **Workflow sugerido al completar**: ninguno (es terminal). Puede sugerir `retrospectiva` si se cierra un ciclo largo.
+- Estado final breve.
+- Cambios principales.
+- Validaciones ejecutadas y resultado.
+- Pendientes o riesgos residuales, si existen.
 
 ## Brain read/write
 
-- Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`.
-- Escribir: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`, `brain/backlog.md`, `brain/changelog.md`, `brain/milestones.md` (si aplica), `brain/session_logs/`.
-
+- Leer: `brain/now.md`, `brain/current-state.md`, `brain/stack.md`, `brain/deep-summary.md`.
+- Escribir: `brain/now.md`, `brain/current-state.md`, `brain/deep-summary.md` y `brain/session_logs/` solo si aplica.
